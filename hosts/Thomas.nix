@@ -98,7 +98,7 @@
   # Services #
   ############
 
-  services.zfs.trim.enable = true;  # Trim SSD periodically
+  services.zfs.trim.enable = true; # Trim SSD periodically
   services.zfs.autoSnapshot = {
     enable = true;
     frequent = 3;
@@ -149,7 +149,7 @@
   time.timeZone = "Europe/Paris";
 
   # sudo configuration
-  security.sudo.wheelNeedsPassword = true;  # This is a truly portable laptop!
+  security.sudo.wheelNeedsPassword = true; # This is a truly portable laptop!
 
   # fcitx
   i18n.inputMethod = {
@@ -159,6 +159,96 @@
   # encfs automount via pam_mount
   #security.pam.services.login.pamMount = true;
   #security.pam.mount.encfsFolderPairs = [
-    #{ user = "syp"; src = "/home/syp/.sync/Dropbox/data"; dst = "/home/syp/data"; }
+  #{ user = "syp"; src = "/home/syp/.sync/Dropbox/data"; dst = "/home/syp/data"; }
   #];
+
+  ################
+  # Legacy stuff #
+  ################
+
+  environment.systemPackages = with pkgs; [
+    # Editor
+    neovim
+    #neovim-vimdiff
+
+    # Dev tools
+    git-annex
+    clang-tools
+    universal-ctags
+    direnv
+    nix-direnv
+
+    # Window manager
+    awesome
+    i3lock
+    breeze-gtk # GTK theme for 2 & 3
+    acpilight # To make adj. brightness w/ hotkey work
+
+    # Audio utilities
+    pamixer # To make adj. volume w/ hotkey work
+    pulsemixer # ncurses PA mixer
+
+    # X11 utilities
+    xorg.xrdb
+    xorg.xev
+    xorg.xmodmap
+    xclip
+    arandr
+    glxinfo
+
+    # Utilities
+    ranger
+    #proxychains
+    weechat
+    ledger
+    bashmount
+    bc
+    #geteltorito
+
+    # WINE
+    wineWowPackages.staging
+    winetricks
+    vulkan-tools
+
+    # Applications
+    firefox
+    chromium
+    zathura
+    sxiv
+    mpv
+    mpd
+    pychrom
+    zoom-us
+    scrot
+
+    # Email
+    mutt
+    getmail
+    msmtp
+    procmail
+    gnupg
+    w3m
+    extract_url
+
+    # Document processing
+    #pandoc
+    #texlive.combined.scheme-full
+    #graphviz-nox
+    #djvu2pdf
+    pdftk
+    #imagemagick
+    pdfgrep
+    #ocrmypdf
+
+    # Compliers & interpreters
+    root
+
+    # Language servers
+    ccls
+    texlab
+
+    # Python
+    #python2
+    #python3-base-dev
+  ];
 }
