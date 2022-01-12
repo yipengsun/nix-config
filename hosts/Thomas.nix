@@ -1,4 +1,4 @@
-{ pkgs, config, suites, ... }:
+{ self, pkgs, config, suites, ... }:
 {
   system.stateVersion = "20.09";
 
@@ -161,7 +161,10 @@
   # User config #
   ###############
 
+  age.secrets.passwd_syp.file = "${self}/secrets/passwd_syp.age";
+
   imports = suites.base;
+
 
   ################
   # Legacy stuff #

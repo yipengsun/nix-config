@@ -2,9 +2,8 @@
 {
   #home-manager.users = { inherit (hmUsers) nixos; };
 
-  age.secrets.sypPasswd.file = "${self}/secrets/passwd_syp.age";
   users.users.syp = {
-    passwordFile = "/run/agenix/sypPasswd.age";
+    passwordFile = "/run/agenix/passwd_syp";
     description = "Yipeng Sun";
     isNormalUser = true;
     extraGroups = [ "wheels" "networkmanager" "video" "audio" "docker" "adbusers" ];
