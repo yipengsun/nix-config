@@ -44,13 +44,6 @@ in
       bat
     ];
 
-    shellInit = ''
-      export STARSHIP_CONFIG=${
-        pkgs.writeText "starship.toml"
-        (fileContents ./starship.toml)
-      }
-    '';
-
     shellAliases =
       let ifSudo = lib.mkIf config.security.sudo.enable;
       in
@@ -107,7 +100,7 @@ in
   };
 
   fonts = {
-    fonts = with pkgs; [ powerline-fonts dejavu_fonts ];
+    fonts = with pkgs; [ powerline-fonts dejavu_fonts wqy_microhei ];
 
     fontconfig.defaultFonts = {
       monospace = [ "DejaVu Sans Mono for Powerline" ];
@@ -137,15 +130,6 @@ in
       fallback = true
     '';
 
-  };
-
-  programs.bash = {
-    promptInit = ''
-      eval "$(${pkgs.starship}/bin/starship init bash)"
-    '';
-    interactiveShellInit = ''
-      eval "$(${pkgs.direnv}/bin/direnv hook bash)"
-    '';
   };
 
   # For rage encryption, all hosts need a ssh key pair
