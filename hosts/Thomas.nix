@@ -216,9 +216,9 @@
     chromium
     zathura
     sxiv
-    mpv
-    mpd
-    pychrom
+    #mpv
+    #mpd
+    #pychrom
     zoom-us
     scrot
 
