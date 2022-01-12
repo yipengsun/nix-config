@@ -4,19 +4,11 @@ channels: final: prev: {
 
   inherit (channels.latest)
     cachix
-    dhall
     discord
-    element-desktop
-    rage
     nixpkgs-fmt
-    qutebrowser
-    signal-desktop
     starship
     deploy-rs
     ;
-
-  # nix is set to 2.3 in 21.11
-  nix-direnv = prev.nix-direnv.override { nix = prev.nixUnstable; };
 
   haskellPackages = prev.haskellPackages.override
     (old: {
