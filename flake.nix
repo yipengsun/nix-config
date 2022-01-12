@@ -104,6 +104,7 @@
           hosts = {
             /* set host specific properties here */
             NixOS = { };
+            Thomas = { };
           };
           importables = rec {
             profiles = digga.lib.rakeLeaves ./profiles // {
