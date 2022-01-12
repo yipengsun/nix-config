@@ -123,11 +123,11 @@
           importables = rec {
             profiles = digga.lib.rakeLeaves ./users/profiles;
             suites = with profiles; rec {
-              base = [ direnv git ];
+              base = [ direnv git zsh ];
             };
           };
           users = {
-            nixos = { suites, ... }: { imports = suites.base; };
+            root = { suites, ... }: { imports = suites.base; };
           }; # digga.lib.importers.rakeLeaves ./users/hm;
         };
 
