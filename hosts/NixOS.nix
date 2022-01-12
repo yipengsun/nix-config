@@ -1,6 +1,6 @@
 { suites, ... }:
 {
-  ### root password is MY default ROOT password! ###
+  ### root password is EMPTY! ###
   imports = suites.base;
 
   boot.loader.systemd-boot.enable = true;
