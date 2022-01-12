@@ -7,7 +7,8 @@
 
   inputs =
     {
-      nixos.url = "github:nixos/nixpkgs/release-21.11";
+      nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
+      nixos.follows = "nixpkgs-pointer/nixpkgs";
       latest.url = "github:nixos/nixpkgs/nixos-unstable";
 
       digga.url = "github:divnix/digga";
