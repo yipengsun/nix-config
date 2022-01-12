@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, config, suites, ... }:
 {
   system.stateVersion = "20.09";
 
@@ -62,9 +62,7 @@
   # Drivers, etc. #
   #################
 
-  imports = [
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-  ];
+  hardware.enableRedistributableFirmware = true;
 
   # Hardware OpenGL acceleration
   hardware.opengl.enable = true;
@@ -136,7 +134,7 @@
   #networking.proxy.default = "http://127.0.0.1:2080";
 
   # Dropbox
-  services.dropbox.enable = true;
+  #services.dropbox.enable = true;
 
   #################
   # Global config #
@@ -148,9 +146,6 @@
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
 
-  # sudo configuration
-  security.sudo.wheelNeedsPassword = true; # This is a truly portable laptop!
-
   # fcitx
   i18n.inputMethod = {
     enabled = "fcitx";
@@ -161,6 +156,12 @@
   #security.pam.mount.encfsFolderPairs = [
   #{ user = "syp"; src = "/home/syp/.sync/Dropbox/data"; dst = "/home/syp/data"; }
   #];
+
+  ###############
+  # User config #
+  ###############
+
+  imports = suites.base;
 
   ################
   # Legacy stuff #
