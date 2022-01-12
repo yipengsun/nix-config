@@ -6,6 +6,9 @@ in
 
   nix.systemFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
 
+  security.sudo.enable = true;
+  security.sudo.wheelNeedsPassword = false; # I'm a lazy bastard
+
   environment = {
     systemPackages = with pkgs; [
       # GNU userland
@@ -73,6 +76,8 @@ in
         ns = "n search --no-update-lock-file";
         nf = "n flake";
         nepl = "n repl '<nixpkgs>'";
+        nsysgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
+        nstrayroots = ''nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/\w+-system|\{memory)"'';
 
         # fix nixos-option
         nixos-option = "nixos-option -I nixpkgs=${self}/lib/compat";
@@ -94,6 +99,10 @@ in
         up = ifSudo "s systemctl start";
         dn = ifSudo "s systemctl stop";
         jtl = "journalctl";
+
+        # Misc.
+        df = "df -hT";
+        du = "du -hs";
       };
   };
 
@@ -109,7 +118,11 @@ in
   nix = {
     autoOptimiseStore = true;
 
-    gc.automatic = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 60d";
+    };
 
     optimise.automatic = true;
 
