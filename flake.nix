@@ -112,6 +112,7 @@
             };
             suites = with profiles; rec {
               base = [ core users.root ];
+              common = [ core users.root users.syp ];
             };
           };
         };
