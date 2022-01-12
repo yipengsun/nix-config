@@ -7,29 +7,37 @@ in
   nix.systemFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
 
   environment = {
-
     systemPackages = with pkgs; [
+      # GNU userland
       binutils
       coreutils
-      curl
-      direnv
-      dnsutils
-      dosfstools
-      fd
-      git
-      bottom
-      gptfdisk
-      iputils
-      jq
-      moreutils
-      nix-index
-      nmap
-      ripgrep
-      skim
-      tealdeer
+      gnused
+
+      # Utilities
+      whois
       usbutils
       utillinux
-      whois
+      curl
+      bottom # top-like
+      jq
+      iputils
+      nmap
+      moreutils # more utils than coreutils
+
+      # Disk utilities
+      dosfstools
+      gptfdisk
+
+      # Dev tools
+      git
+      direnv
+      dnsutils
+      fd # find-like
+      ripgrep # grep-like
+      nix-index
+      skim
+      fzf
+      bat
     ];
 
     shellInit = ''
@@ -61,15 +69,9 @@ in
 
         # nix
         n = "nix";
-        np = "n profile";
-        ni = "np install";
-        nr = "np remove";
         ns = "n search --no-update-lock-file";
         nf = "n flake";
         nepl = "n repl '<nixpkgs>'";
-        srch = "ns nixos";
-        orch = "ns override";
-        nrb = ifSudo "sudo nixos-rebuild";
 
         # fix nixos-option
         nixos-option = "nixos-option -I nixpkgs=${self}/lib/compat";
@@ -80,7 +82,7 @@ in
         se = ifSudo "sudoedit";
 
         # top
-        top = "btm";
+        top = "btm"; # bottom
 
         # systemd
         ctl = "systemctl";
@@ -91,7 +93,6 @@ in
         up = ifSudo "s systemctl start";
         dn = ifSudo "s systemctl stop";
         jtl = "journalctl";
-
       };
   };
 
@@ -99,16 +100,12 @@ in
     fonts = with pkgs; [ powerline-fonts dejavu_fonts ];
 
     fontconfig.defaultFonts = {
-
       monospace = [ "DejaVu Sans Mono for Powerline" ];
-
       sansSerif = [ "DejaVu Sans" ];
-
     };
   };
 
   nix = {
-
     autoOptimiseStore = true;
 
     gc.automatic = true;
@@ -118,11 +115,9 @@ in
     useSandbox = true;
 
     allowedUsers = [ "@wheel" ];
-
     trustedUsers = [ "root" "@wheel" ];
 
     extraOptions = ''
-      min-free = 536870912
       keep-outputs = true
       keep-derivations = true
       fallback = true
@@ -144,7 +139,4 @@ in
     enable = true;
     openFirewall = lib.mkDefault false;
   };
-
-  services.earlyoom.enable = true;
-
 }

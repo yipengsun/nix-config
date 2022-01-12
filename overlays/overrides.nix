@@ -8,6 +8,7 @@ channels: final: prev: {
     nixpkgs-fmt
     starship
     deploy-rs
+    rage
     ;
 
   haskellPackages = prev.haskellPackages.override
