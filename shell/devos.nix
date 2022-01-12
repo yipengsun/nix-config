@@ -42,7 +42,7 @@ in
     (linter nixpkgs-fmt)
     (linter editorconfig-checker)
     # (docs python3Packages.grip) too many deps
-    (docs mdbook)
+    # (docs mdbook)
     (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
   ]
 
