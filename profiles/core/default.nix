@@ -26,7 +26,7 @@ in
       iputils
       nmap
       moreutils # more utils than coreutils
-      vi # good ol' vi
+      nvi # good ol' vi, "the Berkeley vi editor"
 
       # Disk utilities
       dosfstools
