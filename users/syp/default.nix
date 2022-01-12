@@ -7,7 +7,7 @@
     passwordFile = "/run/agenix/sypPasswd.age";
     description = "Yipeng Sun";
     isNormalUser = true;
-    extraGroups = [ "wheels" ];
+    extraGroups = [ "wheels" "networkmanager" "video" "audio" "docker" "adbusers" ];
   };
 
   openssh.authorizedKeys.keys = [
