@@ -23,6 +23,7 @@ in
       iputils
       nmap
       moreutils # more utils than coreutils
+      vi # good ol' vi
 
       # Disk utilities
       dosfstools
