@@ -17,6 +17,7 @@ in
       gnused
 
       # Utilities
+      ed # ed is the standard text editor - ed man! !man ed
       usbutils
       utillinux
       bottom # top-like
