@@ -1,5 +1,7 @@
 {
   programs.zsh = {
+    enable = true;
+
     dirHashes = {
       downloads = "$HOME/downloads";
       dropbox = "$HOME/.sync/Dropbox";
@@ -14,7 +16,34 @@
       franco = "$HOME/misc/researches/umd-franco";
     };
 
-    enable = true;
+    initExtra = ''
+      # Navigating command line
+      bindkey '^J' backward-word
+      bindkey '^K' forward-word
+
+      # More familary history search
+      autoload history-search-end
+      zle -N history-beginning-search-backward-end history-search-end
+      zle -N history-beginning-search-forward-end history-search-end
+
+      bindkey '^P' history-beginning-search-backward-end
+      bindkey '^N' history-beginning-search-forward-end
+
+      # Command line editing
+      autoload -U edit-command-line
+      zle -N edit-command-line
+
+      bindkey '^\' edit-command-line
+
+      # vi-style movement in auto-completion menu
+      zstyle ':completion:*' menu select
+      zmodload zsh/complist
+
+      bindkey -M menuselect 'h' vi-backward-char        # left
+      bindkey -M menuselect 'k' vi-up-line-or-history   # up
+      bindkey -M menuselect 'l' vi-forward-char         # right
+      bindkey -M menuselect 'j' vi-down-line-or-history # bottom
+    '';
 
     prezto = {
       enable = true;
@@ -26,19 +55,6 @@
       syntaxHighlighting.highlighters = [
         "main" "brackets" "pattern" "line" "root"
       ];
-
-      extraConfig = ''
-        bindkey '^P' history-beginning-search-backward-end
-        bindkey '^N' history-beginning-search-forward-end
-        bindkey '^J' backward-word
-        bindkey '^K' forward-word
-        bindkey '^\' edit-command-line
-
-        bindkey -M menuselect 'h' vi-backward-char        # left
-        bindkey -M menuselect 'k' vi-up-line-or-history   # up
-        bindkey -M menuselect 'l' vi-forward-char         # right
-        bindkey -M menuselect 'j' vi-down-line-or-history # bottom
-      '';
     };
 
     # auto start awesome when login at TTY1
