@@ -59,7 +59,7 @@
 
     # auto start awesome when login at TTY1
     loginExtra = ''
-      if [ "$EUID" -ne 0 ] && [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
+      if [ $(id -u) -ne 0 ] && [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
           exec startx
       fi
     '';
