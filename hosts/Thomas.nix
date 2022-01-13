@@ -173,14 +173,12 @@
   environment.systemPackages = with pkgs; [
     # Editor
     neovim
+    node  # a neovim dep for now
     #neovim-vimdiff
 
     # Dev tools
     git-annex
-    clang-tools
     universal-ctags
-    direnv
-    nix-direnv
 
     # Window manager
     awesome
