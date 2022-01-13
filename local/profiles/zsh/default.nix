@@ -1,5 +1,9 @@
 {
-  programs.zsh = {
+  programs.zsh =
+  let
+    preztoTheme = "pure";
+  in
+  {
     enable = true;
 
     dirHashes = {
@@ -50,7 +54,7 @@
       editor.dotExpansion = true;
 
       prompt.pwdLength = "long";
-      prompt.theme = "pure";
+      prompt.theme = preztoTheme;
 
       syntaxHighlighting.highlighters = [
         "main" "brackets" "pattern" "line" "root"
@@ -59,6 +63,11 @@
 
     # auto start awesome when login at TTY1
     loginExtra = ''
+      # Load theme
+      autoload -Uz promptinit
+      promptinit
+      prompt ${preztoTheme}
+
       if [ $(id -u) -ne 0 ] && [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
           exec startx
       fi
