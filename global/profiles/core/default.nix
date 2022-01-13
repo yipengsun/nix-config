@@ -44,6 +44,11 @@ in
       bat
     ];
 
+
+    pathsToLink = [
+      "/share/zsh" # for zsh completion
+    ];
+
     shellAliases =
       let ifSudo = lib.mkIf config.security.sudo.enable;
       in
