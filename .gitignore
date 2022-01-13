@@ -8,6 +8,6 @@ iso
 doi
 
 # VM disk images
-*.qow2
+*.qcow2
 
 pkgs/_sources/.shake*
