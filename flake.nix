@@ -124,7 +124,7 @@
           importables = rec {
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
-              base = [ direnv git zsh ];
+              base = [ direnv git zsh bat ];
             };
           };
 

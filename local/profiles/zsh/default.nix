@@ -1,3 +1,4 @@
+{ self, ... }:
 {
   programs.zsh =
     let
@@ -38,9 +39,6 @@
         nepl = "n repl '<nixpkgs>'";
         nsysgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         nstrayroots = ''nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/\w+-system|\{memory)"'';
-
-        # fix nixos-option
-        nixos-option = "nixos-option -I nixpkgs=${self}/lib/compat";
 
         # sudo
         s = "sudo -E ";
