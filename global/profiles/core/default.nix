@@ -36,6 +36,7 @@ in
       # Dev tools
       nvi # good ol' vi, "the Berkeley vi editor"
       git
+      tig
       fd # find-like
       ripgrep # grep-like
       nix-index
