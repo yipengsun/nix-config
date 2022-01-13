@@ -1,4 +1,4 @@
-{ self, pkgs, config, suites,  ... }:
+{ self, pkgs, config, suites, ... }:
 {
   system.stateVersion = "20.09";
 
@@ -173,7 +173,7 @@
   environment.systemPackages = with pkgs; [
     # Editor
     neovim
-    nodejs  # a neovim dep for now
+    nodejs # a neovim dep for now
     #neovim-vimdiff
 
     # Dev tools
@@ -220,7 +220,6 @@
     #mpv
     #mpd
     #pychrom
-    zoom-us
     scrot
 
     # Email
@@ -241,9 +240,6 @@
     #imagemagick
     pdfgrep
     #ocrmypdf
-
-    # Compliers & interpreters
-    root
 
     # Language servers
     ccls

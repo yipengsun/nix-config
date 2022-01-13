@@ -14,6 +14,6 @@
   };
 
   home-manager.users.syp = { suites, ... }: {
-    imports = suites.base;
+    imports = suites.work;
   };
 }
