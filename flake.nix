@@ -125,7 +125,8 @@
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
               base = [ direnv git zsh bat ];
-              work = base ++ [ hep ];
+              desktop = [ apps dev ];
+              work = base ++ desktop ++ [ hep ];
             };
           };
 

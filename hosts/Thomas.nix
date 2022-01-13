@@ -165,7 +165,6 @@
 
   imports = suites.common;
 
-
   ################
   # Legacy stuff #
   ################
@@ -176,51 +175,24 @@
     nodejs # a neovim dep for now
     #neovim-vimdiff
 
-    # Dev tools
-    git-annex
-    universal-ctags
-
     # Window manager
     awesome
     i3lock
     breeze-gtk # GTK theme for 2 & 3
     acpilight # To make adj. brightness w/ hotkey work
 
-    # Audio utilities
-    pamixer # To make adj. volume w/ hotkey work
-    pulsemixer # ncurses PA mixer
-
-    # X11 utilities
-    xorg.xrdb
-    xorg.xev
-    xorg.xmodmap
-    xclip
-    arandr
-    glxinfo
-
     # Utilities
     ranger
     #proxychains
     weechat
-    ledger
-    bashmount
-    bc
     #geteltorito
-
-    # WINE
-    wineWowPackages.staging
-    winetricks
-    vulkan-tools
 
     # Applications
     firefox
     chromium
     zathura
-    sxiv
     #mpv
     #mpd
-    #pychrom
-    scrot
 
     # Email
     mutt
@@ -230,20 +202,6 @@
     gnupg
     w3m
     extract_url
-
-    # Document processing
-    #pandoc
-    #texlive.combined.scheme-full
-    #graphviz-nox
-    #djvu2pdf
-    pdftk
-    #imagemagick
-    pdfgrep
-    #ocrmypdf
-
-    # Language servers
-    ccls
-    texlab
 
     # Python
     #python2
