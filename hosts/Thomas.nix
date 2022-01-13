@@ -49,7 +49,7 @@
   };
 
   fileSystems."/var/lib/docker" = {
-    device = "/dev/disk/by-uuid/ff0010f3-3f49-4135-a296-45d3f8ab045c";
+    device = "/dev/disk/by-uuid/0b41caa1-d45c-473a-a7ed-d6d5f577d439";
     fsType = "ext4";
   };
 
@@ -173,7 +173,7 @@
   environment.systemPackages = with pkgs; [
     # Editor
     neovim
-    node  # a neovim dep for now
+    nodejs  # a neovim dep for now
     #neovim-vimdiff
 
     # Dev tools
