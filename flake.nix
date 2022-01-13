@@ -127,8 +127,10 @@
               base = [ direnv git zsh ];
             };
           };
+
+          # Users here can be deployed without a host
           users = {
-            root = { suites, ... }: { imports = suites.base; };
+            dev = { suites, ... }: { imports = suites.base; };
           }; # digga.lib.importers.rakeLeaves ./users/hm;
         };
 
