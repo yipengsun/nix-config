@@ -17,91 +17,32 @@ in
       gnused
 
       # Utilities
-      whois
       usbutils
       utillinux
-      curl
       bottom # top-like
-      jq
-      iputils
-      nmap
       moreutils # more utils than coreutils
-      nvi # good ol' vi, "the Berkeley vi editor"
+
+      # Network utilities
+      curl
+      iputils # ping, traceroute, etc.
+      dnsutils # nslookup, etc.
+      nmap # for host discovery, etc
 
       # Disk utilities
       dosfstools
       gptfdisk
 
       # Dev tools
+      nvi # good ol' vi, "the Berkeley vi editor"
       git
-      direnv
-      dnsutils
       fd # find-like
       ripgrep # grep-like
       nix-index
-      skim
-      fzf
-      bat
     ];
-
 
     pathsToLink = [
       "/share/zsh" # for zsh completion
     ];
-
-    shellAliases =
-      let ifSudo = lib.mkIf config.security.sudo.enable;
-      in
-      {
-        # quick cd
-        ".." = "cd ..";
-        "..." = "cd ../..";
-        "...." = "cd ../../..";
-        "....." = "cd ../../../..";
-
-        # git
-        g = "git";
-
-        # grep
-        grep = "rg";
-        gi = "grep -i";
-
-        # internet ip
-        myip = "dig +short myip.opendns.com @208.67.222.222 2>&1";
-
-        # nix
-        n = "nix";
-        ns = "n search --no-update-lock-file";
-        nf = "n flake";
-        nepl = "n repl '<nixpkgs>'";
-        nsysgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
-        nstrayroots = ''nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/\w+-system|\{memory)"'';
-
-        # fix nixos-option
-        nixos-option = "nixos-option -I nixpkgs=${self}/lib/compat";
-
-        # sudo
-        s = ifSudo "sudo -E ";
-        si = ifSudo "sudo -i";
-        se = ifSudo "sudoedit";
-
-        # top
-        top = "btm"; # bottom
-
-        # systemd
-        ctl = "systemctl";
-        stl = ifSudo "s systemctl";
-        utl = "systemctl --user";
-        ut = "systemctl --user start";
-        un = "systemctl --user stop";
-        up = ifSudo "s systemctl start";
-        dn = ifSudo "s systemctl stop";
-        jtl = "journalctl";
-
-        # Misc.
-        df = "df -hT";
-        du = "du -hs";
-      };
   };
 
   fonts = {

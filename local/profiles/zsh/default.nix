@@ -20,6 +20,51 @@
         franco = "$HOME/misc/researches/umd-franco";
       };
 
+      shellAliases = {
+        # git
+        g = "git";
+
+        # grep
+        grep = "rg";
+        gi = "grep -i";
+
+        # internet ip
+        myip = "dig +short myip.opendns.com @208.67.222.222 2>&1";
+
+        # nix
+        n = "nix";
+        ns = "n search --no-update-lock-file";
+        nf = "n flake";
+        nepl = "n repl '<nixpkgs>'";
+        nsysgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
+        nstrayroots = ''nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/\w+-system|\{memory)"'';
+
+        # fix nixos-option
+        nixos-option = "nixos-option -I nixpkgs=${self}/lib/compat";
+
+        # sudo
+        s = "sudo -E ";
+        si = "sudo -i";
+        se = "sudoedit";
+
+        # top
+        top = "btm"; # bottom
+
+        # systemd
+        ctl = "systemctl";
+        stl = "s systemctl";
+        utl = "systemctl --user";
+        ut = "systemctl --user start";
+        un = "systemctl --user stop";
+        up = "s systemctl start";
+        dn = "s systemctl stop";
+        jtl = "journalctl";
+
+        # Misc.
+        df = "df -hT";
+        du = "du -hs";
+      };
+
       initExtra = ''
         # Navigating command line
         bindkey '^J' backward-word
