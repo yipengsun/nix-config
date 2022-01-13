@@ -90,7 +90,7 @@
           hostDefaults = {
             system = "x86_64-linux";
             channelName = "nixos";
-            imports = [ (digga.lib.importExportableModules ./modules) ];
+            imports = [ (digga.lib.importExportableModules ./global/modules) ];
             modules = [
               { lib.our = self.lib; }
               digga.nixosModules.bootstrapIso
@@ -108,7 +108,7 @@
             Thomas = { };
           };
           importables = rec {
-            profiles = digga.lib.rakeLeaves ./profiles // {
+            profiles = digga.lib.rakeLeaves ./global/profiles // {
               users = digga.lib.rakeLeaves ./users;
             };
             suites = with profiles; rec {
@@ -119,10 +119,10 @@
         };
 
         home = {
-          imports = [ (digga.lib.importExportableModules ./users/modules) ];
+          imports = [ (digga.lib.importExportableModules ./local/modules) ];
           modules = [ ];
           importables = rec {
-            profiles = digga.lib.rakeLeaves ./users/profiles;
+            profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
               base = [ direnv git zsh ];
             };
