@@ -126,7 +126,7 @@
             suites = with profiles; rec {
               base = [ direnv git zsh bat hm-state-version ];
               common-apps = [ apps www zathura xterm alacritty ];
-              coding = [ dev ];
+              coding = [ dev dircolors ];
               multimedia = [ mpv ];
               work = [ hep ];
 

@@ -189,6 +189,5 @@
     procmail
     gnupg
     w3m
-    extract_url
   ];
 }
