@@ -124,7 +124,7 @@
           importables = rec {
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
-              base = [ direnv git zsh bat hm-state-version neovim ];
+              base = [ hm-state-version direnv git zsh bat neovim python ];
               common-apps = [ apps www zathura xterm alacritty ];
               coding = [ dev ];
               multimedia = [ mpv ];

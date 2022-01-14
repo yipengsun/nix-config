@@ -39,6 +39,13 @@
 
     extraConfig = builtins.readFile ./init.vim;
 
+    extraPackages = [ pkgs.python ];
+    extraPython3Packages = (ps: with ps; [
+      jedi
+      flake8
+      pylint
+    ]);
+
     coc.enable = true;
     coc.settings = {
       "python.linting.flake8Enabled" = true;
