@@ -8,11 +8,20 @@
     vimdiffAlias = true;
 
     plugins = with pkgs.vimPlugins; [
+      # misc
+      vim-fugitive
+      {
+        plugin = editorconfig-nvim;
+        config = ''
+          let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+          au FileType gitcommit let b:EditorConfig_disable = 1
+        '';
+      }
+
       # syntax
       vim-nix
 
       # ide
-      vim-fugitive
       { plugin = coc-nvim; config = builtins.readFile ./coc-nvim.vim; }
       coc-python
       coc-pyright
@@ -21,10 +30,6 @@
       coc-vimlsp
       coc-yaml
       coc-lua
-      {
-        plugin = editorconfig-nvim;
-        config = "let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']";
-      }
 
       # ui
       { plugin = dracula-vim; config = "colorscheme dracula"; }
