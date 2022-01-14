@@ -1,7 +1,5 @@
 { self, pkgs, ... }:
 {
-  #home-manager.users = { inherit (hmUsers) nixos; };
-
   users.users.syp = {
     passwordFile = "/run/agenix/passwd_syp";
     description = "Yipeng Sun";

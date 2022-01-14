@@ -124,9 +124,10 @@
           importables = rec {
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
-              base = [ direnv git zsh bat ];
-              desktop = [ apps dev ];
-              work = base ++ desktop ++ [ hep ];
+              base = [ direnv git zsh bat hm-state-version ];
+              coding = [ dev ];
+              desktop = [ apps www ];
+              work = base ++ desktop ++ coding ++ [ hep ];
             };
           };
 

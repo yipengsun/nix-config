@@ -188,7 +188,6 @@
     #geteltorito
 
     # Applications
-    firefox
     chromium
     zathura
     #mpv
