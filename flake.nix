@@ -126,7 +126,7 @@
             suites = with profiles; rec {
               base = [ direnv git zsh bat hm-state-version ];
               coding = [ dev ];
-              desktop = [ apps www ];
+              desktop = [ apps www zathura ];
               work = base ++ desktop ++ coding ++ [ hep ];
             };
           };

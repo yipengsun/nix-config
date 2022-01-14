@@ -188,7 +188,6 @@
     #geteltorito
 
     # Applications
-    zathura
     #mpv
     #mpd
 
