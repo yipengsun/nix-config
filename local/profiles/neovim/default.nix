@@ -9,7 +9,7 @@
 
     plugins = with pkgs.vimPlugins; [
       vim-fugitive
-      dracula-vim
+      { plugin = dracula-vim; config = "colorscheme dracula"; }
     ];
 
     coc.enable = true;
