@@ -4,6 +4,8 @@
     xclip # copy-on-select for neovim
   ];
 
+  home.file.".tmp/vim/.keep".text = ""; # make sure the swp dir exists
+
   programs.neovim = {
     enable = true;
 
