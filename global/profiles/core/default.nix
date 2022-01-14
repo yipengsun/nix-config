@@ -21,6 +21,7 @@ in
       usbutils
       utillinux
       bottom # top-like
+      tree
       moreutils # more utils than coreutils
 
       # Network utilities
