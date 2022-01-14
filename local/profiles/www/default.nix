@@ -69,7 +69,6 @@
       i-dont-care-about-cookies
       lastpass-password-manager
       no-pdf-download # open pdf directly instead of asking for download
-      octotree # github on steroids
       offline-qr-code-generator
       private-relay # email aliases by firefox
       search-by-image
@@ -90,5 +89,14 @@
         }
       '';
     };
+  };
+
+  programs.chromium = {
+    enable = true;
+    extensions = [
+      { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock-origin
+      { id = "bdlcnpceagnkjnjlbbbcepohejbheilk"; } # malus vpn
+      { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # vimium
+    ];
   };
 }

@@ -188,7 +188,6 @@
     #geteltorito
 
     # Applications
-    chromium
     zathura
     #mpv
     #mpd
@@ -201,9 +200,5 @@
     gnupg
     w3m
     extract_url
-
-    # Python
-    #python2
-    #python3-base-dev
   ];
 }
