@@ -53,7 +53,6 @@
       coc-pyright # sadly based on JS
       coc-pairs # yet another autopairs
       coc-diagnostic # for pylint
-      coc-texlab
       coc-vimtex
       coc-vimlsp
       coc-yaml
@@ -191,7 +190,7 @@
       languageserver = {
         ccls = {
           command = "ccls";
-          filetypes = [ "c" "cpp" "objc" "objcpp" ];
+          filetypes = [ "c" "cpp" "objc" "objcpp" "cuda" ];
           rootPatterns = [ ".ccls" "compile_commands.json" ];
           initializationOptions = {
             cache = { directory = "/tmp/ccls"; };

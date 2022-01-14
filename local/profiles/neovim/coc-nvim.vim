@@ -4,7 +4,7 @@
 
 set hidden
 "set cmdheight=2
-set updatetime=300
+set updatetime=250
 set shortmess+=c
 set signcolumn=yes
 
@@ -34,11 +34,11 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" Remap keys for gotos, open in a new vertical buffer
+nmap <silent> gd :call CocAction('jumpDefinition', 'vsp')<CR>
+nmap <silent> gy :call CocAction('jumpTypeDefinition', 'vsp')<CR>
+nmap <silent> gi :call CocAction('jumpImplementation', 'vsp')<CR>
+nmap <silent> gr :call CocAction('jumpReferences', 'vsp')<CR>
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>

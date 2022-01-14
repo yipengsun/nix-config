@@ -6,7 +6,7 @@
 
     # language servers
     ccls
-    texlab
+    #texlab # too damn slow
     rnix-lsp
   ];
 

@@ -116,6 +116,9 @@ set smartcase
 " Incremental match when searching
 set incsearch
 
+" Split to the right
+set splitright
+
 
 """""""""""
 " Mapping "
