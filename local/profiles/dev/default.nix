@@ -7,5 +7,6 @@
     # language servers
     ccls
     texlab
+    rnix-lsp
   ];
 }
