@@ -133,9 +133,6 @@
   services.v2ray.configFile = "/etc/nixos/config/v2ray/ByWave.json";
   #networking.proxy.default = "http://127.0.0.1:2080";
 
-  # Dropbox
-  #services.dropbox.enable = true;
-
   #################
   # Global config #
   #################
@@ -183,7 +180,6 @@
     #geteltorito
 
     # Applications
-    #mpv
     #mpd
 
     # Email
