@@ -122,5 +122,9 @@
             exec startx
         fi
       '';
+
+      envExtra = ''
+        export PATH=$HOME/bin:$PATH
+      '';
     };
 }
