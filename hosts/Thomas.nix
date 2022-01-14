@@ -161,7 +161,7 @@
   # User config #
   ###############
 
-  imports = suites.common;
+  imports = suites.workstation;
 
   ################
   # Legacy stuff #

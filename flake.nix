@@ -113,7 +113,7 @@
             };
             suites = with profiles; rec {
               base = [ core users.root ];
-              common = [ core users.root users.syp ];
+              workstation = base ++ [ users.syp ];
             };
           };
         };
@@ -125,7 +125,7 @@
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
               base = [ direnv git zsh bat hm-state-version ];
-              common-apps = [ apps www zathura ];
+              common-apps = [ apps www zathura xterm ];
               coding = [ dev ];
               multimedia = [ mpv ];
               work = [ hep ];
