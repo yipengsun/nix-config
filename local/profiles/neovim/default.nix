@@ -27,12 +27,20 @@
       coc-pyright
       coc-pairs
       coc-texlab
+      coc-vimtex
       coc-vimlsp
       coc-yaml
       coc-lua
+      vim-lsp-cxx-highlight
 
       # ui
-      { plugin = dracula-vim; config = "colorscheme dracula"; }
+      {
+        plugin = dracula-vim;
+        config = ''
+          colorscheme dracula
+          set termguicolors
+        '';
+      }
       vim-airline
       { plugin = vim-airline-themes; config = "let g:airline_theme='dracula'"; }
     ];
