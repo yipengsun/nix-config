@@ -1,6 +1,6 @@
 { self, lib, pkgs, config, ... }:
 let
-  testHosts = [ "NixOS" "Thomas" ]; # these hosts get 'root' w/ an empty password
+  testHosts = [ "NixOS" ]; # these hosts get 'root' w/ an empty password
 in
 lib.mkMerge [{
   # main config
@@ -17,6 +17,6 @@ lib.mkMerge [{
     users.users.root.password = ""; # for the live ISO only
   })
   (lib.mkIf (!builtins.elem config.networking.hostName testHosts) {
-    age.secrets.rootPasswd.file = "${self}/secrets/passwd_root.age";
-    users.users.root.passwordFile = "/run/agenix/rootPasswd.age";
+    age.secrets.password_root.file = "${self}/secrets/passwd_root.age";
+    users.users.root.passwordFile = "/run/agenix/password_root";
   })]
