@@ -27,7 +27,14 @@
       settings = {
         "browser.startup.homepage" = "https://google.com";
         "browser.bookmarks.showMobileBookmarks" = true;
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true; # to load userChrome.css, etc.
       };
+      userChrome = ''
+        * {
+          font-family: "DejaVu Sans Mono";
+          font-size: 9pt;
+        }
+      '';
     };
   };
 }
