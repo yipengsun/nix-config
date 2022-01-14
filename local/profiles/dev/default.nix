@@ -11,6 +11,7 @@
   ];
 
   # linter config
-  xdg.configFile."flake8".text = builtins.readFile ./flake8;
+  # flake8 4.0+ no longer support a user-wide config!
+  #xdg.configFile."flake8".text = builtins.readFile ./flake8;
   xdg.configFile."pylintrc".text = builtins.readFile ./pylintrc;
 }

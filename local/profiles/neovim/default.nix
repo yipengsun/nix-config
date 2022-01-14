@@ -21,7 +21,6 @@
           au FileType gitcommit let b:EditorConfig_disable = 1
         '';
       }
-      nvim-autopairs
       {
         plugin = csv-vim;
         config = ''
@@ -48,15 +47,15 @@
 
       # ide
       { plugin = coc-nvim; config = builtins.readFile ./coc-nvim.vim; }
-      coc-python
-      coc-pyright
-      coc-pairs
+      vim-lsp-cxx-highlight
+      coc-pyright # sadly based on JS
+      coc-pairs # yet another autopairs
+      coc-diagnostic # for pylint
       coc-texlab
       coc-vimtex
       coc-vimlsp
       coc-yaml
       coc-lua
-      vim-lsp-cxx-highlight
       {
         plugin = vimtex;
         config = ''
@@ -143,14 +142,50 @@
     extraPackages = [ pkgs.python ];
     extraPython3Packages = (ps: with ps; [
       pynvim
-      jedi
-      flake8
       pylint
     ]);
 
     coc.enable = true;
     coc.settings = {
-      "python.linting.flake8Enabled" = true;
+      diagnostic-languageserver.filetypes.python = "pylint";
+      diagnostic-languageserver.linters = {
+        pylint = {
+          sourceName = "pylint";
+          command = "pylint";
+          debounce = 100;
+          args = [
+            "--output-format"
+            "text"
+            "--score"
+            "no"
+            "--msg-template"
+            "'{line}:{column}:{category}:{msg} ({msg_id}:{symbol})'"
+            "%file"
+          ];
+          formatPattern = [
+            "^(\\d+?):(\\d+?):([a-z]+?):(.*)$"
+            {
+              line = 1;
+              column = 2;
+              endColumn = 2;
+              security = 3;
+              message = 4;
+            }
+          ];
+          rootPatterns = [ "pyproject.toml" "setup.py" ".git" ];
+          securities = {
+            informational = "hint";
+            refactor = "info";
+            convention = "info";
+            warning = "warning";
+            error = "error";
+            fatal = "error";
+          };
+          offsetColumn = 1;
+          offsetColumnEnd = 1;
+          formatLines = 1;
+        };
+      };
       languageserver = {
         ccls = {
           command = "ccls";

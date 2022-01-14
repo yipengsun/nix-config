@@ -172,17 +172,17 @@ inoremap <silent><F3> <C-R>=strftime("%F")<BAR><CR>
 vnoremap <LeftRelease> "*ygv
 
 " Toggle linenumber mode (relative, absolute)
-func! ToggleNuMode()
+func! s:ToggleNuMode()
     if(&rnu == 1)
         set nornu
     else
         set rnu
     endif
 endfunc
-nnoremap <C-l> :call ToggleNuMode()<CR>
+nnoremap <C-l> :call s:ToggleNuMode()<CR>
 
 " Toggle spell check
-func! ToggleSpellCheck()
+func! s:ToggleSpellCheck()
     set spelllang=en_us
     let spl_status=&spell
     if &spell
@@ -194,7 +194,7 @@ func! ToggleSpellCheck()
     endif
     exe "setlocal " . spl_status
 endfunc
-nnoremap <silent><F4> :call ToggleSpellCheck()<CR>
+nnoremap <silent><F4> :call s:ToggleSpellCheck()<CR>
 
 
 """""""""""""
