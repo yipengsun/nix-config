@@ -65,6 +65,8 @@
       {
         plugin = nerdcommenter;
         config = ''
+          let NERDSpaceDelims=1
+
           func! AutoHead()
               let fl = line(".")
               if getline(fl) !~ "^$"
@@ -75,7 +77,7 @@
               call append(fl, "Last Change: " . strftime("%a %b %d, %Y at %I:%M %p %z"))
               call append(fl, "License: GPLv3")
               call append(fl+2, "")
-              execute fl . ','. ll .'call NERDComment("n", "Toggle")'
+              execute fl . ','. ll .'call nerdcommenter#Comment("n", "Toggle")'
           endfunc
           nnoremap ,h :call AutoHead()<CR>
         '';
@@ -131,9 +133,8 @@
           filetypes = [ "c" "cpp" "objc" "objcpp" ];
           rootPatterns = [ ".ccls" "compile_commands.json" ];
           initializationOptions = {
-            cache = {
-              directory = "/tmp/ccls";
-            };
+            cache = { directory = "/tmp/ccls"; };
+            highlight = { lsRanges = true; };
           };
         };
         nix = {
