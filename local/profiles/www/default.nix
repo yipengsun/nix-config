@@ -1,5 +1,59 @@
 { pkgs, ... }:
 {
+  # firefox tridactyl-related
+  home.packages = [ pkgs.tridactyl-native ]; # native messenger
+  home.file.".tridactylrc".text = ''
+    """""""""""
+    " Generic "
+    """""""""""
+
+    " Set editorcmd to 'vim-terminal'
+    set editorcmd vim-terminal
+
+    " Scroll settings
+    set smoothscroll true
+
+    " Use default new tab
+    set newtab about:blank
+
+
+    """"""
+    " UI "
+    """"""
+
+    " Sane hinting mode
+    set hintfiltermode vimperator-reflow
+    set hintnames numeric
+
+    " Auto hide nav bar
+    "guiset_quiet navbar autohide
+
+    " Move hover links to the right
+    guiset_quiet hoverlink right
+
+
+    """"""""""""""""
+    " Key bindings "
+    """"""""""""""""
+
+    " Scroll down/up
+    unbind j,k
+    bind j scrollline 5
+    bind k scrollline -5
+
+    " Scroll left/right
+    bind < scrollpx -50 0
+    bind > scrollpx 50 0
+
+    " Move between tabs
+    unbind h,l
+    bind h tabprev
+    bind l tabnext
+
+    " Bookmark prompt
+    bind B fillcmdline bmarks
+  '';
+
   programs.firefox = {
     enable = true;
     package = pkgs.firefox.override {
