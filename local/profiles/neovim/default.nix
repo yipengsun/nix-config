@@ -65,7 +65,9 @@
       {
         plugin = nerdcommenter;
         config = ''
-          let NERDSpaceDelims=1
+          let g:NERDCreateDefaultMappings=1
+          let g:NERDSpaceDelims=1
+          let g:NERDDefaultAlign='left'
 
           func! AutoHead()
               let fl = line(".")

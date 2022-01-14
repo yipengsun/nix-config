@@ -52,6 +52,12 @@ set softtabstop=4
 set smarttab
 set expandtab
 
+" Live substitution preview
+set inccommand=nosplit
+
+" Use internal diff tool
+set diffopt=filler,internal,algorithm:histogram,indent-heuristic
+
 " Enable filetypes and syntax
 filetype plugin indent on
 syntax on
@@ -161,3 +167,42 @@ nnoremap <F1> <NOP>
 inoremap <F1> <NOP>
 vnoremap <F1> <NOP>
 inoremap <silent><F3> <C-R>=strftime("%F")<BAR><CR>
+
+" Auto copy text under mouse-selection
+vnoremap <LeftRelease> "*ygv
+
+" Toggle linenumber mode (relative, absolute)
+func! ToggleNuMode()
+    if(&rnu == 1)
+        set nornu
+    else
+        set rnu
+    endif
+endfunc
+nnoremap <C-l> :call ToggleNuMode()<CR>
+
+" Toggle spell check
+func! ToggleSpellCheck()
+    set spelllang=en_us
+    let spl_status=&spell
+    if &spell
+        let spl_status="nospell"
+        echo "Spell Check is turned off."
+    else
+        let spl_status="spell"
+        echo "Spell Check is turned on."
+    endif
+    exe "setlocal " . spl_status
+endfunc
+nnoremap <silent><F4> :call ToggleSpellCheck()<CR>
+
+
+"""""""""""""
+" Filetypes "
+"""""""""""""
+
+au FileType vim inoremap " "
+
+au FileType gitcommit set spell
+au Filetype tex set spell
+au FileType markdown set spell
