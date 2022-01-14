@@ -17,6 +17,8 @@
       { plugin = vim-airline-themes; config = "let g:airline_theme='dracula'"; }
     ];
 
+    extraConfig = builtins.readFile ./init.vim;
+
     coc.enable = true;
     coc.settings = {
       "python.linting.flake8Enabled" = true;
