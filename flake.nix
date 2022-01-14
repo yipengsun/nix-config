@@ -126,18 +126,21 @@
             suites = with profiles; rec {
               base = [ direnv git zsh bat hm-state-version ];
               common-apps = [ apps www zathura xterm alacritty ];
-              coding = [ dev dircolors ];
+              coding = [ dev ];
               multimedia = [ mpv ];
               work = [ hep ];
 
+              # settings
+              linux-config-cli = [ xdg-user-dirs dircolors ];
+
               # for computers with a screen
-              workstation = base ++ common-apps ++ coding ++ multimedia ++ work;
+              workstation = base ++ common-apps ++ coding ++ multimedia ++ work ++ linux-config-cli;
             };
           };
 
           # Users here can be deployed without a host
           users = {
-            dev = { suites, ... }: { imports = suites.base ++ suites.coding; };
+            dev = { suites, ... }: { imports = suites.base ++ suites.coding ++ suites.linux-config-cli; };
           }; # digga.lib.importers.rakeLeaves ./users/hm;
         };
 
