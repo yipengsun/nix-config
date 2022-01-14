@@ -125,15 +125,19 @@
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
               base = [ direnv git zsh bat hm-state-version ];
+              common-apps = [ apps www zathura ];
               coding = [ dev ];
-              desktop = [ apps www zathura ];
-              work = base ++ desktop ++ coding ++ [ hep ];
+              multimedia = [ mpv ];
+              work = [ hep ];
+
+              # for computers with a screen
+              workstation = base ++ common-apps ++ coding ++ multimedia ++ work;
             };
           };
 
           # Users here can be deployed without a host
           users = {
-            dev = { suites, ... }: { imports = suites.base; };
+            dev = { suites, ... }: { imports = suites.base ++ suites.coding; };
           }; # digga.lib.importers.rakeLeaves ./users/hm;
         };
 
