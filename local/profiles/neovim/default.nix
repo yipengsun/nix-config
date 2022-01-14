@@ -55,7 +55,9 @@
           filetypes = [ "c" "cpp" "objc" "objcpp" ];
           rootPatterns = [ ".ccls" "compile_commands.json" ];
           initializationOptions = {
-            "cache.directory" = "/tmp/ccls";
+            cache = {
+              directory = "/tmp/ccls";
+            };
           };
         };
         nix = {
