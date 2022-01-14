@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  home.packages = with pkgs; [
+    xclip # copy-on-select for neovim
+  ];
+
   programs.neovim = {
     enable = true;
 
@@ -115,12 +119,23 @@
       vim-airline
       { plugin = vim-airline-themes; config = "let g:airline_theme='dracula'"; }
       { plugin = tagbar; config = "nnoremap <silent><F2> :TagbarToggle<CR>"; }
+      {
+        plugin = indent-blankline-nvim;
+        config = ''
+          lua << EOF
+            vim.opt.list = true
+            --vim.opt.listchars:append("space:⋅")
+            vim.opt.listchars:append("eol:↴")
+          EOF
+        '';
+      }
     ];
 
     extraConfig = builtins.readFile ./init.vim;
 
     extraPackages = [ pkgs.python ];
     extraPython3Packages = (ps: with ps; [
+      pynvim
       jedi
       flake8
       pylint

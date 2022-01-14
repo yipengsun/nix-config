@@ -16,7 +16,6 @@
     xorg.xrdb
     xorg.xev
     xorg.xmodmap
-    xclip
     arandr
     glxinfo
 
