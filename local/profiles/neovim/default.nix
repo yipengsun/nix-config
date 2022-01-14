@@ -21,6 +21,10 @@
       coc-vimlsp
       coc-yaml
       coc-lua
+      {
+        plugin = editorconfig-nvim;
+        config = "let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']";
+      }
 
       # ui
       { plugin = dracula-vim; config = "colorscheme dracula"; }
