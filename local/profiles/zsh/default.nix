@@ -6,6 +6,7 @@
     in
     {
       enable = true;
+      enableSyntaxHighlighting = true;
 
       dirHashes = {
         downloads = "$HOME/downloads";
@@ -98,14 +99,6 @@
 
         prompt.pwdLength = "long";
         prompt.theme = preztoTheme;
-
-        syntaxHighlighting.highlighters = [
-          "main"
-          "brackets"
-          "pattern"
-          "line"
-          "root"
-        ];
       };
 
       loginExtra = ''
