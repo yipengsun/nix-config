@@ -21,9 +21,9 @@
       search-by-image
     ];
 
-    profiles.syp = {
+    profiles."syp" = {
       isDefault = true;
-      id = 527965; # mass of B0, PDG 2020
+      id = 0;
       settings = {
         "browser.startup.homepage" = "https://google.com";
         "browser.bookmarks.showMobileBookmarks" = true;
