@@ -8,8 +8,13 @@
     vimdiffAlias = true;
 
     plugins = with pkgs.vimPlugins; [
+      # IDE
       vim-fugitive
+
+      # UI
       { plugin = dracula-vim; config = "colorscheme dracula"; }
+      vim-airline
+      { plugin = vim-airline-themes; config = "let g:airline_theme='dracula'"; }
     ];
 
     coc.enable = true;
