@@ -119,6 +119,7 @@
       vim-airline
       { plugin = vim-airline-themes; config = "let g:airline_theme='dracula'"; }
       { plugin = tagbar; config = "nnoremap <silent><F2> :TagbarToggle<CR>"; }
+      (nvim-treesitter.withPlugins (p: pkgs.tree-sitter.allGrammars))
       {
         plugin = indent-blankline-nvim;
         config = ''
@@ -126,6 +127,12 @@
             vim.opt.list = true
             --vim.opt.listchars:append("space:⋅")
             vim.opt.listchars:append("eol:↴")
+
+            require("indent_blankline").setup {
+                space_char_blankline = " ",
+                show_current_context = true,
+                show_current_context_start = true,
+            }
           EOF
         '';
       }
