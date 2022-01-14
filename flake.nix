@@ -132,9 +132,11 @@
 
               # settings
               linux-config-cli = [ xdg-user-dirs dircolors ];
+              linux-config-gui = [ xdg-mime-apps ];
 
               # for computers with a screen
-              workstation = base ++ common-apps ++ coding ++ multimedia ++ work ++ linux-config-cli;
+              workstation = base ++ common-apps ++ coding ++ multimedia ++ work ++
+              linux-config-cli ++ linux-config-gui;
             };
           };
 
