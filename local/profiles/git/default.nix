@@ -4,6 +4,13 @@
 
     extraConfig = {
       pull.rebase = false;
+      core.editor = "nvim";
+      core.pager = "less";
+      merge.tool = "vimdiff";
+      branch.autosetuprebase = "always";
+
+      user.name = "Yipeng Sun";
+      user.email = "syp@umd.edu";
     };
 
     aliases = {
