@@ -91,6 +91,16 @@
         bindkey -M menuselect 'k' vi-up-line-or-history   # up
         bindkey -M menuselect 'l' vi-forward-char         # right
         bindkey -M menuselect 'j' vi-down-line-or-history # bottom
+
+        # add 'sudo' to current line
+        sudo-command-line() {
+          [[ -z $BUFFER ]] && zle up-history
+          [[ $BUFFER != sudo\ * ]] && BUFFER="sudo $BUFFER"
+          zle end-of-line
+        }
+        zle -N sudo-command-line
+
+        bindkey '\e\e' sudo-command-line
       '';
 
       prezto = {
