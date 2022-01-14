@@ -1,6 +1,6 @@
 { pkgs, config, suites, ... }:
 {
-  system.stateVersion = "20.09";
+  system.stateVersion = "21.11";
 
   ########
   # Boot #
@@ -143,9 +143,6 @@
   # Network manager
   networking.networkmanager.enable = true;
 
-  i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = "Europe/Paris";
-
   # fcitx
   i18n.inputMethod = {
     enabled = "fcitx";
@@ -161,7 +158,7 @@
   # User config #
   ###############
 
-  imports = suites.workstation;
+  imports = suites.laptop;
 
   ################
   # Legacy stuff #

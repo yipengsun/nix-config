@@ -113,7 +113,7 @@
             };
             suites = with profiles; rec {
               base = [ core users.root ];
-              workstation = base ++ [ users.syp ];
+              laptop = base ++ [ users.syp lang-region-mobile ];
             };
           };
         };
