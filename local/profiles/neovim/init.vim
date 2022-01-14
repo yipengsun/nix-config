@@ -153,7 +153,7 @@ nnoremap <silent><C-k> <ESC>:nohl<CR>
 
 " Set Ctrl-c, Ctrl-v, Ctrl-x
 vnoremap <C-c> "+y
-inoremap <silent><C-v> <ESC>:set paste<CR>mui<C-R>+<ESC>:set nopaste<CR>
+inoremap <silent><C-v> <ESC>:set paste<CR>"+gp<ESC>:set nopaste<CR>
 vnoremap <C-x> "+x
 
 " Function-keys mapping
