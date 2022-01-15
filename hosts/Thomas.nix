@@ -96,20 +96,6 @@
   # Services #
   ############
 
-  services.zfs.trim.enable = true; # Trim SSD periodically
-  services.zfs.autoSnapshot = {
-    enable = true;
-    frequent = 3;
-    monthly = 6;
-  };
-
-  # Enable docker daemon
-  virtualisation.docker = {
-    enable = true;
-    storageDriver = "overlay2";
-  };
-  systemd.services.docker.after = [ "var-lib-docker.mount" ];
-
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchExternalPower = "ignore";
   services.logind.lidSwitchDocked = "ignore";
@@ -144,12 +130,6 @@
   i18n.inputMethod = {
     enabled = "fcitx";
   };
-
-  # encfs automount via pam_mount
-  #security.pam.services.login.pamMount = true;
-  #security.pam.mount.encfsFolderPairs = [
-  #{ user = "syp"; src = "/home/syp/.sync/Dropbox/data"; dst = "/home/syp/data"; }
-  #];
 
   ###############
   # User config #
