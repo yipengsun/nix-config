@@ -113,7 +113,10 @@
             };
             suites = with profiles; rec {
               base = [ core users.root ];
-              laptop = base ++ [ users.syp lang-region-mobile ];
+              service-common = [ zfs docker ];
+
+              # computer types
+              laptop = base ++ service-common ++ [ users.syp lang-region-mobile /*encfs-automount*/ ];
             };
           };
         };
