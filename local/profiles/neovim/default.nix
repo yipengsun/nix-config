@@ -1,4 +1,12 @@
 { pkgs, ... }:
+let
+  # this version can't be found on github anymore
+  # forgot how I found it in the first place
+  lastchange = pkgs.vimUtils.buildVimPlugin {
+    name = "lastchange";
+    src = ./lastchange;
+  };
+in
 {
   home.packages = with pkgs; [
     xclip # copy-on-select for neovim
@@ -41,6 +49,7 @@
       }
       delimitMate
       { plugin = vim-pandoc; config = "let g:pandoc#syntax#conceal#use=0"; }
+      lastchange
 
       # syntax
       vim-nix
@@ -148,6 +157,7 @@
 
     coc.enable = true;
     coc.settings = {
+      suggest.defaultSortMethod = "none";
       diagnostic-languageserver.filetypes.python = "pylint";
       diagnostic-languageserver.linters = {
         pylint = {

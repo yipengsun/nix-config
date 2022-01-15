@@ -30,5 +30,8 @@ indent_size = 4
 [*.md]
 max_line_length = off
 
+[*.vim]
+indent_size = 4
+
 [pylintrc]
 indent_size = none
