@@ -150,7 +150,6 @@ in
 
     extraConfig = builtins.readFile ./init.vim;
 
-    extraPackages = [ pkgs.python ];
     extraPython3Packages = (ps: with ps; [
       pynvim
       pylint
