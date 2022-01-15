@@ -162,11 +162,6 @@
   ################
 
   environment.systemPackages = with pkgs; [
-    # Editor
-    neovim
-    nodejs # a neovim dep for now
-    #neovim-vimdiff
-
     # Window manager
     awesome
     i3lock

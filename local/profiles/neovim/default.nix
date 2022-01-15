@@ -10,6 +10,7 @@ in
 {
   home.packages = with pkgs; [
     xclip # copy-on-select for neovim
+    nodejs # required by coc-nvim
   ];
 
   home.file.".tmp/vim/.keep".text = ""; # make sure the swp dir exists
