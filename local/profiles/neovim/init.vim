@@ -204,15 +204,17 @@ nnoremap <silent><F4> :call s:ToggleSpellCheck()<CR>
 " Filetypes "
 """""""""""""
 
+au FileType gitcommit set colorcolumn=73
+
 au FileType gitcommit,tex,markdown set spell
 
 au FileType make set noexpandtab " need hard tab for Makefile
 
 func! SetTW80Options()
     set tw=80
-    set cc=81
     set fo+=mtB
     set wm=0
+    set colorcolumn=81
     set formatoptions-=t
 endfunc
 au Filetype tex,python,cpp,c call SetTW80Options()
