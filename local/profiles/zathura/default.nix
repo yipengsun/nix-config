@@ -43,7 +43,7 @@
 
       # startup options
       adjust-open = "width";
-      recolor = "true";
+      # recolor = "true"; # start in invert color mode (night mode)
     };
   };
 }
