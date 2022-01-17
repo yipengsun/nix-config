@@ -1,9 +1,7 @@
 { config, ... }:
 {
-  home.file.".sync/.keep".text = "";
-
-  services.dropbox = {
-    enable = false;
+  services.dropbox-autoreconnect = {
+    enable = true;
     #path = "${config.home.homeDirectory}/.sync/Dropbox";
   };
 }
