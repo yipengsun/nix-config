@@ -30,7 +30,8 @@ in
       Install = { WantedBy = [ "default.target" ]; };
 
       Service = {
-        Environment = [ "HOME=${homeBaseDir}" ];
+        #Environment = [ "HOME=${homeBaseDir}" "DISPLAY=" ];
+        Environment = [ "DISPLAY=:0" ];
 
         Restart = "on-failure";
         PrivateTmp = true;
@@ -57,8 +58,10 @@ in
             while read -r line
               do
                 if [[ "$line" == "Connectivity is now 'limited'" ]]; then
+                  echo "Device now offline, stop dropbox..."
                   ${dropboxCmd} stop
                 elif [[ "$line" == "Connectivity is now 'full'" ]]; then
+                  echo "Device is back online, start dropbox..."
                   ${dropboxCmd} start
                 fi
               done
