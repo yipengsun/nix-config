@@ -33,12 +33,13 @@
     };
 
     aliases = {
-      a = "add -p";
+      a = "add";
       co = "checkout";
       cob = "checkout -b";
       f = "fetch -p";
       c = "commit";
       p = "push";
+      pl = "pull";
       ba = "branch -a";
       bd = "branch -d";
       bD = "branch -D";
