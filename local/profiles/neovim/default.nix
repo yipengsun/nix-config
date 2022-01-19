@@ -51,6 +51,7 @@ in
       delimitMate
       { plugin = vim-pandoc; config = "let g:pandoc#syntax#conceal#use=0"; }
       lastchange
+      fcitx-vim
 
       # syntax
       vim-nix
