@@ -14,5 +14,5 @@
     ];
   };
 
-  i18n.inputMethod.enabled = "fcitx";
+  i18n.inputMethod.enabled = "fcitx5";
 }

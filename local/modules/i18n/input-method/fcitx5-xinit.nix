@@ -36,6 +36,6 @@ in
       XMODIFIERS = "@im=fcitx";
     };
 
-    xinit.initExtra = "fcitx5 -r";
+    xinit.initExtra = "fcitx5 -r &";
   };
 }
