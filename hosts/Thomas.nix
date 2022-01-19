@@ -119,17 +119,8 @@
   services.v2ray.configFile = "/etc/nixos/config/v2ray/ByWave.json";
   #networking.proxy.default = "http://127.0.0.1:2080";
 
-  #################
-  # Global config #
-  #################
-
   # Network manager
   networking.networkmanager.enable = true;
-
-  # fcitx
-  i18n.inputMethod = {
-    enabled = "fcitx";
-  };
 
   ###############
   # User config #
@@ -143,7 +134,6 @@
 
   environment.systemPackages = with pkgs; [
     # Window manager
-    awesome
     i3lock
     breeze-gtk # GTK theme for 2 & 3
     acpilight # To make adj. brightness w/ hotkey work
