@@ -3,29 +3,22 @@
 with lib;
 
 let
-  cfg = config.xinit.windowManager.awesome;
-  awesome = cfg.package;
+  cfgXinit = config.xinit;
+  cfgAwesome = config.xinit.windowManager.awesome;
+
+  awesome = cfgAwesome.package;
 
   getLuaPath = lib: dir: "${lib}/${dir}/lua/${pkgs.luaPackages.lua.luaversion}";
   makeSearchPath = lib.concatMapStrings (path:
     " --search ${getLuaPath path "share"}"
     + " --search ${getLuaPath path "lib"}");
 
-  envVarsStr = config.lib.zsh.exportAll cfg.envVars;
+  envVarsStr = config.lib.zsh.exportAll cfgXinit.envVars;
 in
 
 {
   options = {
-    xinit.windowManager.awesome = {
-      enable = mkEnableOption "Awesome window manager.";
-
-      package = mkOption {
-        type = types.package;
-        default = pkgs.awesome;
-        defaultText = literalExpression "pkgs.awesome";
-        description = "Package to use for running the Awesome WM.";
-      };
-
+    xinit = {
       envVars = mkOption {
         type = types.attrs;
         default = { };
@@ -36,6 +29,17 @@ in
         type = types.lines;
         default = "";
         description = "Extra shell commands to run during initialization.";
+      };
+    };
+
+    xinit.windowManager.awesome = {
+      enable = mkEnableOption "Awesome window manager.";
+
+      package = mkOption {
+        type = types.package;
+        default = pkgs.awesome;
+        defaultText = literalExpression "pkgs.awesome";
+        description = "Package to use for running the Awesome WM.";
       };
 
       luaModules = mkOption {
@@ -50,7 +54,7 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf cfgAwesome.enable {
     assertions = [
       (hm.assertions.assertPlatform "xinit.windowManager.awesome" pkgs
         platforms.linux)
@@ -68,10 +72,10 @@ in
       ${envVarsStr}
 
       # extra commands
-      ${cfg.initExtra}
+      ${cfgXinit.initExtra}
 
       # start awesome window manager
-      ${awesome}/bin/awesome ${makeSearchPath cfg.luaModules}
+      ${awesome}/bin/awesome ${makeSearchPath cfgAwesome.luaModules}
     '';
   };
 }

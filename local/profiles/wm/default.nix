@@ -1,12 +1,6 @@
 { pkgs, ... }:
 {
-  xinit.windowManager.awesome = {
-    enable = true;
-
-    luaModules = with pkgs; [
-      luaPackages.vicious
-    ];
-
+  xinit = {
     envVars = {
       XMODIFIERS = "@im=fcitx";
       GTK_IM_MODULE = "fcitx";
@@ -21,5 +15,13 @@
 
       fcitx -r
     '';
+  };
+
+  xinit.windowManager.awesome = {
+    enable = true;
+
+    luaModules = with pkgs; [
+      luaPackages.vicious
+    ];
   };
 }
