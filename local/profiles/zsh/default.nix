@@ -10,7 +10,7 @@
 
       dirHashes = {
         downloads = "$HOME/downloads";
-        dropbox = "$HOME/.sync/Dropbox";
+        dropbox = "$HOME/sync/dropbox";
 
         # frequently used projects
         talks = "$HOME/misc/documents/talks";
