@@ -36,6 +36,8 @@ in
     home.packages = [ pkgs.xorg.xinit ];
 
     home.file.".xinitrc".text = ''
+      #!/bin/sh
+
       # load X settings
       if [ -f $HOME/.Xdefaults ]; then
         xrdb $HOME/.Xdefaults
