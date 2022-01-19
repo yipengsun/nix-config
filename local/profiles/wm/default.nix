@@ -29,4 +29,7 @@
   xdg.configFile."fcitx5/conf/pinyin.conf".source = ./fcitx5/conf/pinyin.conf;
   xdg.configFile."fcitx5/conf/cloudpinyin.conf".source = ./fcitx5/conf/cloudpinyin.conf;
   xdg.configFile."fcitx5/conf/punctuation.conf".source = ./fcitx5/conf/punctuation.conf;
+
+  # enable dropbox
+  services.dropbox-autoreconnect.enable = true;
 }
