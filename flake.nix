@@ -41,6 +41,14 @@
       naersk.inputs.nixpkgs.follows = "nixos";
 
       nixos-hardware.url = "github:nixos/nixos-hardware";
+
+      nixos-cn.url = "github:nixos-cn/flakes";
+      nixos-cn.inputs.nixpkgs.follows = "nixos";
+
+      # a bit redundant here, because this is already exported in nixos-cn
+      # but the registry doesn't work too well with devos
+      berberman-flakes.url = "github:berberman/flakes";
+      berberman-flakes.inputs.nixpkgs.follows = "nixos";
     };
 
   outputs =
@@ -50,6 +58,8 @@
     , nixos
     , home
     , nixos-hardware
+    , nixos-cn
+    , berberman-flakes
     , nur
     , agenix
     , nvfetcher
@@ -69,6 +79,8 @@
               nur.overlay
               agenix.overlay
               nvfetcher.overlay
+              nixos-cn.overlay
+              berberman-flakes.overlay
               ./pkgs/default.nix
             ];
           };
