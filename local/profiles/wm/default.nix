@@ -1,6 +1,8 @@
 { pkgs, ... }:
 {
   xinit = {
+    enable = true;
+
     envVars = {
       XMODIFIERS = "@im=fcitx";
       GTK_IM_MODULE = "fcitx";

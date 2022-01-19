@@ -109,7 +109,6 @@
     Option "TearFree" "true"
     Option "Backlight" "amdgpu_bl0"
   '';
-  services.xserver.displayManager.startx.enable = true;
 
   # Update firmware
   services.fwupd.enable = true;
