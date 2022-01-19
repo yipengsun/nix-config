@@ -1,4 +1,9 @@
 { pkgs, ... }:
+
+let
+  customLuaPackages = pkgs.luajitPackages;
+in
+
 {
   # sadly you need to put this line in your host setting manually:
   #   services.xserver.displayManager.startx.enable = true;
@@ -7,8 +12,11 @@
   xinit.windowManager.awesome = {
     enable = true;
 
-    luaModules = with pkgs; [
-      luaPackages.vicious
+    package = pkgs.awesome.override { lua = customLuaPackages.lua; };
+    luaPackages = customLuaPackages;
+
+    luaModules = [
+      customLuaPackages.vicious
     ];
   };
 

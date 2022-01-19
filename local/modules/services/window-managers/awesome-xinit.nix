@@ -6,7 +6,7 @@ let
   cfg = config.xinit.windowManager.awesome;
   awesome = cfg.package;
 
-  getLuaPath = lib: dir: "${lib}/${dir}/lua/${pkgs.luaPackages.lua.luaversion}";
+  getLuaPath = lib: dir: "${lib}/${dir}/lua/${cfg.luaPackages.lua.luaversion}";
   makeSearchPath = lib.concatMapStrings (path:
     " --search ${getLuaPath path "share"}"
     + " --search ${getLuaPath path "lib"}");
@@ -26,6 +26,13 @@ in
         description = "Package to use for running the Awesome WM.";
       };
 
+      luaPackages = mkOption {
+        type = types.attrsOf types.package;
+        default = pkgs.luaPackages;
+        defaultText = literalExpression "pkgs.lua.pkgs";
+        description = "Package to Lua packages.";
+      };
+
       luaModules = mkOption {
         default = [ ];
         type = types.listOf types.package;
@@ -33,7 +40,7 @@ in
           List of lua packages available for being
           used in the Awesome configuration.
         '';
-        example = literalExpression "[ pkgs.luaPackages.vicious ]";
+        example = literalExpression "[ luaPackages.vicious ]";
       };
     };
   };
