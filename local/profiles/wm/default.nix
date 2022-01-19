@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  customLuaPackages = pkgs.luajitPackages;
+  customLuaPackages = pkgs.lua53Packages;
 in
 
 {
@@ -17,6 +17,7 @@ in
 
     luaModules = [
       customLuaPackages.vicious
+      customLuaPackages.lain
     ];
   };
 
