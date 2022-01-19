@@ -43,6 +43,6 @@ in
       XMODIFIERS = "@im=fcitx";
     };
 
-    xinit.initExtra = "fcitx -r";
+    xinit.initExtra = "${fcitxPackage}/bin/fcitx -r";
   };
 }
