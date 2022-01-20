@@ -76,7 +76,6 @@ in
       keep-derivations = true
       fallback = true
     '';
-
   };
 
   # For rage encryption, all hosts need a ssh key pair

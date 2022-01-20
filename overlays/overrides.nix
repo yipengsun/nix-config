@@ -6,7 +6,6 @@ channels: final: prev: {
     cachix
     discord
     nixpkgs-fmt
-    starship
     deploy-rs
     rage
     ;
