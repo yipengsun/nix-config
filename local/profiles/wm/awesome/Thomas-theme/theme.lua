@@ -6,7 +6,7 @@ local theme = {}
 theme_path = cfg_path.."/theme/"
 
 -- Wallpaper
-theme.wallpaper = "~/config/awesome/wallpaper"
+theme.wallpaper = cfg_path.."/wallpaper"
 
 --{{{ Styles
 

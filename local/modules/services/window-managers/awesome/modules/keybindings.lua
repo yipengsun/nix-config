@@ -84,7 +84,7 @@ awful.key({ modkey,           }, "F5",                   function () awful.util.
 -- Powermanagement
 awful.key({ modkey, "Shift"   }, "]",                    function () awful.util.spawn_with_shell(poweroff) end),
 awful.key({ modkey, "Shift"   }, "[",                    function () awful.util.spawn_with_shell(reboot)   end),
-awful.key({                   }, "\\",                   function () awful.util.spawn_with_shell(suspend)  end),
+awful.key({ modkey, "Shift"   }, "\\",                   function () awful.util.spawn_with_shell(suspend)  end),
 
 -- Adjust volume
 awful.key({                   }, "XF86AudioRaiseVolume", function () awful.util.spawn_with_shell(volup)   end),
