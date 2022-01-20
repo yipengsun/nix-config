@@ -138,6 +138,14 @@ in
         default = ./awesome/modules/taskbars.lua;
         type = types.path;
       };
+
+      theme = mkOption {
+        type = types.path;
+      };
+
+      wallpaper = mkOption {
+        type = types.path;
+      };
     };
   };
 
@@ -182,7 +190,7 @@ in
       cfg_path   = home_path.."/.config/awesome"
 
       -- Initialize theme
-      beautiful.init(cfg_path.."/themes/theme.lua")
+      beautiful.init(cfg_path.."/theme/theme.lua")
 
       -- Set default mod key
       modkey = "${cfg.modKey}"
@@ -238,5 +246,8 @@ in
     xdg.configFile."awesome/modules/rules-signals.lua".source = cfg.rulesSignals;
     xdg.configFile."awesome/modules/widgets.lua".source = cfg.widgets;
     xdg.configFile."awesome/modules/taskbars.lua".source = cfg.taskbars;
+
+    xdg.configFile."awesome/theme".source = cfg.theme;
+    xdg.configFile."awesome/wallpaper".source = cfg.wallpaper;
   };
 }

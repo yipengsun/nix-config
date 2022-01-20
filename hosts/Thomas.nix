@@ -140,13 +140,17 @@
     tpset "Device Accel Constant Deceleration" 0.5
   '';
 
+  home-manager.users.syp.xinit.windowManager.awesome = {
+    theme = ./../local/profiles/wm/awesome/Thomas-theme;
+    wallpaper = ./../local/profiles/wm/awesome/Thomas-wallpaper.png;
+  };
+
   ################
   # Legacy stuff #
   ################
 
   environment.systemPackages = with pkgs; [
     # Window manager
-    i3lock
     breeze-gtk # GTK theme for 2 & 3
     acpilight # To make adj. brightness w/ hotkey work
 

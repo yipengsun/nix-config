@@ -5,6 +5,10 @@ let
 in
 
 {
+  home.packages = with pkgs; [
+    i3lock
+  ];
+
   # sadly you need to put this line in your host setting manually:
   #   services.xserver.displayManager.startx.enable = true;
   xinit.enable = true;
