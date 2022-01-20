@@ -115,10 +115,29 @@ in
       };
 
       tagLayouts = mkOption {
-        default = [ 2 1 2 2 3 ];
+        default = [ 2 1 3 2 3 ];
         type = types.listOf types.int;
       };
 
+      keybindings = mkOption {
+        default = ./awesome/modules/keybindings.lua;
+        type = types.path;
+      };
+
+      rulesSignals = mkOption {
+        default = ./awesome/modules/rules-signals.lua;
+        type = types.path;
+      };
+
+      widgets = mkOption {
+        default = ./awesome/modules/widgets.lua;
+        type = types.path;
+      };
+
+      taskbars = mkOption {
+        default = ./awesome/modules/taskbars.lua;
+        type = types.path;
+      };
     };
   };
 
@@ -214,5 +233,10 @@ in
       require("modules.taskbars")
       require("modules.rules-signals")
     '';
+
+    xdg.configFile."awesome/modules/keybindings.lua".source = cfg.keybindings;
+    xdg.configFile."awesome/modules/rules-signals.lua".source = cfg.rulesSignals;
+    xdg.configFile."awesome/modules/widgets.lua".source = cfg.widgets;
+    xdg.configFile."awesome/modules/taskbars.lua".source = cfg.taskbars;
   };
 }
