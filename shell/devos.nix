@@ -24,12 +24,12 @@ in
     #}
     (linter nixpkgs-fmt)
     (linter editorconfig-checker)
+    (linter pkgs.luaformatter)
     (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
   ]
 
   ++ lib.optional
     (system != "i686-linux")
     (devos cachix)
-
   ;
 }
