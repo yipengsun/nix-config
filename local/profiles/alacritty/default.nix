@@ -15,8 +15,8 @@
           bright_foreground = "#ffffff";
         };
         cursor = {
-          text = "CellBackground";
-          cursor = "CellForeground";
+          text = "#282a36";
+          cursor = "#ff5555";
         };
         vi_mode_cursor = {
           text = "CellBackground";
