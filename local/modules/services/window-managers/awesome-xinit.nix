@@ -139,6 +139,11 @@ in
       wallpaper = mkOption {
         type = types.path;
       };
+
+      cityId = mkOption {
+        default = "4351977";
+        type = types.str;
+      };
     };
   };
 
@@ -191,14 +196,17 @@ in
       -- Global variables
       ${concatStringsSep "\n" (mapAttrsToList (key: val: key+" = "+''"''+val+''"'') cfg.globalVariables)}
 
+      -- Define city ID for weather widget
+      city_id_weather = ${cfg.cityId}
+
       layouts = {
         ${concatStringsSep ",\n" cfg.layouts}
       }
 
       -- Tags
       tags = {
-          names = {${concatMapStringsSep "," (x: ''"''+x+''"'') cfg.tagNames}},
-          layout = {${concatMapStringsSep "," (x: "layouts["+(toString x)+"]") cfg.tagLayouts}}
+          names = {${concatMapStringsSep "," (x: ''"${x}"'') cfg.tagNames}},
+          layout = {${concatMapStringsSep "," (x: "layouts[${toString x}]") cfg.tagLayouts}}
       }
 
       awful.screen.connect_for_each_screen(function(s)

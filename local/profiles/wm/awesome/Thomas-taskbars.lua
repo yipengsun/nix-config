@@ -32,7 +32,7 @@ vicious.register(mail_widget, vicious.widgets.mdir, '<span color="'..beautiful.f
 -- Weather
 -- List of city IDs can be downloaded here: http://bulk.openweathermap.org/sample/
 weather_widget = lain.widget.weather{
-    city_id = 4351977, -- College Park, MD, USA
+    city_id = city_id_weather,
     settings = function()
         local raw_descr = weather_now["weather"][1]["description"]
         local descr = raw_descr:sub(1, 1):upper()..raw_descr:sub(2)
@@ -117,6 +117,8 @@ awful.screen.connect_for_each_screen(function(s)
         ,
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            spacer,
+            weather_widget,
             spacer,
             thermal_widget,
             spacer,
