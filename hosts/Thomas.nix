@@ -114,12 +114,11 @@
   # Update firmware
   services.fwupd.enable = true;
 
-  # v2ray
+  # Proxy
   services.v2ray.enable = false;
   services.v2ray.configFile = "/etc/nixos/config/v2ray/ByWave.json";
   #networking.proxy.default = "http://127.0.0.1:2080";
 
-  # Network manager
   networking.networkmanager.enable = true;
 
   ###############
@@ -128,21 +127,27 @@
 
   imports = suites.laptop;
 
-  home-manager.users.syp.xinit.initExtra = ''
-    # TrackPoint settings
-    tpset() { xinput set-prop "TPPS/2 ALPS TrackPoint" "$@"; }
+  home-manager.users.syp = {
+    xinit.initExtra = ''
+      # TrackPoint settings
+      tpset() { xinput set-prop "TPPS/2 ALPS TrackPoint" "$@"; }
 
-    tpset "Evdev Wheel Emulation" 1
-    tpset "Evdev Wheel Emulation Button" 2
-    tpset "Evdev Wheel Emulation Axes" 6 7 4 5
-    tpset "Evdev Wheel Emulation Timeout" 200
-    tpset "Device Accel Profile" -1
-    tpset "Device Accel Constant Deceleration" 0.5
-  '';
+      tpset "Evdev Wheel Emulation" 1
+      tpset "Evdev Wheel Emulation Button" 2
+      tpset "Evdev Wheel Emulation Axes" 6 7 4 5
+      tpset "Evdev Wheel Emulation Timeout" 200
+      tpset "Device Accel Profile" -1
+      tpset "Device Accel Constant Deceleration" 0.5
+    '';
 
-  home-manager.users.syp.xinit.windowManager.awesome = {
-    theme = ./../local/profiles/wm/awesome/Thomas-theme;
-    wallpaper = ./../local/profiles/wm/awesome/Thomas-wallpaper.png;
+    xinit.windowManager.awesome = {
+      theme = ./../local/profiles/wm/awesome/Thomas-theme;
+      wallpaper = ./../local/profiles/wm/awesome/Thomas-wallpaper.png;
+    };
+
+    home.packages = with pkgs; [
+      acpilight # To make adj. brightness w/ hotkey work
+    ];
   };
 
   ################
@@ -150,9 +155,7 @@
   ################
 
   environment.systemPackages = with pkgs; [
-    # Window manager
     breeze-gtk # GTK theme for 2 & 3
-    acpilight # To make adj. brightness w/ hotkey work
 
     # Utilities
     ranger

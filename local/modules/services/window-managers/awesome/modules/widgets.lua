@@ -13,8 +13,8 @@ cpu_widget = wibox.widget.textbox()
 vicious.register(cpu_widget, vicious.widgets.cpu, '<span color="'..beautiful.fg_normal..'">CPU: </span><span color="'..beautiful.fg_focus..'">$1%</span>', 3)
 
 -- CPU temperature
-thermal_widget = wibox.widget.textbox()
-vicious.register(thermal_widget, vicious.widgets.hwmontemp, '<span color="'..beautiful.fg_normal..'">Temp: </span><span color="'..beautiful.fg_focus..'">$1°C</span>', 10, { "k10temp", 2 })
+thermal_widget_Thomas = wibox.widget.textbox()
+vicious.register(thermal_widget_Thomas, vicious.widgets.hwmontemp, '<span color="'..beautiful.fg_normal..'">Temp: </span><span color="'..beautiful.fg_focus..'">$1°C</span>', 10, { "k10temp" })
 
 -- Memory
 mem_widget = wibox.widget.textbox()

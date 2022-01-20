@@ -75,7 +75,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             spacer,
-            thermal_widget,
+            thermal_widget_Thomas,
             spacer,
             cpu_widget,
             spacer,
