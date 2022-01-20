@@ -236,6 +236,22 @@ in
       -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
       screen.connect_signal("property::geometry", set_wallpaper)
 
+      -- Create a drop-down container
+      awful.screen.connect_for_each_screen(function(s)
+          s.quake = lain.util.quake({
+              app = "xterm", -- alacritty doesn't work :-(
+              extra = "-e tmux",
+              height = 0.35,
+              width = 0.65,
+              horiz = "center",
+              overlap = true,
+              settings = function(c)
+                  c.sticky = true
+                  callback = awful.client.setmaster
+              end
+          })
+      end)
+
       -- Configuration modules
       require("modules.keybindings")
       require("modules.taskbars")

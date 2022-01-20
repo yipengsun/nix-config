@@ -109,7 +109,7 @@ awful.key({ modkey,           }, "F4",                   function () awful.util.
 awful.key({ modkey,           }, "F8",                   function () awful.util.spawn_with_shell('arandr')       end),
 
 -- Drop-down console
-awful.key({ modkey            }, "Return", function () scratch.drop(terminal.." -e tmux", "top", "center", 0.8, 0.4) end),
+awful.key({ modkey            }, "Return", function () awful.screen.focused().quake:toggle() end),
 
 -- Promot: Web search
 awful.key({ modkey,           }, "r", function()
