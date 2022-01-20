@@ -127,7 +127,9 @@
 
   imports = suites.laptop;
 
-  home-manager.users.syp = {
+  home-manager.users.syp = { suites, ... }: {
+    imports = suites.workstation;
+
     xinit.initExtra = ''
       # TrackPoint settings
       tpset() { xinput set-prop "TPPS/2 ALPS TrackPoint" "$@"; }
