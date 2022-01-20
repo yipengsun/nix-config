@@ -3,7 +3,7 @@
 local theme = {}
 
 -- Initialize environmental variable
-theme_path = cfg_path.."/themes/"
+theme_path = cfg_path.."/theme/"
 
 -- Wallpaper
 theme.wallpaper = "~/config/awesome/wallpaper"
