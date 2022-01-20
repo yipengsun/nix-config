@@ -56,7 +56,6 @@ in
 
           -- Third-party awesome libraries
           vicious         = require("vicious")
-          scratch         = require("scratch") -- obsolete, will remove soon
           vicious.contrib = require("vicious.contrib")
           lain            = require("lain")
         '';
