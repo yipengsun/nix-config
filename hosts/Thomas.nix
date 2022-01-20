@@ -141,6 +141,7 @@
     '';
 
     xinit.windowManager.awesome = {
+      taskbars = ./../local/profiles/wm/awesome/Thomas-taskbars.lua;
       theme = ./../local/profiles/wm/awesome/Thomas-theme;
       wallpaper = ./../local/profiles/wm/awesome/Thomas-wallpaper.png;
     };

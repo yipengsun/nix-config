@@ -128,13 +128,7 @@ in
         type = types.path;
       };
 
-      widgets = mkOption {
-        default = ./awesome/modules/widgets.lua;
-        type = types.path;
-      };
-
       taskbars = mkOption {
-        default = ./awesome/modules/taskbars.lua;
         type = types.path;
       };
 
@@ -259,7 +253,6 @@ in
 
     xdg.configFile."awesome/modules/keybindings.lua".source = cfg.keybindings;
     xdg.configFile."awesome/modules/rules-signals.lua".source = cfg.rulesSignals;
-    xdg.configFile."awesome/modules/widgets.lua".source = cfg.widgets;
     xdg.configFile."awesome/modules/taskbars.lua".source = cfg.taskbars;
 
     xdg.configFile."awesome/theme".source = cfg.theme;
