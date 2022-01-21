@@ -6,6 +6,18 @@ let
     name = "lastchange";
     src = ./lastchange;
   };
+
+  # newer vim-ledger has problems regarding auto completion
+  vim-ledger-stable = pkgs.vimUtils.buildVimPlugin rec {
+    pname = "vim-ledger-stable";
+    version = "1.2.0";
+    src = pkgs.fetchFromGitHub {
+      owner = "ledger";
+      repo = "vim-ledger";
+      rev = "v${version}";
+      sha256 = "aWt618LWLwnWAhKN9TTCTn2mJQR7Ntt8JV3L/VDiS84=";
+    };
+  };
 in
 {
   home.packages = with pkgs; [
@@ -55,7 +67,7 @@ in
 
       # syntax
       vim-nix
-      vim-ledger
+      vim-ledger-stable
       vim-pandoc-syntax
 
       # ide
