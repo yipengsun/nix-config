@@ -20,6 +20,11 @@ let
   };
 in
 {
+  home.sessionVariables = {
+    EDITOR = "vi";
+    VISUAL = "vi";
+  };
+
   home.packages = with pkgs; [
     xclip # copy-on-select for neovim
     nodejs # required by coc-nvim
