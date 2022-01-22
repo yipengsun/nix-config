@@ -2,6 +2,7 @@
 {
   home.packages = with pkgs; [
     # utilities
+    adate
     ledger # CLI accounting tool
     bashmount # mount disk via a TUI
     bc # the calculator

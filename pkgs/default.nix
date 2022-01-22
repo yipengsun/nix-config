@@ -3,6 +3,12 @@ final: prev: {
   # sources = prev.callPackage (import ./_sources/generated.nix) { };
   # then, call packages with `final.callPackage`
 
+  adate = prev.writeScriptBin "adate" ''
+    for i in Asia/Shanghai US/{Eastern,Pacific} Europe/{London,Paris,Berlin}; do
+      printf %-22s "$i:";TZ=$i date +"%m-%d %a %H:%M"
+    done
+  '';
+
   lua5_3 = prev.lua5_3.override {
     packageOverrides = luafinal: luaprev: {
       lain = luaprev.toLuaModule (prev.stdenv.mkDerivation {
