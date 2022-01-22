@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 let
   customLuaPackages = pkgs.lua53Packages;
@@ -8,6 +8,12 @@ in
   home.packages = with pkgs; [
     i3lock
   ];
+
+  # decrypt openweather API key
+  homeage.file."weather_api_key" = {
+    source = ../../../secrets/weather_api_key.age;
+    symlinks = [ "${config.xdg.configHome}/awesome/weather_api_key" ];
+  };
 
   # sadly you need to put this line in your host setting manually:
   #   services.xserver.displayManager.startx.enable = true;
