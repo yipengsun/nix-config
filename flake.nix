@@ -47,6 +47,9 @@
       # but the registry doesn't work too well with devos
       berberman-flakes.url = "github:berberman/flakes";
       berberman-flakes.inputs.nixpkgs.follows = "nixos";
+
+      homeage.url = "github:jordanisaacs/homeage";
+      homeage.inputs.nixpkgs.follows = "nixos";
     };
 
   outputs =
@@ -62,6 +65,7 @@
     , agenix
     , nvfetcher
     , deploy
+    , homeage
     , ...
     } @ inputs:
     digga.lib.mkFlake
@@ -133,7 +137,7 @@
 
         home = {
           imports = [ (digga.lib.importExportableModules ./local/modules) ];
-          modules = [ ];
+          modules = [ homeage.homeManagerModules.homeage ];
           importables = rec {
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {

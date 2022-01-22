@@ -420,6 +420,26 @@
         "type": "github"
       }
     },
+    "homeage": {
+      "inputs": {
+        "nixpkgs": [
+          "nixos"
+        ]
+      },
+      "locked": {
+        "lastModified": 1636425441,
+        "narHash": "sha256-7c/5YCNk+KB+sg7UE5mhmOYc3DRc9aa6L2EdFzfN2YM=",
+        "owner": "jordanisaacs",
+        "repo": "homeage",
+        "rev": "0388d8c73829c425db9db0772d7bb0d440970f09",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jordanisaacs",
+        "repo": "homeage",
+        "type": "github"
+      }
+    },
     "latest": {
       "locked": {
         "lastModified": 1638198142,
@@ -739,6 +759,7 @@
         "deploy": "deploy",
         "digga": "digga",
         "home": "home",
+        "homeage": "homeage",
         "latest": "latest_2",
         "naersk": "naersk",
         "nixos": [
