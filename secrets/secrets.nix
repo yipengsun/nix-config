@@ -7,4 +7,6 @@ in
 {
   "passwd_root.age".publicKeys = allKeys;
   "passwd_syp.age".publicKeys = allKeys;
+
+  "weather_api_key.age".publicKeys = [ userSyp ];
 }
