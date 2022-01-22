@@ -25,6 +25,21 @@ in
     nodejs # required by coc-nvim
   ];
 
+  home.file.".editorconfig".text = ''
+    root = true
+
+    [*]
+    end_of_line = lf
+    trim_trailing_whitespace = true
+    charset = utf-8
+
+    [*.{diff,patch}]
+    end_of_line = unset
+    insert_final_newline = unset
+    trim_trailing_whitespace = unset
+    indent_size = unset
+  '';
+
   home.file.".tmp/vim/.keep".text = ""; # make sure the swp dir exists
 
   programs.neovim = {

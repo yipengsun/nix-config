@@ -28,6 +28,6 @@
     sxiv # picture viewer
 
     # chat
-    #nixos-cn.wine-wechat
+    nixos-cn.wine-wechat
   ];
 }

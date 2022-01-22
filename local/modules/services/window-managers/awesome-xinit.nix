@@ -141,7 +141,7 @@ in
       };
 
       cityId = mkOption {
-        default = "4351977";
+        default = "4351977"; # College Park, MD
         type = types.str;
       };
     };
