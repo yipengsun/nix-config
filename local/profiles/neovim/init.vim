@@ -82,8 +82,8 @@ set gcr=a:blinkon0
 set novisualbell
 au InsertEnter * set cursorline
 au InsertLeave * set nocursorline
-au InsertEnter * set cursorcolumn
-au InsertLeave * set nocursorcolumn
+"au InsertEnter * set cursorcolumn
+"au InsertLeave * set nocursorcolumn
 
 " Linebreak settings
 set linebreak

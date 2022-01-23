@@ -37,7 +37,7 @@ weather_widget = lain.widget.weather{
     settings = function()
         local raw_descr = weather_now["weather"][1]["description"]
         local descr = raw_descr:sub(1, 1):upper()..raw_descr:sub(2)
-        local units = math.floor(weather_now["main"]["temp"])
+        local units = math.floor(weather_now["main"]["temp"])  -- Make the first letter in upper case
         widget:set_markup(lain.util.markup.fontfg(
             beautiful.font, beautiful.fg_normal, "Weather: "..'<span color="'..beautiful.fg_focus..'">'..descr.." "..units.. "°C </span>"))
     end
