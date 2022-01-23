@@ -7,7 +7,7 @@ let
 
   weatherApiKeyLoc = "${config.xdg.configHome}/awesome/weather_api_key";
 
-  fcitxDstPath = path: "${config.home.homeDirectory}/.config/fcitx5/" + path;
+  fcitxDstPath = path: "${config.xdg.configHome}/fcitx5/" + path;
   fcitxConfigFiles = [
     { src = ./fcitx5/config; dst = fcitxDstPath "config"; }
     { src = ./fcitx5/profile; dst = fcitxDstPath "profile"; }
@@ -44,7 +44,9 @@ in
 
   # copy fcitx5 config on generation and forget about it
   home.activation.copyFcitxConfig = hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${concatMapStrings (x: "chmod 644 ${x.dst}\n") fcitxConfigFiles}
     ${concatMapStrings (x: "cp ${builtins.toString x.src} ${x.dst}\n") fcitxConfigFiles}
+    ${concatMapStrings (x: "chmod 644 ${x.dst}\n") fcitxConfigFiles}
   '';
 
   # lets also define programs that run with X here
