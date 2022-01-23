@@ -36,13 +36,25 @@ vicious.register(mail_widget, vicious.widgets.mdir, "Mail: "..mk.fg.color(beauti
 weather_widget = lain.widget.weather{
     APPID = weather_api_key,
     city_id = city_id_weather,
+    followtag = true,
+    -- For the pop-up, we can only do 5 days for the free version of the API
+    notification_text_fun = function(wn)
+        local day = os.date("%a %d", wn["dt"])
+        local temp_min = math.floor(wn["main"]["temp_min"])
+        local temp_max = math.floor(wn["main"]["temp_max"])
+        local temp_feel = math.floor(wn["main"]["feels_like"])
+        local desc = wn["weather"][1]["description"]
+
+        return string.format("%32s, %3d to %3d, feels like %3d  <b>%s</b>  ",
+                             desc, temp_min, temp_max, temp_feel, day)
+    end,
     settings = function()
         local city_name = weather_now["name"]
         local descr = weather_now["weather"][1]["description"]
-        -- local descr = raw_descr:sub(1, 1):upper()..raw_descr:sub(2) -- Make the first letter in upper case
         local temp = math.floor(weather_now["main"]["temp"])
+
         widget:set_markup("Weather: "..mk.fg.color(beautiful.fg_focus, city_name..", "..descr.." "..temp.."°C"))
-    end
+    end,
 }.widget
 
 --}}}
