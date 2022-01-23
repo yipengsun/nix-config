@@ -17,4 +17,10 @@
 
     theme.name = "Dracula";
   };
+
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+    style.name = "Dracula";
+  };
 }
