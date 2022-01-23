@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
+  home.packages = [ pkgs.xcolor ];
+
   # NOTE: need to add
   #   programs.dconf.enable = true
   # in host settings
