@@ -2,7 +2,7 @@
 
 let
   customLuaPackages = pkgs.lua53Packages;
-  weatherApiKeyLoc = "${config.xdg.configHome}/awesoome/weather_api_key";
+  weatherApiKeyLoc = "${config.xdg.configHome}/awesome/weather_api_key";
   mkOut = config.lib.file.mkOutOfStoreSymlink;
 in
 
