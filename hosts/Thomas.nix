@@ -164,9 +164,6 @@
     #proxychains
     weechat
 
-    # Applications
-    #mpd
-
     # Email
     mutt
     getmail6

@@ -144,7 +144,7 @@
               base = [ hm-state-version git zsh python neovim tmux ];
               common-apps = [ apps www zathura alacritty ranger ];
               coding = [ dev bat direnv fzf ];
-              multimedia = [ mpv ];
+              multimedia = [ mpv mpd ];
               work = [ hep ];
 
               # settings
