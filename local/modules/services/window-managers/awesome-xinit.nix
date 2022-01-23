@@ -247,8 +247,9 @@ in
 
           -- Create a drop-down container
           s.quake = lain.util.quake({
-              app = "xterm", -- alacritty doesn't work :-(
-              extra = "-e tmux",
+              app = terminal,
+              argname = "--title %s",
+              extra = "--class QuakeDD -e tmux",
               height = 0.35,
               width = 0.65,
               horiz = "center",
