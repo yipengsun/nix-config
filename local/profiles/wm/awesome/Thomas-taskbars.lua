@@ -32,6 +32,7 @@ vicious.register(mail_widget, vicious.widgets.mdir, '<span color="'..beautiful.f
 -- Weather
 -- List of city IDs can be downloaded here: http://bulk.openweathermap.org/sample/
 weather_widget = lain.widget.weather{
+    APPID = weather_api_key,
     city_id = city_id_weather,
     settings = function()
         local raw_descr = weather_now["weather"][1]["description"]

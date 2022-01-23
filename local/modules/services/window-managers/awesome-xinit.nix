@@ -183,36 +183,6 @@ in
 
       ${cfg.requiredModules}
 
-      -- Config variables
-      home_path  = os.getenv("HOME")
-      cfg_path   = home_path.."/.config/awesome"
-
-      -- Initialize theme
-      beautiful.init(cfg_path.."/theme/theme.lua")
-
-      -- Set default mod key
-      modkey = "${cfg.modKey}"
-
-      -- Global variables
-      ${concatStringsSep "\n" (mapAttrsToList (key: val: key+" = "+''"''+val+''"'') cfg.globalVariables)}
-
-      -- Define city ID for weather widget
-      city_id_weather = ${cfg.cityId}
-
-      layouts = {
-        ${concatStringsSep ",\n" cfg.layouts}
-      }
-
-      -- Tags
-      tags = {
-          names = {${concatMapStringsSep "," (x: ''"${x}"'') cfg.tagNames}},
-          layout = {${concatMapStringsSep "," (x: "layouts[${toString x}]") cfg.tagLayouts}}
-      }
-
-      awful.screen.connect_for_each_screen(function(s)
-          awful.tag(tags.names, s, tags.layout)
-      end)
-
       -- Functions
       -- Wrapper function for volume notify, re-using existed pop-up window
       volnotify = {}
@@ -233,6 +203,48 @@ in
               gears.wallpaper.maximized(wallpaper, s, true)
           end
       end
+
+      -- Read from OpenWeather API key
+      function read_key(file)
+          local f = assert(io.open(file, "r"))
+          local content = f:read("*all")
+          content = string.gsub(content, "\n", "")
+          f:close()
+          return content
+      end
+
+      -- Config variables
+      home_path  = os.getenv("HOME")
+      cfg_path   = home_path.."/.config/awesome"
+
+      -- Initialize theme
+      beautiful.init(cfg_path.."/theme/theme.lua")
+
+      -- Set default mod key
+      modkey = "${cfg.modKey}"
+
+      -- OpenWeather API key
+      weather_api_key = read_key(cfg_path.."/weather_api_key")
+
+      -- Global variables
+      ${concatStringsSep "\n" (mapAttrsToList (key: val: key+" = "+''"''+val+''"'') cfg.globalVariables)}
+
+      -- Define city ID for weather widget
+      city_id_weather = ${cfg.cityId}
+
+      layouts = {
+        ${concatStringsSep ",\n" cfg.layouts}
+      }
+
+      -- Tags
+      tags = {
+          names = {${concatMapStringsSep "," (x: ''"${x}"'') cfg.tagNames}},
+          layout = {${concatMapStringsSep "," (x: "layouts[${toString x}]") cfg.tagLayouts}}
+      }
+
+      awful.screen.connect_for_each_screen(function(s)
+          awful.tag(tags.names, s, tags.layout)
+      end)
 
       -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
       screen.connect_signal("property::geometry", set_wallpaper)
