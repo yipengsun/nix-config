@@ -153,7 +153,7 @@ in
         platforms.linux)
     ];
 
-    home.packages = [ awesome pkgs.scrot pkgs.i3lock ];
+    home.packages = [ awesome pkgs.scrot pkgs.i3lock pkgs.awesomesearch ];
 
     xinit.windowManagerCmd = awesomeCmd;
 
