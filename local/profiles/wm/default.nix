@@ -2,15 +2,17 @@
 
 let
   customLuaPackages = pkgs.lua53Packages;
+  weatherApiKeyLoc = "${config.xdg.configHome}/awesoome/weather_api_key";
+  mkOut = config.lib.file.mkOutOfStoreSymlink;
 in
 
 {
   # decrypt openweather API key
   homeage.file."weather_api_key" = {
     source = ../../../secrets/weather_api_key.age;
-    symlinks = [ "${config.xdg.configHome}/awesome/weather_api_key" ];
+    symlinks = [ weatherApiKeyLoc ];
   };
-  xinit.requiredFiles = [ "~/.config/awesome/weather_api_key" ];
+  xinit.requiredFiles = [ weatherApiKeyLoc ];
 
   # sadly you need to put this line in your host setting manually:
   #   services.xserver.displayManager.startx.enable = true;
@@ -28,13 +30,13 @@ in
     ];
   };
 
-  # copy fcitx5 config
-  xdg.configFile."fcitx5/config".source = ./fcitx5/config;
-  xdg.configFile."fcitx5/profile".source = ./fcitx5/profile;
-  xdg.configFile."fcitx5/conf/classicui.conf".source = ./fcitx5/conf/classicui.conf;
-  xdg.configFile."fcitx5/conf/pinyin.conf".source = ./fcitx5/conf/pinyin.conf;
-  xdg.configFile."fcitx5/conf/cloudpinyin.conf".source = ./fcitx5/conf/cloudpinyin.conf;
-  xdg.configFile."fcitx5/conf/punctuation.conf".source = ./fcitx5/conf/punctuation.conf;
+  # copy fcitx5 config out of store
+  xdg.configFile."fcitx5/config".source = mkOut ./fcitx5/config;
+  xdg.configFile."fcitx5/profile".source = mkOut ./fcitx5/profile;
+  xdg.configFile."fcitx5/conf/classicui.conf".source = mkOut ./fcitx5/conf/classicui.conf;
+  xdg.configFile."fcitx5/conf/pinyin.conf".source = mkOut ./fcitx5/conf/pinyin.conf;
+  xdg.configFile."fcitx5/conf/cloudpinyin.conf".source = mkOut ./fcitx5/conf/cloudpinyin.conf;
+  xdg.configFile."fcitx5/conf/punctuation.conf".source = mkOut ./fcitx5/conf/punctuation.conf;
 
   # lets also define programs that run with X here
   i18n.inputMethod.enabled = "fcitx5";
