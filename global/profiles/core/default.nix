@@ -23,6 +23,8 @@ in
       bottom # top-like
       tree
       moreutils # more utils than coreutils
+      atool
+      unrar
 
       # Network utilities
       curl
