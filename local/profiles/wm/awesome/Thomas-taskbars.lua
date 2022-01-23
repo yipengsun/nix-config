@@ -113,8 +113,11 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create a tasklist widget
     s.tasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
+    -- Create a prompt box
+    s.mypromptbox = awful.widget.prompt()
+
     -- Create the wiboxes
-    s.taskbar_top    = awful.wibox({ position = "top",    height = "20", screen = s })
+    s.taskbar_top = awful.wibox({ position = "top", height = "20", screen = s })
 
     s.taskbar_top:setup {
         layout = wibox.layout.align.horizontal,

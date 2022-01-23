@@ -109,12 +109,12 @@ in
       };
 
       tagNames = mkOption {
-        default = [ "MISC" "WWW" "CODE" "COM" "TERM" ];
+        default = [ "MISC" "WWW" "COM" "CODE" ];
         type = types.listOf types.str;
       };
 
       tagLayouts = mkOption {
-        default = [ 2 1 3 2 3 ];
+        default = [ 2 1 4 3 ];
         type = types.listOf types.int;
       };
 
@@ -258,9 +258,6 @@ in
                   callback = awful.client.setmaster
               end
           })
-
-          -- Create a promptbox
-          s.mypromptbox = awful.widget.prompt()
       end)
 
       -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)

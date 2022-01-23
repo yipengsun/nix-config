@@ -18,25 +18,15 @@ awful.rules.rules = {
         } },
 
     -- Match specific clients
-    { rule = { class = "firefox" },
-        properties = { tag = "WWW", maximized = false, floating = false, maximized_vertical = false, maximized_horizontal = false } },
-    { rule = { class = "Firefox" },
-        properties = { tag = "WWW", maximized = false, floating = false, maximized_vertical = false, maximized_horizontal = false } },
-    { rule = { class = "Chromium" },
-        properties = { tag = "WWW", maximized = false, floating = false, maximized_vertical = false, maximized_horizontal = false } },
-    { rule = { class = "Pale moon" },
-        properties = { tag = "WWW" } },
+    { rule_any = { class = { "Firefox", "Chromium" } },
+        properties = { tag = "WWW", maximized = false, maximized_vertical = false, maximized_horizontal = false } },
     { rule = { class = "mpv" },
         properties = { floating = true  } },
     { rule = { class = "Pychrom" },
         properties = { floating = true  } },
     { rule = { class = "Steam"   },
         properties = { tag = "MISC" } },
-    { rule = { class = "Steam"   },
-        properties = { floating = true  } },
-    { rule = { class = "Mathematica" },
-        properties = { tag = "CODE" } },
-    { rule = { class = "XMathematica" },
+    { rule_any = { class = { "Mathematica", "XMathematica" } },
         properties = { tag = "CODE" } },
     { rule = { class = "zoom" },
         properties = { tag = "COM" } },
@@ -52,21 +42,11 @@ awful.rules.rules = {
         properties = { floating = true  } },
 
     -- Special care for my terminals
-    { rule = { class = "XTerm" },
-        callback = function(c)
-            c:tags({ awful.screen.focused().selected_tag, awful.screen.focused().tags[#awful.screen.focused().tags] }) end },
-    { rule = { class = "XTerm" },
+    -- { rule = { class = "XTerm" },
+    --     callback = function(c)
+    --         c:tags({ awful.screen.focused().selected_tag, awful.screen.focused().tags[#awful.screen.focused().tags] }) end },
+    { rule_any = { class = { "XTerm", "Alacritty"} },
         callback = awful.client.setslave  },
-    { rule = { class = "Alacritty" },
-        callback = function(c)
-            c:tags({ awful.screen.focused().selected_tag, awful.screen.focused().tags[#awful.screen.focused().tags] }) end },
-    { rule = { class = "Alacritty" },
-        callback = awful.client.setslave  },
-    { rule = { class = "URxvt" },
-        callback = function(c)
-            c:tags({ awful.screen.focused().selected_tag, awful.screen.focused().tags[#awful.screen.focused().tags] }) end },
-    { rule = { class = "URxvt" },
-        callback = awful.client.setslave  }
 }
 
 --}}}
@@ -87,25 +67,25 @@ client.connect_signal("focus",   function(c) c.border_color = beautiful.border_f
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 -- No border when there's only one window
---for s = 1, screen.count() do screen[s]:connect_signal("arrange",
-    --function ()
-        --local clients = awful.client.visible(s)
-        --local layout  = awful.layout.getname(awful.layout.get(s))
+-- for s = 1, screen.count() do screen[s]:connect_signal("arrange",
+--     function ()
+--         local clients = awful.client.visible(s)
+--         local layout  = awful.layout.getname(awful.layout.get(s))
 
-        --if #clients > 0 then -- Fine grained borders and floaters control
-            --for _, c in pairs(clients) do -- Floaters always have borders
-                --if awful.client.floating.get(c) or layout == "floating" then
-                    --c.border_width = beautiful.border_width
+--         if #clients > 0 then -- Fine grained borders and floaters control
+--             for _, c in pairs(clients) do -- Floaters always have borders
+--                 if awful.client.floating.get(c) or layout == "floating" then
+--                     c.border_width = beautiful.border_width
 
-                    ---- No borders with only one visible client
-                --elseif #clients == 1 or layout == "max" then
-                    --c.border_width = 0
-                --else
-                    --c.border_width = beautiful.border_width
-                --end
-            --end
-        --end
-    --end)
---end
+--                     -- No borders with only one visible client
+--                 elseif #clients == 1 or layout == "max" then
+--                     c.border_width = 0
+--                 else
+--                     c.border_width = beautiful.border_width
+--                 end
+--             end
+--         end
+--     end)
+-- end
 
 --}}}

@@ -10,6 +10,8 @@ globalkeys = awful.util.table.join(
 -- Switch among tags
 awful.key({                   }, "XF86Back",    awful.tag.viewprev),
 awful.key({                   }, "XF86Forward", awful.tag.viewnext),
+awful.key({ modkey            }, "-",           awful.tag.viewprev),
+awful.key({ modkey            }, "=",           awful.tag.viewnext),
 
 -- Move among windows
 awful.key({ modkey,           }, "j", function ()
@@ -84,9 +86,9 @@ awful.key({ modkey,           }, "F3",                   function () swshell(chr
 awful.key({ modkey,           }, "F5",                   function () swshell(lock)     end),
 
 -- Power management
-awful.key({ modkey, "Shift"   }, "]",                    function () swshell(poweroff)               end),
-awful.key({ modkey, "Shift"   }, "[",                    function () swshell(reboot)                 end),
-awful.key({ modkey, "Shift"   }, "\\",                   function () swshell(lock) swshell(suspend)  end),
+awful.key({ modkey, "Shift"   }, "]",                    function () swshell(poweroff)              end),
+awful.key({ modkey, "Shift"   }, "[",                    function () swshell(reboot)                end),
+awful.key({ modkey, "Shift"   }, "\\",                   function () swshell(lock) swshell(suspend) end),
 
 -- Adjust volume
 awful.key({                   }, "XF86AudioRaiseVolume", function () swshell(volup)   end),
