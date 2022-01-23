@@ -1,4 +1,9 @@
-final: prev: {
+final: prev:
+
+let
+  buildPythonApplication = prev.python3Package.buildPythonApplication;
+in
+{
   # keep sources this first
   # sources = prev.callPackage (import ./_sources/generated.nix) { };
   # then, call packages with `final.callPackage`
@@ -80,6 +85,8 @@ final: prev: {
       printf %-22s "$i:";TZ=$i date +"%m-%d %a %H:%M"
     done
   '';
+
+  awesome-volume-control = prev.callPackage ./awesome-volume-control { };
 
   lua5_3 = prev.lua5_3.override {
     packageOverrides = luafinal: luaprev: {

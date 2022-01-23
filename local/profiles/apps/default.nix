@@ -10,7 +10,6 @@
     #pychrom
 
     # Audio utilities
-    pamixer # To make adj. volume w/ hotkey work
     pulsemixer # ncurses PA mixer
 
     # X11 utilities

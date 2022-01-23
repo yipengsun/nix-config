@@ -141,7 +141,7 @@ in
       };
 
       cityId = mkOption {
-        default = "4351977"; # College Park, MD
+        default = "4351977"; # College Park, MD, USA
         type = types.str;
       };
     };
@@ -153,7 +153,7 @@ in
         platforms.linux)
     ];
 
-    home.packages = [ awesome pkgs.scrot pkgs.i3lock pkgs.awesomesearch ];
+    home.packages = [ awesome pkgs.scrot pkgs.i3lock pkgs.awesomesearch pkgs.awesome-volume-control ];
 
     xinit.windowManagerCmd = awesomeCmd;
 
