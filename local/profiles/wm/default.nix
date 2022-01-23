@@ -1,13 +1,21 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
+
+with lib;
 
 let
   customLuaPackages = pkgs.lua53Packages;
 
   weatherApiKeyLoc = "${config.xdg.configHome}/awesome/weather_api_key";
 
-  mkOut = config.lib.file.mkOutOfStoreSymlink;
-  stupidPath = path: "${config.home.homeDirectory}/src/nix-config/local/profiles/wm/" + path;
-  # FIXME: this project now has to be placed at ~/src/nix-config
+  fcitxDstPath = path: "${config.home.homeDirectory}/.config/fcitx5/" + path;
+  fcitxConfigFiles = [
+    { src = ./fcitx5/config; dst = fcitxDstPath "config"; }
+    { src = ./fcitx5/profile; dst = fcitxDstPath "profile"; }
+    { src = ./fcitx5/conf/classicui.conf; dst = fcitxDstPath "conf/classicui.conf"; }
+    { src = ./fcitx5/conf/cloudpinyin.conf; dst = fcitxDstPath "conf/cloudpinyin.conf"; }
+    { src = ./fcitx5/conf/pinyin.conf; dst = fcitxDstPath "conf/pinyin.conf"; }
+    { src = ./fcitx5/conf/punctuation.conf; dst = fcitxDstPath "conf/punctuation.conf"; }
+  ];
 in
 
 {
@@ -34,16 +42,10 @@ in
     ];
   };
 
-  # copy fcitx5 config out of store
-  # FIXME: this is an ugly workaround to make hm links out-of-store
-  #        see https://github.com/nix-community/home-manager/issues/2085#issuecomment-861740971
-  #        somehow the 'builtins.toString' method doesn't work?!
-  xdg.configFile."fcitx5/config".source = mkOut (stupidPath "fcitx5/config");
-  xdg.configFile."fcitx5/profile".source = mkOut (stupidPath "fcitx5/profile");
-  xdg.configFile."fcitx5/conf/classicui.conf".source = mkOut (stupidPath "fcitx5/conf/classicui.conf");
-  xdg.configFile."fcitx5/conf/pinyin.conf".source = mkOut (stupidPath "fcitx5/conf/pinyin.conf");
-  xdg.configFile."fcitx5/conf/cloudpinyin.conf".source = mkOut (stupidPath "fcitx5/conf/cloudpinyin.conf");
-  xdg.configFile."fcitx5/conf/punctuation.conf".source = mkOut (stupidPath "fcitx5/conf/punctuation.conf");
+  # copy fcitx5 config on generation and forget about it
+  home.activation.copyFcitxConfig = hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${concatMapStrings (x: "cp ${builtins.toString x.src} ${x.dst}\n") fcitxConfigFiles}
+  '';
 
   # lets also define programs that run with X here
   i18n.inputMethod.enabled = "fcitx5";
