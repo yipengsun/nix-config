@@ -59,9 +59,13 @@
         dn = "s systemctl stop";
         jtl = "journalctl";
 
-        # Misc.
+        # misc.
         df = "df -hT";
         du = "du -hs";
+
+        # dropbox
+        dropstart = "HOME=$HOME/.dropbox-hm dropbox start";
+        dropstop = "HOME=$HOME/.dropbox-hm dropbox stop";
       };
 
       initExtra = ''
