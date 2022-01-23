@@ -161,7 +161,6 @@
     breeze-gtk # GTK theme for 2 & 3
 
     # Utilities
-    ranger
     #proxychains
     weechat
     #geteltorito
