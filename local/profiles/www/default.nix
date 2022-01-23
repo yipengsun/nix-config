@@ -1,7 +1,18 @@
 { pkgs, ... }:
+
+let
+  vim-terminal = pkgs.writeScriptBin "vim-terminal" ''
+    xterm -e nvim $1
+  '';
+in
+
 {
   # firefox tridactyl-related
-  home.packages = [ pkgs.tridactyl-native ]; # native messenger
+  home.packages = [
+    pkgs.tridactyl-native # native messenger
+    vim-terminal
+  ];
+
   home.file.".tridactylrc".text = ''
     """""""""""
     " Generic "

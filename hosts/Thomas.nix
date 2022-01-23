@@ -160,10 +160,6 @@
   ################
 
   environment.systemPackages = with pkgs; [
-    # Utilities
-    #proxychains
-    weechat
-
     # Email
     mutt
     getmail6
