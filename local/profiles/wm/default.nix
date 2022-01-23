@@ -5,10 +5,6 @@ let
 in
 
 {
-  home.packages = with pkgs; [
-    i3lock
-  ];
-
   # decrypt openweather API key
   homeage.file."weather_api_key" = {
     source = ../../../secrets/weather_api_key.age;

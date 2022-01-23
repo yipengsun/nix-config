@@ -1,6 +1,8 @@
 -- Module: keybindings.lua
 -- vim:fdm=marker
 
+local swshell = awful.util.spawn_with_shell
+
 --{{{ Global keys
 
 globalkeys = awful.util.table.join(
@@ -76,51 +78,58 @@ awful.key({ modkey, "Shift"   }, "q",                    awesome.quit),
 awful.key({ modkey, "Shift"   }, "w",                    awesome.restart),
 
 -- Hotkeys
-awful.key({ modkey,           }, "F1",                   function () awful.util.spawn_with_shell(terminal) end),
-awful.key({ modkey,           }, "F2",                   function () awful.util.spawn_with_shell(browser)  end),
-awful.key({ modkey,           }, "F3",                   function () awful.util.spawn_with_shell(chrome)   end),
-awful.key({ modkey,           }, "F5",                   function () awful.util.spawn_with_shell(lock)     end),
+awful.key({ modkey,           }, "F1",                   function () swshell(terminal) end),
+awful.key({ modkey,           }, "F2",                   function () swshell(browser)  end),
+awful.key({ modkey,           }, "F3",                   function () swshell(chrome)   end),
+awful.key({ modkey,           }, "F5",                   function () swshell(lock)     end),
 
--- Powermanagement
-awful.key({ modkey, "Shift"   }, "]",                    function () awful.util.spawn_with_shell(poweroff) end),
-awful.key({ modkey, "Shift"   }, "[",                    function () awful.util.spawn_with_shell(reboot)   end),
-awful.key({ modkey, "Shift"   }, "\\",                   function () awful.util.spawn_with_shell(suspend)  end),
+-- Power management
+awful.key({ modkey, "Shift"   }, "]",                    function () swshell(poweroff)               end),
+awful.key({ modkey, "Shift"   }, "[",                    function () swshell(reboot)                 end),
+awful.key({ modkey, "Shift"   }, "\\",                   function () swshell(lock) swshell(suspend)  end),
 
 -- Adjust volume
-awful.key({                   }, "XF86AudioRaiseVolume", function () awful.util.spawn_with_shell(volup)   end),
-awful.key({                   }, "XF86AudioLowerVolume", function () awful.util.spawn_with_shell(voldown) end),
-awful.key({                   }, "XF86AudioMute",        function () awful.util.spawn_with_shell(volmute) end),
-awful.key({                   }, "XF86AudioMicMute",     function () awful.util.spawn_with_shell(capmute) end),
+awful.key({                   }, "XF86AudioRaiseVolume", function () swshell(volup)   end),
+awful.key({                   }, "XF86AudioLowerVolume", function () swshell(voldown) end),
+awful.key({                   }, "XF86AudioMute",        function () swshell(volmute) end),
+awful.key({                   }, "XF86AudioMicMute",     function () swshell(capmute) end),
 
 -- Adjust screen brightness
-awful.key({                   }, "XF86MonBrightnessUp",   function () awful.util.spawn_with_shell(lcdup)   end),
-awful.key({                   }, "XF86MonBrightnessDown", function () awful.util.spawn_with_shell(lcddown) end),
+awful.key({                   }, "XF86MonBrightnessUp",   function () swshell(lcdup)   end),
+awful.key({                   }, "XF86MonBrightnessDown", function () swshell(lcddown) end),
 
 -- Control mpd
-awful.key({                   }, "XF86AudioPrev",        function () awful.util.spawn_with_shell(mpd_prev)   end),
-awful.key({                   }, "XF86AudioNext",        function () awful.util.spawn_with_shell(mpd_next)   end),
-awful.key({                   }, "XF86AudioPlay",        function () awful.util.spawn_with_shell(mpd_toggle) end),
+awful.key({                   }, "XF86AudioPrev",        function () swshell(mpd_prev)   end),
+awful.key({                   }, "XF86AudioNext",        function () swshell(mpd_next)   end),
+awful.key({                   }, "XF86AudioPlay",        function () swshell(mpd_toggle) end),
 
 -- Make PrtSc key usable
-awful.key({                   }, "Print", function () awful.util.spawn_with_shell(prtscr) end),
+awful.key({                   }, "Print", function () swshell(prtscr) end),
 
--- Host-specific
-awful.key({ modkey,           }, "F4",                   function () awful.util.spawn_with_shell('virt-manager') end),
-awful.key({ modkey,           }, "F8",                   function () awful.util.spawn_with_shell('arandr')       end),
+-- Misc.
+awful.key({ modkey,           }, "F4",                   function () swshell('virt-manager') end),
+awful.key({ modkey,           }, "F8",                   function () swshell('arandr')       end),
 
 -- Drop-down console
 awful.key({ modkey            }, "Return", function () awful.screen.focused().quake:toggle() end),
 
--- Promot: Web search
+-- Prompt: Web search
 awful.key({ modkey,           }, "r", function()
     awful.prompt.run {
         prompt       = "Web search: ",
-        textbox      = awful.screen.focused().promptbox.widget,
+        textbox      = awful.screen.focused().mypromptbox.widget,
         exe_callback = function(input)
-            awful.util.spawn_with_shell("awesomesearch "..input)
+            swshell("awesomesearch "..input)
         end
     }
-end))
+end),
+
+-- Dynamic tagging
+awful.key({ modkey, "Shift"   }, "y",     function () lain.util.add_tag(mylayout) end),
+awful.key({ modkey, "Shift"   }, "r",     function () lain.util.rename_tag()      end),
+awful.key({ modkey, "Shift"   }, "Left",  function () lain.util.move_tag(1)       end),
+awful.key({ modkey, "Shift"   }, "Right", function () lain.util.move_tag(-1)      end),
+awful.key({ modkey, "Shift"   }, "e",     function () lain.util.delete_tag()      end))
 
 --}}}
 
@@ -132,10 +141,6 @@ awful.key({ modkey,           }, "t", function (c) c:move_to_screen()           
 awful.key({ modkey,           }, "f", function (c) c:kill()                        end),
 awful.key({ modkey,           }, "d", function (c) c.minimized = not c.minimized   end),
 awful.key({ modkey,           }, "a", function (c) c.fullscreen = not c.fullscreen end))
---awful.key({ modkey,           }, "e", function (c)
-    --c.maximized_horizontal = not c.maximized_horizontal
-    --c.maximized_vertical   = not c.maximized_vertical
---end))
 
 --}}}
 
@@ -163,9 +168,11 @@ for i = 1, 9 do
 
     -- Move client among tags
     awful.key({ modkey, "Shift"   }, "#" .. i + 9, function ()
-        local tag = client.focus.screen.tags[i]
-        if tag then
-            client.focus:move_to_tag(tag)
+        if client.focus then
+            local tag = client.focus.screen.tags[i]
+            if tag then
+                client.focus:move_to_tag(tag)
+            end
         end
     end),
 

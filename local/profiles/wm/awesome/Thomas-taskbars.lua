@@ -99,9 +99,6 @@ awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
 
-    -- Create a promptbox for each screen
-    s.promptbox = awful.widget.prompt()
-
     -- Create an imagebox widget which will contains an icon indicating which layout we're using
     s.layoutbox = awful.widget.layoutbox(s)
     s.layoutbox:buttons(awful.util.table.join(
@@ -125,7 +122,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             s.taglist,
             spacer,
-            s.promptbox,
+            s.mypromptbox,
         },
         --- Middle widgets
         s.tasklist

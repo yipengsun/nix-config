@@ -74,7 +74,7 @@ in
           terminal = "alacritty";
           browser = "firefox";
           chrome = "chromium";
-          lock = "i3lock -f";
+          lock = "i3lock -f -c 000000";
 
           poweroff = "systemctl poweroff";
           reboot = "systemctl reboot";
@@ -153,12 +153,12 @@ in
         platforms.linux)
     ];
 
-    home.packages = [ awesome pkgs.scrot ];
+    home.packages = [ awesome pkgs.scrot pkgs.i3lock ];
 
     xinit.windowManagerCmd = awesomeCmd;
 
     xdg.configFile."awesome/rc.lua".text = ''
-      -- Check if awesome encountered an error during startup and fell back to
+      -- Check if awesome encountered an error during startup and fall back to
       -- another config (This code will only ever execute for the fallback config)
       if awesome.startup_errors then
           naughty.notify({preset = naughty.config.presets.critical,
@@ -169,7 +169,7 @@ in
       -- Handle runtime errors after startup
       do
           local in_error = false
-          awesome.connect_signal("debug::error", function (err)
+          awesome.connect_signal("debug::error", function(err)
               -- Make sure we don't go into an endless error loop
               if in_error then return end
               in_error = true
@@ -244,13 +244,8 @@ in
 
       awful.screen.connect_for_each_screen(function(s)
           awful.tag(tags.names, s, tags.layout)
-      end)
 
-      -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-      screen.connect_signal("property::geometry", set_wallpaper)
-
-      -- Create a drop-down container
-      awful.screen.connect_for_each_screen(function(s)
+          -- Create a drop-down container
           s.quake = lain.util.quake({
               app = "xterm", -- alacritty doesn't work :-(
               extra = "-e tmux",
@@ -263,7 +258,13 @@ in
                   callback = awful.client.setmaster
               end
           })
+
+          -- Create a promptbox
+          s.mypromptbox = awful.widget.prompt()
       end)
+
+      -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
+      screen.connect_signal("property::geometry", set_wallpaper)
 
       -- Configuration modules
       require("modules.keybindings")
