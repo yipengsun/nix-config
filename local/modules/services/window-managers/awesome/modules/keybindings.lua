@@ -129,8 +129,8 @@ end),
 -- Dynamic tagging
 awful.key({ modkey, "Shift"   }, "y",     function () lain.util.add_tag(mylayout) end),
 awful.key({ modkey, "Shift"   }, "r",     function () lain.util.rename_tag()      end),
-awful.key({ modkey, "Shift"   }, "Left",  function () lain.util.move_tag(1)       end),
-awful.key({ modkey, "Shift"   }, "Right", function () lain.util.move_tag(-1)      end),
+awful.key({ modkey, "Shift"   }, "Left",  function () lain.util.move_tag(-1)       end),
+awful.key({ modkey, "Shift"   }, "Right", function () lain.util.move_tag(1)      end),
 awful.key({ modkey, "Shift"   }, "e",     function () lain.util.delete_tag()      end))
 
 --}}}
