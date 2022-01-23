@@ -7,7 +7,7 @@
     bashmount # mount disk via a TUI
     bc # the calculator
     scrot # screen shot
-    #pychrom
+    neofetch
 
     # Audio utilities
     pulsemixer # ncurses PA mixer
@@ -18,11 +18,11 @@
     xorg.xmodmap
     arandr
     glxinfo
+    #pychrom
 
     # document
     pdfgrep
-    #pdftk
-    #imagemagick
+    imagemagick
 
     # multimedia
     sxiv # picture viewer
