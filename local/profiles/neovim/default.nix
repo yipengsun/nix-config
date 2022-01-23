@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, channels, ... }:
 let
   # this version can't be found on github anymore
   # forgot how I found it in the first place
@@ -37,12 +37,22 @@ in
     end_of_line = lf
     trim_trailing_whitespace = true
     charset = utf-8
+    indent_style = space
 
     [*.{diff,patch}]
     end_of_line = unset
     insert_final_newline = unset
     trim_trailing_whitespace = unset
     indent_size = unset
+
+    [*.py]
+    indent_size = 4
+
+    [*.{c,cpp,h,hpp}]
+    indent_size = 2
+
+    [*.{md,tex}]
+    max_line_length = off
   '';
 
   home.file.".tmp/vim/.keep".text = ""; # make sure the swp dir exists
@@ -89,6 +99,17 @@ in
       vim-nix
       vim-ledger-stable
       vim-pandoc-syntax
+
+      # file manager
+      telescope-nvim
+      {
+        plugin = telescope-file-browser-nvim;
+        config = ''
+          lua << EOF
+            require("telescope").load_extension "file_browser"
+          EOF
+        '';
+      }
 
       # ide
       { plugin = coc-nvim; config = builtins.readFile ./coc-nvim.vim; }
