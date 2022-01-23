@@ -142,7 +142,7 @@
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
               base = [ hm-state-version git zsh python neovim tmux ];
-              common-apps = [ apps www zathura alacritty ranger ];
+              common-apps = [ apps www zathura alacritty xterm ranger ];
               coding = [ dev bat direnv fzf ];
               multimedia = [ mpv mpd ];
               work = [ hep ];
