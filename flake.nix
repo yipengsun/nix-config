@@ -149,7 +149,7 @@
 
               # settings
               linux-config-cli = [ xdg-user-dirs dircolors ];
-              linux-config-gui = [ xdg-mime-apps fontconfig wm ];
+              linux-config-gui = [ xdg-mime-apps fontconfig wm gui ];
 
               # for computers with a screen
               workstation = base ++ common-apps ++ coding ++ multimedia ++ work ++

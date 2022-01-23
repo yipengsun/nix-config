@@ -127,6 +127,8 @@
 
   imports = suites.laptop;
 
+  programs.dconf.enable = true;
+
   home-manager.users.syp = { suites, ... }: {
     imports = suites.workstation;
 
@@ -158,12 +160,9 @@
   ################
 
   environment.systemPackages = with pkgs; [
-    breeze-gtk # GTK theme for 2 & 3
-
     # Utilities
     #proxychains
     weechat
-    #geteltorito
 
     # Applications
     #mpd
