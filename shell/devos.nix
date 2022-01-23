@@ -24,7 +24,7 @@ in
     #}
     (linter nixpkgs-fmt)
     (linter editorconfig-checker)
-    (linter pkgs.luaformatter)
+    #(linter pkgs.luaformatter)
     (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
   ]
 
