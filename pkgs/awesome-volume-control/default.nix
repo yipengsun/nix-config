@@ -18,6 +18,7 @@ let
 
   scriptBuildInputs = [ pamixer ];
 in
+
 symlinkJoin {
   name = pkgName;
   paths = [ scriptUnwrapped ] ++ scriptBuildInputs;
