@@ -29,6 +29,12 @@ in
         default = "xterm";
         description = "Specify window manager to run";
       };
+
+      requiredFiles = mkOption {
+        type = types.listOf types.str;
+        default = [ "~/.xinitrc" ];
+        description = "Specify files required to exist before running the rest of the script";
+      };
     };
   };
 
@@ -37,6 +43,17 @@ in
 
     home.file.".xinitrc".text = ''
       #!/bin/sh
+
+      # Check required files to exist or block indefinitely
+      # This can be quite dangerous
+      for file in ${concatStringsSep " " cfg.requiredFiles}; do
+        while true; do
+          if [ -f $file ]; then
+            break
+          fi
+          sleep 0.05  # don't pull the disk too hard
+        done
+      done
 
       # load X settings
       if [ -f $HOME/.Xdefaults ]; then

@@ -14,6 +14,7 @@ in
     source = ../../../secrets/weather_api_key.age;
     symlinks = [ "${config.xdg.configHome}/awesome/weather_api_key" ];
   };
+  xinit.requiredFiles = [ "~/.config/awesome/weather_api_key" ];
 
   # sadly you need to put this line in your host setting manually:
   #   services.xserver.displayManager.startx.enable = true;
