@@ -96,7 +96,8 @@
     SUBSYSTEM=="pci", KERNEL=="0000:07:00.4", ATTR{power/wakeup}="disabled"
   '';
 
-  hardware.bluetooth.enable = true;
+  #hardware.bluetooth.enable = true;
+  #services.blueman.enable = true;
 
   hardware.trackpoint.speed = 15;
   hardware.trackpoint.sensitivity = 15;
@@ -130,8 +131,6 @@
 
   networking.networkmanager.enable = true;
 
-  services.blueman.enable = true;
-
   ###############
   # User config #
   ###############
@@ -157,7 +156,7 @@
       acpilight # To make adj. brightness w/ hotkey work
     ];
 
-    services.blueman-applet-xinit.enable = true;
+    #services.blueman-applet-xinit.enable = true;
   };
 
   ################
