@@ -14,6 +14,8 @@ final: prev:
     done
   '';
 
+  git-author-rewrite = prev.writeScriptBin "git-author-rewrite" (builtins.readFile ./git-author-rewrite/git-author-rewrite);
+
   ##################
   # awesome wm aux #
   ##################

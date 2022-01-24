@@ -29,5 +29,8 @@
 
     # chat
     nixos-cn.wine-wechat
+
+    # git utils
+    #git-author-rewrite
   ];
 }
