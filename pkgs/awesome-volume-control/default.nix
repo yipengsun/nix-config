@@ -6,9 +6,8 @@ let
   scriptUnwrapped = stdenv.mkDerivation {
     name = pkgName + "-unwrapped";
     src = ./.;
-    propagatedBuildInputs = [ pamixer ];
 
-    unpackPhase = "true";
+    dontUnpack = true;
     installPhase = ''
       mkdir -p $out/bin
       cp ${./volume-control.py} $out/bin/volume-control.py
