@@ -119,7 +119,9 @@
           hosts = {
             /* set host specific properties here */
             NixOS = { };
-            Thomas = { };
+            Thomas = {
+              modules = [ nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
+            };
           };
           importables = rec {
             profiles = digga.lib.rakeLeaves ./global/profiles // {
