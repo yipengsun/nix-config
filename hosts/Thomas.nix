@@ -98,8 +98,8 @@
 
   hardware.bluetooth.enable = true;
 
-  hardware.trackpoint.speed = 70;
-  hardware.trackpoint.sensitivity = 90;
+  hardware.trackpoint.speed = 15;
+  hardware.trackpoint.sensitivity = 15;
 
   ############
   # Services #
@@ -148,6 +148,10 @@
       theme = ./../local/profiles/wm/awesome/Thomas-theme;
       wallpaper = ./../local/profiles/wm/awesome/Thomas-wallpaper.png;
     };
+
+    xinit.initExtra = ''
+      xinput set-prop "TPPS/2 ALPS TrackPoint" "libinput Accel Speed" -0.3
+    '';
 
     home.packages = with pkgs; [
       acpilight # To make adj. brightness w/ hotkey work
