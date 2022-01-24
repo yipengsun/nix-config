@@ -76,9 +76,13 @@
   # ACPI light instead of xbacklight
   hardware.acpilight.enable = true;
 
-  # PulseAudio
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
+  # Audio
+  hardware.pulseaudio = {
+    enable = true;
+    package = pkgs.pulseaudioFull;
+    support32Bit = true;
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
+  };
 
   # Custom network interface naming
   services.udev.extraRules = ''
@@ -91,6 +95,8 @@
     SUBSYSTEM=="pci", KERNEL=="0000:07:00.3", ATTR{power/wakeup}="disabled"
     SUBSYSTEM=="pci", KERNEL=="0000:07:00.4", ATTR{power/wakeup}="disabled"
   '';
+
+  hardware.bluetooth.enable = true;
 
   ############
   # Services #
@@ -121,6 +127,8 @@
 
   networking.networkmanager.enable = true;
 
+  services.blueman.enable = true;
+
   ###############
   # User config #
   ###############
@@ -132,18 +140,6 @@
   home-manager.users.syp = { suites, ... }: {
     imports = suites.workstation;
 
-    xinit.initExtra = ''
-      # TrackPoint settings
-      tpset() { xinput set-prop "TPPS/2 ALPS TrackPoint" "$@"; }
-
-      tpset "Evdev Wheel Emulation" 1
-      tpset "Evdev Wheel Emulation Button" 2
-      tpset "Evdev Wheel Emulation Axes" 6 7 4 5
-      tpset "Evdev Wheel Emulation Timeout" 200
-      tpset "Device Accel Profile" -1
-      tpset "Device Accel Constant Deceleration" 0.5
-    '';
-
     xinit.windowManager.awesome = {
       taskbars = ./../local/profiles/wm/awesome/Thomas-taskbars.lua;
       theme = ./../local/profiles/wm/awesome/Thomas-theme;
@@ -153,6 +149,8 @@
     home.packages = with pkgs; [
       acpilight # To make adj. brightness w/ hotkey work
     ];
+
+    services.blueman-applet-xinit.enable = true;
   };
 
   ################
