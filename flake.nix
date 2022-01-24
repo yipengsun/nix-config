@@ -143,8 +143,8 @@
           importables = rec {
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
-              base = [ hm-state-version git zsh python neovim tmux ];
-              common-apps = [ apps www term ranger ];
+              base = [ hm-state-version git zsh python neovim tmux ranger ];
+              common-apps = [ apps www term ];
               coding = [ dev bat direnv fzf ];
               multimedia = [ mpv mpd ];
               prod = [ hep zathura ledger ];
@@ -153,15 +153,15 @@
               linux-config-cli = [ xdg-user-dirs dircolors ];
               linux-config-gui = [ xdg-mime-apps fontconfig wm gui ];
 
-              # for computers with a screen
               workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
               linux-config-cli ++ linux-config-gui;
+              server = base ++ coding ++ linux-config-cli;
             };
           };
 
           # Users here can be deployed without a host
           users = {
-            dev = { suites, ... }: { imports = suites.base ++ suites.coding ++ suites.linux-config-cli; };
+            dev = { suites, ... }: { imports = suites.server; };
           }; # digga.lib.importers.rakeLeaves ./users/hm;
         };
 
