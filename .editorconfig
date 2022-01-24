@@ -27,8 +27,11 @@ indent_size = unset
 [*.{py,vim,lua}]
 indent_size = 4
 
+[*.lua]
+indent_size = unset
+
 [*.md]
-max_line_length = off
+max_line_length = unset
 
 [pylintrc]
 indent_size = none

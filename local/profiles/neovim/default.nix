@@ -52,7 +52,7 @@ in
     indent_size = 2
 
     [*.{md,tex}]
-    max_line_length = off
+    max_line_length = unset
   '';
 
   home.file.".tmp/vim/.keep".text = ""; # make sure the swp dir exists
