@@ -98,6 +98,9 @@
 
   hardware.bluetooth.enable = true;
 
+  hardware.trackpoint.speed = 70;
+  hardware.trackpoint.sensitivity = 90;
+
   ############
   # Services #
   ############
