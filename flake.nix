@@ -142,17 +142,17 @@
             profiles = digga.lib.rakeLeaves ./local/profiles;
             suites = with profiles; rec {
               base = [ hm-state-version git zsh python neovim tmux ];
-              common-apps = [ apps www zathura alacritty xterm ranger ];
+              common-apps = [ apps www term ranger ];
               coding = [ dev bat direnv fzf ];
               multimedia = [ mpv mpd ];
-              work = [ hep ];
+              prod = [ hep zathura ledger ];
 
               # settings
               linux-config-cli = [ xdg-user-dirs dircolors ];
               linux-config-gui = [ xdg-mime-apps fontconfig wm gui ];
 
               # for computers with a screen
-              workstation = base ++ common-apps ++ coding ++ multimedia ++ work ++
+              workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
               linux-config-cli ++ linux-config-gui;
             };
           };
