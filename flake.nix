@@ -147,7 +147,7 @@
               common-apps = [ apps www term ];
               coding = [ dev bat direnv fzf ];
               multimedia = [ mpv mpd ];
-              prod = [ hep zathura ledger ];
+              prod = [ hep zathura ledger dev-secrets ];
 
               # settings
               linux-config-cli = [ xdg-user-dirs dircolors ];
