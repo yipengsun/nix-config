@@ -9,4 +9,5 @@ in
   "passwd_syp.age".publicKeys = allKeys;
 
   "weather_api_key.age".publicKeys = [ userSyp ];
+  "netrc_syp.age".publicKeys = [ userSyp ];
 }
