@@ -131,6 +131,8 @@
 
   networking.networkmanager.enable = true;
 
+  nix.buildCores = 8; # don't use up all my cores
+
   ###############
   # User config #
   ###############
