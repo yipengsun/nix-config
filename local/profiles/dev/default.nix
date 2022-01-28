@@ -3,6 +3,7 @@
   home.packages = with pkgs; [
     git-annex
     universal-ctags
+    nixpkgs-review # for reviewing nixpkgs pr
 
     # language servers
     ccls
