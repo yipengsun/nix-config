@@ -113,7 +113,7 @@ in
 
       # ide
       { plugin = coc-nvim; config = builtins.readFile ./coc-nvim.vim; }
-      vim-lsp-cxx-highlight
+      #vim-lsp-cxx-highlight
       coc-pyright # sadly based on JS
       coc-pairs # yet another autopairs
       coc-diagnostic # for pylint
