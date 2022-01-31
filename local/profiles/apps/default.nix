@@ -22,6 +22,7 @@
     # document
     pdfgrep
     imagemagick
+    ghostscript # for pdf -> png conversion
 
     # multimedia
     sxiv # picture viewer
