@@ -1,5 +1,7 @@
-{ self, ... }:
+{ pkgs, ... }:
 {
+  home.packages = [ pkgs.zsh-completions ];
+
   programs.zsh =
     let
       preztoTheme = "pure";
@@ -7,6 +9,7 @@
     {
       enable = true;
       enableSyntaxHighlighting = true;
+      enableCompletion = true;
 
       dirHashes = {
         downloads = "$HOME/downloads";
