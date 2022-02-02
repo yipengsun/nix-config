@@ -106,6 +106,8 @@
   # Services #
   ############
 
+  nix.buildCores = 8; # don't use up all my cores
+
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchExternalPower = "ignore";
   services.logind.lidSwitchDocked = "ignore";
@@ -130,8 +132,6 @@
   #networking.proxy.default = "http://127.0.0.1:2080";
 
   networking.networkmanager.enable = true;
-
-  nix.buildCores = 8; # don't use up all my cores
 
   ###############
   # User config #
