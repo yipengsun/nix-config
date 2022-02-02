@@ -5,11 +5,6 @@
     universal-ctags
     nixpkgs-review # for reviewing nixpkgs pr
     nixpkgs-fmt # code formatter
-
-    # language servers
-    ccls
-    #texlab # too damn slow
-    rnix-lsp
   ];
 
   # linter config
