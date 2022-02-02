@@ -4,6 +4,7 @@
     git-annex
     universal-ctags
     nixpkgs-review # for reviewing nixpkgs pr
+    nixpkgs-fmt # code formatter
 
     # language servers
     ccls
