@@ -2,6 +2,7 @@
   programs.alacritty = {
     enable = true;
     settings = {
+      env.TERM = "xterm-256color";
       key_bindings = [
         { key = "Return"; mods = "Control|Shift"; action = "SpawnNewInstance"; }
       ];

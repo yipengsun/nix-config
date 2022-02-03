@@ -7,6 +7,7 @@
     bc # the calculator
     scrot # screen shot
     neofetch
+    colortest
 
     # Audio utilities
     pulsemixer # ncurses PA mixer
