@@ -1,4 +1,4 @@
-{ pkgs, channels, ... }:
+{ pkgs, lib, config, ... }:
 let
   # this version can't be found on github anymore
   # forgot how I found it in the first place
@@ -18,8 +18,11 @@ let
       sha256 = "aWt618LWLwnWAhKN9TTCTn2mJQR7Ntt8JV3L/VDiS84=";
     };
   };
+
+  isRoot = config.home.username == "root";
 in
 {
+
   home.sessionVariables = {
     EDITOR = "vi";
     VISUAL = "vi";
@@ -98,7 +101,6 @@ in
       delimitMate
       { plugin = vim-pandoc; config = "let g:pandoc#syntax#conceal#use=0"; }
       lastchange
-      fcitx-vim
 
       # syntax
       vim-nix
@@ -205,7 +207,7 @@ in
           EOF
         '';
       }
-    ];
+    ] ++ lib.optionals (!isRoot) [ fcitx-vim ];
 
     extraConfig = builtins.readFile ./init.vim;
 
