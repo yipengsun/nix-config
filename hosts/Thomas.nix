@@ -151,7 +151,7 @@
     };
 
     xinit.initExtra = ''
-      xinput set-prop "TPPS/2 ALPS TrackPoint" "libinput Accel Speed" -0.3
+      xinput set-prop "TPPS/2 ALPS TrackPoint" "libinput Accel Speed" -0.1
     '';
 
     home.packages = with pkgs; [
