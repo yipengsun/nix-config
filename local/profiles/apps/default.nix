@@ -10,6 +10,7 @@
     colortest
     nix-index # use w/ nix-locate
     busybox # md5sum, etc.
+    less # busybox shadows 'less' so we need to be explicit
 
     # Audio utilities
     pulsemixer # ncurses PA mixer
