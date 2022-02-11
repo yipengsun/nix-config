@@ -10,8 +10,14 @@ channels: final: prev: {
     rage
     ;
 
-  md5sum = prev.writeScriptBin "md5sum" "${prev.busybox}/bin/md5sum $@";
-  sha256sum = prev.writeScriptBin "sha256sum" "${prev.busybox}/bin/sha256sum $@";
+  hashutils = prev.symlinkJoin {
+    name = "hashutils";
+    paths = map (prog: prev.writeScriptBin prog "${prev.busybox}/bin/${prog} $@") [
+      "md5sum"
+      "sha256sum"
+      "sha512sum"
+    ];
+  };
 
   haskellPackages = prev.haskellPackages.override
     (old: {
