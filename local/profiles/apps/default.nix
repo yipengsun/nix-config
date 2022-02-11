@@ -8,6 +8,8 @@
     scrot # screen shot
     neofetch
     colortest
+    nix-index # use w/ nix-locate
+    busybox # md5sum, etc.
 
     # Audio utilities
     pulsemixer # ncurses PA mixer
