@@ -9,8 +9,8 @@
     neofetch
     colortest
     nix-index # use w/ nix-locate
-    busybox # md5sum, etc.
-    less # busybox shadows 'less' so we need to be explicit
+    md5sum
+    sha256sum
 
     # Audio utilities
     pulsemixer # ncurses PA mixer

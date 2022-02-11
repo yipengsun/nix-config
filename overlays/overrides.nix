@@ -10,7 +10,8 @@ channels: final: prev: {
     rage
     ;
 
-  busybox = prev.lowPrio prev.busybox;
+  md5sum = prev.writeScriptBin "md5sum" "${prev.busybox}/bin/md5sum $@";
+  sha256sum = prev.writeScriptBin "sha256sum" "${prev.busybox}/bin/sha256sum $@";
 
   haskellPackages = prev.haskellPackages.override
     (old: {
