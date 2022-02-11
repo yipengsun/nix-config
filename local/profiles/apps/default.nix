@@ -9,7 +9,7 @@
     neofetch
     colortest
     nix-index # use w/ nix-locate
-    hashutils
+    #hashutils
 
     # Audio utilities
     pulsemixer # ncurses PA mixer
