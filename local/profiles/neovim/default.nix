@@ -53,7 +53,7 @@ in
     trim_trailing_whitespace = unset
     indent_size = unset
 
-    [*.py]
+    [*.{py,yml}]
     indent_size = 4
 
     [*.{c,cpp,h,hpp}]

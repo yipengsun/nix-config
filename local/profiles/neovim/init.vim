@@ -218,3 +218,5 @@ func! SetTW80Options()
     set formatoptions-=t
 endfunc
 au Filetype tex,python,cpp,c call SetTW80Options()
+
+au FileType yaml set noautoindent
