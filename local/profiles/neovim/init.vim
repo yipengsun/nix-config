@@ -174,6 +174,9 @@ inoremap <silent><F3> <C-R>=strftime("%F")<BAR><CR>
 " Auto copy text under mouse-selection
 vnoremap <LeftRelease> "*ygv
 
+" Insert a hard tab
+inoremap <F5> <C-V><Tab>
+
 " Toggle linenumber mode (relative, absolute)
 func! s:ToggleNuMode()
     if(&rnu == 1)
