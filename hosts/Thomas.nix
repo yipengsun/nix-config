@@ -106,7 +106,7 @@
   # Services #
   ############
 
-  nix.buildCores = 8; # don't use up all my cores
+  nix.settings.cores = 8; # don't use up all my cores
 
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchExternalPower = "ignore";

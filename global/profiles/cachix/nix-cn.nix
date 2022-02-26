@@ -1,9 +1,9 @@
 {
-  nix = {
-    binaryCaches = [
+  nix.settings = {
+    substituters = [
       "https://nixos-cn.cachix.org"
     ];
-    binaryCachePublicKeys = [
+    trusted-public-keys = [
       "nixos-cn.cachix.org-1:L0jEaL6w7kwQOPlLoCR3ADx+E3Q8SEFEcB9Jaibl0Xg="
     ];
   };

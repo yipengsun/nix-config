@@ -4,8 +4,6 @@ in
 {
   imports = [ ../cachix ];
 
-  nix.systemFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-
   security.sudo.enable = true;
   security.sudo.wheelNeedsPassword = false; # I'm a lazy bastard
 
@@ -57,27 +55,27 @@ in
     };
   };
 
-  nix = {
-    autoOptimiseStore = true;
+  nix.settings = {
+    system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
 
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 60d";
-    };
+    auto-optimise-store = true;
 
-    optimise.automatic = true;
+    sandbox = true;
 
-    useSandbox = true;
+    allowed-users = [ "@wheel" ];
+    trusted-users = [ "root" "@wheel" ];
+  };
 
-    allowedUsers = [ "@wheel" ];
-    trustedUsers = [ "root" "@wheel" ];
+  nix.extraOptions = ''
+    keep-outputs = true
+    keep-derivations = true
+    fallback = true
+  '';
 
-    extraOptions = ''
-      keep-outputs = true
-      keep-derivations = true
-      fallback = true
-    '';
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 49d";
   };
 
   # For rage encryption, all hosts need a ssh key pair
