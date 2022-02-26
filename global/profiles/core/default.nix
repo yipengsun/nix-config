@@ -1,6 +1,9 @@
 { self, config, lib, pkgs, ... }:
-let inherit (lib) fileContents;
+
+let
+  inherit (lib) fileContents;
 in
+
 {
   imports = [ ../cachix ];
 
@@ -54,6 +57,8 @@ in
       sansSerif = [ "DejaVu Sans" ];
     };
   };
+
+  nix.package = pkgs.nix; # require stable version of nix explicitly
 
   nix.settings = {
     system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
