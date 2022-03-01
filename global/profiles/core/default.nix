@@ -25,6 +25,7 @@ in
       tree
       moreutils # more utils than coreutils
       atool
+      unzip
       unrar
 
       # Network utilities
