@@ -24,6 +24,7 @@ in
       bottom # top-like
       tree
       moreutils # more utils than coreutils
+      openssl
       atool
       unzip
       unrar
