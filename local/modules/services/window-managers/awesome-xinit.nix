@@ -103,7 +103,7 @@ in
           "awful.layout.suit.tile.bottom"
           "awful.layout.suit.tile"
           "awful.layout.suit.fair"
-          "awful.layout.suit.spiral"
+          #"awful.layout.suit.spiral"
         ];
         type = types.listOf types.str;
       };
@@ -114,7 +114,7 @@ in
       };
 
       tagLayouts = mkOption {
-        default = [ 2 1 4 3 ];
+        default = [ 2 1 3 3 ];
         type = types.listOf types.int;
       };
 
