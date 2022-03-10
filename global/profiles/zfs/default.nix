@@ -3,6 +3,8 @@
   services.zfs.autoSnapshot = {
     enable = true;
     frequent = 3;
-    monthly = 6;
+    daily = 3;
+    weekly = 2;
+    monthly = 2;
   };
 }
