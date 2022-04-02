@@ -26,6 +26,7 @@
     pdfgrep
     imagemagick
     ghostscript # for pdf -> png conversion
+    tikzit # draw tikz diagrams with a GUI
 
     # multimedia
     sxiv # picture viewer
