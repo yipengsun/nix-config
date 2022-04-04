@@ -75,6 +75,7 @@ in
     plugins = with pkgs.vimPlugins; [
       # misc
       vim-fugitive
+      tabular
       {
         plugin = editorconfig-nvim;
         config = ''
