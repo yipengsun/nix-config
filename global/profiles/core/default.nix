@@ -26,6 +26,7 @@ in
       moreutils # more utils than coreutils
       openssl
       atool
+      zip
       unzip
       unrar
 
