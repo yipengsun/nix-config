@@ -129,7 +129,7 @@
             };
             suites = with profiles; rec {
               base = [ cachix core users.root ];
-              service-common = [ zfs docker globalconnect ];
+              service-common = [ zfs docker globalconnect printer ];
 
               # computer types
               laptop = base ++ service-common ++ [ users.syp lang-region-mobile encfs-automount ];
