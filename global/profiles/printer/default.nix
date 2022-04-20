@@ -1,8 +1,7 @@
 { pkgs, ... }:
 {
-  # printer at UMD PSC
-  services.printing.enable = true; # trim SSD periodically
-  services.printing.drivers = [
-    pkgs.hplip
-  ];
+  services.printing.enable = true;
+
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
 }
