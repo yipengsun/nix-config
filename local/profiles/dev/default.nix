@@ -5,6 +5,7 @@
     universal-ctags
     nixpkgs-review # for reviewing nixpkgs pr
     nixpkgs-fmt # code formatter
+    jetbrains.clion
   ];
 
   # linter config
