@@ -81,7 +81,6 @@
     enable = true;
     package = pkgs.pulseaudioFull;
     support32Bit = true;
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
   };
 
   # Custom network interface naming
