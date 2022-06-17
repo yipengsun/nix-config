@@ -20,7 +20,7 @@
       bud.inputs.nixpkgs.follows = "nixos";
       bud.inputs.devshell.follows = "digga/devshell";
 
-      home.url = "github:nix-community/home-manager/release-21.11";
+      home.url = "github:nix-community/home-manager";
       home.inputs.nixpkgs.follows = "nixos";
 
       darwin.url = "github:LnL7/nix-darwin";
@@ -40,11 +40,10 @@
 
       nixos-hardware.url = "github:nixos/nixos-hardware";
 
+      # added by me
       nixos-cn.url = "github:nixos-cn/flakes";
       nixos-cn.inputs.nixpkgs.follows = "nixos";
 
-      # a bit redundant here, because this is already exported in nixos-cn
-      # but the registry doesn't work too well with devos
       berberman-flakes.url = "github:berberman/flakes";
       berberman-flakes.inputs.nixpkgs.follows = "nixos";
 
