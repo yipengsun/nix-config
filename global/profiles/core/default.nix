@@ -60,7 +60,7 @@ in
     ];
 
     fontconfig.defaultFonts = {
-      monospace = [ "DejaVu Sans Mono Nerd" ];
+      monospace = [ "DejaVuSansMono Nerd Font" ];
       sansSerif = [ "DejaVu Sans" ];
     };
   };
