@@ -188,8 +188,16 @@ in
           set termguicolors
         '';
       }
-      vim-airline
-      { plugin = vim-airline-themes; config = "let g:airline_theme='dracula'"; }
+      {
+        plugin = lualine-nvim;
+        config = ''
+          lua << EOF
+            require("lualine").setup {
+              options = { theme = "dracula" }
+            }
+          EOF
+        '';
+      }
       { plugin = tagbar; config = "nnoremap <silent><F2> :TagbarToggle<CR>"; }
       (nvim-treesitter.withPlugins (p: pkgs.tree-sitter.allGrammars))
       {
