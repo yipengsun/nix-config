@@ -53,10 +53,14 @@ in
   };
 
   fonts = {
-    fonts = with pkgs; [ powerline-fonts dejavu_fonts wqy_microhei ];
+    fonts = with pkgs; [
+      dejavu_fonts
+      wqy_microhei
+      (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
+    ];
 
     fontconfig.defaultFonts = {
-      monospace = [ "DejaVu Sans Mono for Powerline" ];
+      monospace = [ "DejaVu Sans Mono Nerd" ];
       sansSerif = [ "DejaVu Sans" ];
     };
   };

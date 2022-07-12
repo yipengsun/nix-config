@@ -193,7 +193,10 @@ in
         config = ''
           lua << EOF
             require("lualine").setup {
-              options = { theme = "dracula" }
+              options = {
+                theme = "dracula",
+                globalstatus = true,
+              }
             }
           EOF
         '';
