@@ -6,7 +6,6 @@
       key_bindings = [
         { key = "Return"; mods = "Control|Shift"; action = "SpawnNewInstance"; }
       ];
-      font.family = "Dejavu Sans Mono for Powerline";
       font.size = 6;
       # dracula theme
       colors = {
@@ -112,8 +111,6 @@
 
     ! Fonts
     XTerm*fontMenu*fontdefault*Label: Default
-    XTerm*faceName: DejaVu Sans Mono
-    XTerm*faceNameDoublesize: WenQuanYi MicroHei Mono
     XTerm*faceSize: 10
 
     XTerm*scrollbar: no
