@@ -6,6 +6,7 @@
     nixpkgs-review # for reviewing nixpkgs pr
     nixpkgs-fmt # code formatter
     nix-tree # view dependency as a tree
+    black # python code formatter
     jetbrains.clion
   ];
 
