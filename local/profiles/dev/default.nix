@@ -5,6 +5,7 @@
     universal-ctags
     nixpkgs-review # for reviewing nixpkgs pr
     nixpkgs-fmt # code formatter
+    nix-tree # view dependency as a tree
     jetbrains.clion
   ];
 
