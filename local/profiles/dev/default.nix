@@ -8,6 +8,7 @@
     nix-tree # view dependency as a tree
     black # python code formatter
     jetbrains.clion
+    gh # github cli tool
   ];
 
   # linter config
