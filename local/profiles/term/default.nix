@@ -111,6 +111,7 @@
 
     ! Fonts
     XTerm*fontMenu*fontdefault*Label: Default
+    XTerm*faceName: DejaVu Sans Mono
     XTerm*faceSize: 10
 
     XTerm*scrollbar: no
