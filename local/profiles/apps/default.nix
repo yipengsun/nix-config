@@ -9,6 +9,7 @@
     neofetch
     colortest
     nix-index # use w/ nix-locate
+    dmidecode # hardware info
     #hashutils
 
     # Audio utilities
