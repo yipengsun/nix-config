@@ -29,6 +29,7 @@
     ghostscript # for pdf -> png conversion
     tikzit # draw tikz diagrams with a GUI
     wpsoffice
+    krop # crop figures from pdf
 
     # multimedia
     sxiv # picture viewer
