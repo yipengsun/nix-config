@@ -48,7 +48,8 @@ in
     ];
 
     pathsToLink = [
-      "/share/zsh" # for zsh completion
+      "/share"
+      "/bin"
     ];
   };
 
