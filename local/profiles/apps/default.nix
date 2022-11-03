@@ -30,6 +30,8 @@
     tikzit # draw tikz diagrams with a GUI
     wpsoffice
     krop # crop figures from pdf
+    pdftk
+    pdfchain
 
     # multimedia
     sxiv # picture viewer
