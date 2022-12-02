@@ -1,6 +1,7 @@
 { home, pkgs, ... }:
 {
   home.packages = with pkgs; [
+    cachix
     git-annex
     universal-ctags
     nixpkgs-review # for reviewing nixpkgs pr
