@@ -76,6 +76,10 @@ in
       # misc
       vim-fugitive
       tabular
+
+      # float terminal
+      vim-floaterm
+
       {
         plugin = editorconfig-nvim;
         config = ''
