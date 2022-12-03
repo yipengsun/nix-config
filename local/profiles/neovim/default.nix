@@ -78,7 +78,13 @@ in
       tabular
 
       # float terminal
-      vim-floaterm
+      {
+        plugin = vim-floaterm;
+        config = ''
+          nnoremap <silent> <F9> :FloatermToggle<CR>
+          tnoremap <silent> <F9> <C-\><C-n>:FloatermToggle<CR>
+        '';
+      }
 
       {
         plugin = editorconfig-nvim;
@@ -99,12 +105,12 @@ in
       {
         plugin = vim-localvimrc;
         config = ''
-          let g:localvimrc_sandbox=0
-          let g:localvimrc_persistent=2
+          let g:localvimrc_sandbox = 0
+          let g:localvimrc_persistent = 2
         '';
       }
       delimitMate
-      { plugin = vim-pandoc; config = "let g:pandoc#syntax#conceal#use=0"; }
+      { plugin = vim-pandoc; config = "let g:pandoc#syntax#conceal#use = 0"; }
       lastchange
 
       # syntax
@@ -136,18 +142,18 @@ in
       {
         plugin = vimtex;
         config = ''
-          let g:vimtex_fold_enabled=1
-          let g:tex_conceal=""
-          let g:tex_flavor="latex"
+          let g:vimtex_fold_enabled = 1
+          let g:tex_conceal = ""
+          let g:tex_flavor = "latex"
         '';
       }
       vim-python-pep8-indent
       {
         plugin = nerdcommenter;
         config = ''
-          let g:NERDCreateDefaultMappings=1
-          let g:NERDSpaceDelims=1
-          let g:NERDDefaultAlign='left'
+          let g:NERDCreateDefaultMappings = 1
+          let g:NERDSpaceDelims = 1
+          let g:NERDDefaultAlign = 'left'
 
           func! AutoHead()
               let fl = line(".")
@@ -167,14 +173,14 @@ in
       {
         plugin = vimwiki;
         config = ''
-          let g:vimwiki_global_ext=0
-          let g:vimwiki_hl_headers=1
-          let g:vimwiki_camel_case=0
-          let g:vimwiki_hl_cb_checked=1
-          let g:vimwiki_CJK_length=1
+          let g:vimwiki_global_ext = 0
+          let g:vimwiki_hl_headers = 1
+          let g:vimwiki_camel_case = 0
+          let g:vimwiki_hl_cb_checked = 1
+          let g:vimwiki_CJK_length = 1
 
           if isdirectory($HOME.'/data')
-              let g:vimwiki_list=[{
+              let g:vimwiki_list = [{
                           \ 'path': '~/data/wiki',
                           \ 'path_html': '~/data/wiki/html',
                           \ }]
@@ -182,7 +188,7 @@ in
           nnoremap \ty :VimwikiToggleListItem<CR>
         '';
       }
-      { plugin = vim-clang-format; config = "let g:clang_format#detect_style_file=1"; }
+      { plugin = vim-clang-format; config = "let g:clang_format#detect_style_file = 1"; }
 
       # ui
       {
