@@ -32,6 +32,7 @@
     krop # crop figures from pdf
     pdftk
     pdfchain
+    inkscape
 
     # multimedia
     sxiv # picture viewer
