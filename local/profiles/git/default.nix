@@ -30,6 +30,8 @@
 
       user.name = "Yipeng Sun";
       user.email = "syp@umd.edu";
+
+      features.manyFiles = true;
     };
 
     aliases = {
