@@ -145,6 +145,13 @@ in
           let g:vimtex_fold_enabled = 1
           let g:tex_conceal = ""
           let g:tex_flavor = "latex"
+          let g:vimtex_quickfix_ignore_filters = [
+            \ "Loading 'csquotes' recommended",
+            \ "Package microtype Warning",
+            \ "Overfull",
+            \ "Package hyperref Warning: Token not allowed",
+            \ "contains only floats",
+          \]
         '';
       }
       vim-python-pep8-indent
