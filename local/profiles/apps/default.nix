@@ -11,7 +11,7 @@
     nix-index # use w/ nix-locate
     dmidecode # hardware info
     #hashutils
-    pdfpc
+    pympress
 
     # Audio utilities
     pulsemixer # ncurses PA mixer
