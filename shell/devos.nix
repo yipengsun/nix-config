@@ -1,35 +1,37 @@
-{ pkgs, extraModulesPath, inputs, ... }:
+{ pkgs, extraModulesPath, inputs, lib, ... }:
 let
-  hooks = import ./hooks;
+  inherit
+    (pkgs)
+    nix
+    agenix
+    cachix
+    nixpkgs-fmt
+    editorconfig-checker
+    nixos-generators
+    ;
 
   pkgWithCategory = category: package: { inherit package category; };
-  linter = pkgWithCategory "linter";
-  docs = pkgWithCategory "docs";
   devos = pkgWithCategory "devos";
+  fmt = pkgWithCategory "linter";
 in
 {
-  _file = toString ./.;
+  imports = [ "${extraModulesPath}/git/hooks.nix" ./hooks ];
 
-  imports = [ "${extraModulesPath}/git/hooks.nix" ];
-  git = { inherit hooks; };
+  packages = [ ];
 
   commands = with pkgs; [
     (devos nix)
     (devos agenix)
-    #{
-    #  category = "devos";
-    #  name = pkgs.nvfetcher-bin.pname;
-    #  help = pkgs.nvfetcher-bin.meta.description;
-    #  command = "cd $PRJ_ROOT/pkgs; ${pkgs.nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";
-    #}
-    (linter nixpkgs-fmt)
-    (linter editorconfig-checker)
-    #(linter pkgs.luaformatter)
-    (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
+
+    (fmt nixpkgs-fmt)
+    (fmt editorconfig-checker)
   ]
 
   ++ lib.optional
     (system != "i686-linux")
     (devos cachix)
-  ;
+  ++ lib.optionals (pkgs.stdenv.hostPlatform.isLinux && !pkgs.stdenv.buildPlatform.isDarwin) [
+    (devos nixos-generators)
+    (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
+  ];
 }
