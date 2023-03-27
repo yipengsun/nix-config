@@ -1,24 +1,34 @@
+# Based on:
+#  https://github.com/divnix/digga/blob/main/examples/devos/flake.nix
+
 {
   description = "A highly structured configuration database.";
 
-  nixConfig.extra-experimental-features = "nix-command flakes";
-  nixConfig.extra-substituters = "https://nix-community.cachix.org";
+  nixConfig = {
+    extra-experimental-features = "nix-command flakes";
+    extra-substituters = [
+      "https://nix-community.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
 
   inputs =
     {
       nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
+
+      # various pointers to official packages
       nixos.follows = "nixpkgs-pointer/nixpkgs";
       latest.url = "github:nixos/nixpkgs/nixos-unstable";
+      nixpkgs-darwin-stable.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
 
+      # main framework
       digga.url = "github:divnix/digga";
       digga.inputs.nixpkgs.follows = "nixos";
       digga.inputs.nixlib.follows = "nixos";
       digga.inputs.home-manager.follows = "home";
       digga.inputs.deploy.follows = "deploy";
-
-      bud.url = "github:divnix/bud";
-      bud.inputs.nixpkgs.follows = "nixos";
-      bud.inputs.devshell.follows = "digga/devshell";
 
       home.url = "github:nix-community/home-manager";
       home.inputs.nixpkgs.follows = "nixos";
@@ -26,26 +36,17 @@
       darwin.url = "github:LnL7/nix-darwin";
       darwin.inputs.nixpkgs.follows = "nixos";
 
-      deploy.url = "github:input-output-hk/deploy-rs";
+      deploy.url = "github:serokell/deploy-rs";
       deploy.inputs.nixpkgs.follows = "nixos";
 
       agenix.url = "github:ryantm/agenix";
       agenix.inputs.nixpkgs.follows = "nixos";
 
-      nvfetcher.url = "github:berberman/nvfetcher";
-      nvfetcher.inputs.nixpkgs.follows = "nixos";
-
-      naersk.url = "github:nmattia/naersk";
-      naersk.inputs.nixpkgs.follows = "nixos";
-
+      # additional stuff
       nixos-hardware.url = "github:nixos/nixos-hardware";
 
-      # added by me
       nixos-cn.url = "github:nixos-cn/flakes";
       nixos-cn.inputs.nixpkgs.follows = "nixos";
-
-      berberman-flakes.url = "github:berberman/flakes";
-      berberman-flakes.inputs.nixpkgs.follows = "nixos";
 
       homeage.url = "github:jordanisaacs/homeage";
       homeage.inputs.nixpkgs.follows = "nixos";
@@ -54,16 +55,12 @@
   outputs =
     { self
     , digga
-    , bud
     , nixos
     , home
     , nixos-hardware
     , nixos-cn
-    , berberman-flakes
     , nur
     , agenix
-    , nvfetcher
-    , deploy
     , homeage
     , ...
     } @ inputs:
@@ -76,14 +73,11 @@
         channels = {
           nixos = {
             imports = [ (digga.lib.importOverlays ./overlays) ];
-            overlays = [
-              nur.overlay
-              agenix.overlay
-              nvfetcher.overlay
-              nixos-cn.overlay
-              berberman-flakes.overlay
-              ./pkgs/default.nix
-            ];
+            overlays = [ ];
+          };
+          nixpkgs-darwin-stable = {
+            imports = [ (digga.lib.importOverlays ./overlays) ];
+            overlays = [ ];
           };
           latest = { };
         };
@@ -97,6 +91,12 @@
               our = self.lib;
             });
           })
+
+          nur.overlay
+          agenix.overlays.default
+          nixos-cn.overlay
+
+          (import ./pkgs)
         ];
 
         nixos = {
@@ -110,13 +110,12 @@
               digga.nixosModules.nixConfig
               home.nixosModules.home-manager
               agenix.nixosModules.age
-              bud.nixosModules.bud
             ];
           };
 
           imports = [ (digga.lib.importHosts ./hosts) ];
           hosts = {
-            /* set host specific properties here */
+            # set host specific properties here
             NixOS = { };
             Thomas = {
               modules = [ nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
@@ -153,7 +152,7 @@
               linux-config-gui = [ xdg-mime-apps fontconfig wm gui ];
 
               workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
-              linux-config-cli ++ linux-config-gui;
+                linux-config-cli ++ linux-config-gui;
               server = base ++ coding ++ linux-config-cli;
             };
           };
@@ -166,17 +165,11 @@
 
         devshell = ./shell;
 
-        homeConfigurations = digga.lib.mkHomeConfigurations self.nixosConfigurations;
+        homeConfigurations =
+          digga.lib.mergeAny
+            (digga.lib.mkHomeConfigurations self.darwinConfigurations)
+            (digga.lib.mkHomeConfigurations self.nixosConfigurations);
 
         deploy.nodes = digga.lib.mkDeployNodes self.nixosConfigurations { };
-
-        defaultTemplate = self.templates.bud;
-        templates.bud.path = ./.;
-        templates.bud.description = "bud template";
-      }
-    //
-    {
-      budModules = { devos = import ./shell/bud; };
-    }
-  ;
+      };
 }
