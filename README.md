@@ -1,7 +1,19 @@
 # nix-config
 My NixOS/nix-darwin/home-manager config based on devos
 
-## zfs auto-snapshot
+
+## Switch system config
+
+In the project root:
+
+```
+sudo nixos-rebuild switch --flake ".#<hostname>"
+```
+
+
+## Tricks
+
+### zfs auto-snapshot
 
 Enable/disable auto-snapshot with the following command:
 
