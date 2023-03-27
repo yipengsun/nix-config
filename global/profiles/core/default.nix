@@ -96,4 +96,7 @@ in
     enable = true;
     openFirewall = lib.mkDefault false;
   };
+
+  # Enable required basic nix integration for zsh
+  programs.zsh.enable = true;
 }
