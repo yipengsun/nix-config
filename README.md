@@ -18,5 +18,5 @@ sudo nixos-rebuild switch --flake ".#<hostname>"
 Enable/disable auto-snapshot with the following command:
 
 ```
-# zfs set com.sun:auto-snapshot=true <pool>/<fs>
+sudo zfs set com.sun:auto-snapshot=true <pool>/<fs>
 ```
