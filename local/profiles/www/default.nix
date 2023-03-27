@@ -71,21 +71,21 @@ in
       cfg = { enableTridactylNative = true; };
     };
 
-    extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-      tridactyl
-      ublock-origin
-      unpaywall
-      darkreader # dark theme for all websites
-      copy-selection-as-markdown
-      i-dont-care-about-cookies
-      lastpass-password-manager
-      no-pdf-download # open pdf directly instead of asking for download
-      offline-qr-code-generator
-      private-relay # email aliases by firefox
-      search-by-image
-    ];
-
     profiles."syp" = {
+      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        tridactyl
+        ublock-origin
+        unpaywall
+        darkreader # dark theme for all websites
+        copy-selection-as-markdown
+        i-dont-care-about-cookies
+        lastpass-password-manager
+        no-pdf-download # open pdf directly instead of asking for download
+        offline-qr-code-generator
+        private-relay # email aliases by firefox
+        search-by-image
+      ];
+
       isDefault = true;
       id = 0;
       settings = {
