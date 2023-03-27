@@ -18,7 +18,7 @@ awful.rules.rules = {
         } },
 
     -- Match specific clients
-    { rule_any = { class = { "Firefox", "Chromium" } },
+    { rule_any = { class = { "Firefox", "Chromium", "firefox", "Navigator" } },
         properties = { tag = "WWW", maximized = false, maximized_vertical = false, maximized_horizontal = false } },
     { rule = { class = "mpv" },
         properties = { floating = true  } },
