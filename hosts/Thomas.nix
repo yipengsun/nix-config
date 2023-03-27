@@ -132,11 +132,15 @@
 
   networking.networkmanager.enable = true;
 
+  #################
+  # System config #
+  #################
+
+  imports = suites.laptop; # this is from the global suite!
+
   ###############
   # User config #
   ###############
-
-  imports = suites.laptop;
 
   programs.dconf.enable = true;
 

@@ -59,19 +59,19 @@
     { self
     , digga
     , nixos
-    #
+      #
     , home
     , darwin
     , deploy
     , agenix
-    #
+      #
     , nur
-    #
+      #
     , nixos-hardware
     , nixos-cn
     , berberman
     , homeage
-    #
+      #
     , ...
     } @ inputs:
     digga.lib.mkFlake
