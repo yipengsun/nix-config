@@ -48,6 +48,9 @@
       nixos-cn.url = "github:nixos-cn/flakes";
       nixos-cn.inputs.nixpkgs.follows = "nixos";
 
+      berberman.url = "github:berberman/flakes";
+      berberman.inputs.nixpkgs.follows = "nixos";
+
       homeage.url = "github:jordanisaacs/homeage";
       homeage.inputs.nixpkgs.follows = "nixos";
     };
@@ -56,12 +59,19 @@
     { self
     , digga
     , nixos
+    #
     , home
+    , darwin
+    , deploy
+    , agenix
+    #
+    , nur
+    #
     , nixos-hardware
     , nixos-cn
-    , nur
-    , agenix
+    , berberman
     , homeage
+    #
     , ...
     } @ inputs:
     digga.lib.mkFlake
@@ -73,7 +83,10 @@
         channels = {
           nixos = {
             imports = [ (digga.lib.importOverlays ./overlays) ];
-            overlays = [ ];
+            overlays = [
+              nixos-cn.overlay
+              berberman.overlays.default
+            ];
           };
           nixpkgs-darwin-stable = {
             imports = [ (digga.lib.importOverlays ./overlays) ];
@@ -94,7 +107,6 @@
 
           nur.overlay
           agenix.overlays.default
-          nixos-cn.overlay
 
           (import ./pkgs)
         ];
