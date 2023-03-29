@@ -1,6 +1,6 @@
 { self, lib, pkgs, config, ... }:
 let
-  testHosts = [ "NixOS" ]; # these hosts get 'root' w/ an empty password
+  testHosts = [ "NixOS" "bootstrap" ]; # these hosts get 'root' w/ an empty password
 in
 lib.mkMerge [{
   # main config
