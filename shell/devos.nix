@@ -5,9 +5,12 @@ let
     nix
     agenix
     cachix
+    #
+    nixos-generators
+    #
+    shfmt
     nixpkgs-fmt
     editorconfig-checker
-    nixos-generators
     ;
 
   pkgWithCategory = category: package: { inherit package category; };
@@ -17,14 +20,17 @@ in
 {
   imports = [ "${extraModulesPath}/git/hooks.nix" ./hooks ];
 
-  packages = [ ];
+  packages = [
+    nixpkgs-fmt
+    shfmt
+    editorconfig-checker
+  ];
 
   commands = with pkgs; [
     (devos nix)
     (devos agenix)
 
-    (fmt nixpkgs-fmt)
-    (fmt editorconfig-checker)
+    (fmt treefmt)
   ]
 
   ++ lib.optional
