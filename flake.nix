@@ -142,7 +142,7 @@
               service-common = [ zfs docker globalconnect printer ];
 
               # computer types
-              laptop = base ++ service-common ++ [ users.syp lang-region-mobile encfs-automount ];
+              laptop = base ++ service-common ++ [ users.syp lang-region-mobile encfs-automount v2ray ];
             };
           };
         };

@@ -125,11 +125,6 @@
   # Update firmware
   services.fwupd.enable = true;
 
-  # Proxy
-  services.v2ray.enable = false;
-  services.v2ray.configFile = "/etc/nixos/config/v2ray/ByWave.json";
-  #networking.proxy.default = "http://127.0.0.1:2080";
-
   # USB mounting
   services.udisks2.enable = true;
 
