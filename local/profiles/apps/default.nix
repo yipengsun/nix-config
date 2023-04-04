@@ -43,5 +43,8 @@
 
     # git utils
     #git-author-rewrite
+
+    # misc
+    nur.repos.linyinfeng.wemeet
   ];
 }
