@@ -140,8 +140,10 @@ in
         type = types.path;
       };
 
+      # go to openweathermap.org, search for city name, the number in the URL is the city ID.
       cityId = mkOption {
-        default = "4351977"; # College Park, MD, USA
+        # default = "4351977"; # College Park, MD, USA
+        default = "1816670"; # Beijing, China
         type = types.str;
       };
     };
