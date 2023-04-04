@@ -43,6 +43,8 @@
       agenix.inputs.nixpkgs.follows = "nixos";
 
       # additional stuff
+      nur.url = "github:nix-community/NUR";
+
       nixos-hardware.url = "github:nixos/nixos-hardware";
 
       nixos-cn.url = "github:nixos-cn/flakes";
