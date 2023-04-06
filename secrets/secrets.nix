@@ -8,6 +8,8 @@ in
   "passwd_root.age".publicKeys = allKeys;
   "passwd_syp.age".publicKeys = allKeys;
 
+  "v2ray_tproxy.age".publicKeys = allKeys;
+
   "weather_api_key.age".publicKeys = [ userSyp ];
   "netrc_syp.age".publicKeys = [ userSyp ];
 }

@@ -1,8 +1,13 @@
-{ pkgs, ... }:
+{ self, pkgs, config, ... }:
 {
   # use v2ray as the proxy (this supports tproxy)
   services.v2ray.enable = true;
-  services.v2ray.configFile = "/etc/nixos/v2ray.json";
+  age.secrets."v2ray_tproxy.json" = {
+    file = "${self}/secrets/v2ray_tproxy.age";
+    path = "/etc/nixos/v2ray.json";
+    mode = "644";
+  };
+  services.v2ray.configFile = config.age.secrets."v2ray_tproxy.json".path;
 
   # enable forwarding for both IPv4 & IPv6
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
