@@ -2,7 +2,7 @@
 
 let
   vim-terminal = pkgs.writeScriptBin "vim-terminal" ''
-    xterm -e nvim $1
+    alacritty -e nvim $1
   '';
 in
 
@@ -106,7 +106,6 @@ in
     enable = true;
     extensions = [
       { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock-origin
-      { id = "bdlcnpceagnkjnjlbbbcepohejbheilk"; } # malus vpn
       { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # vimium
     ];
   };
