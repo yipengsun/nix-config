@@ -9,6 +9,12 @@
   };
   services.v2ray.configFile = config.age.secrets.v2ray_tproxy.path;
 
+  # override file limits
+  systemd.services.v2ray.serviceConfig = {
+    LimitNPROC = 500;
+    LimitNOFILE = 1000000;
+  };
+
   # enable forwarding for both IPv4 & IPv6
   #boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   #boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
