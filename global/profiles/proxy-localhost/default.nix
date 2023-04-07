@@ -14,6 +14,7 @@
   #boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
 
   # setup iptables mangling rules
+  #   main guide: https://guide.v2fly.org/app/tproxy.html
   #   related doc: https://www.kernel.org/doc/Documentation/networking/tproxy.rst
   networking.firewall.extraCommands = ''
     iptables -t mangle -N DIVERT
