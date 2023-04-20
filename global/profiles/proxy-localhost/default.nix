@@ -1,5 +1,10 @@
 { self, pkgs, config, ... }:
 {
+  # additional tooling for debugging
+  environment.systemPackages = with pkgs; [
+    traceroute
+  ];
+
   # use v2ray as the proxy (this supports tproxy)
   services.v2ray.enable = true;
   age.secrets.v2ray_tproxy = {
