@@ -3,6 +3,7 @@
   # additional tooling for debugging
   environment.systemPackages = with pkgs; [
     traceroute
+    v2ray
   ];
 
   # use v2ray as the proxy (this supports tproxy)
