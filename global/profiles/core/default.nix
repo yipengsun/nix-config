@@ -17,6 +17,9 @@ in
       coreutils
       gnused
 
+      # Hardware
+      pciutils
+
       # Utilities
       ed # ed is the standard text editor - ed man! !man ed
       usbutils
