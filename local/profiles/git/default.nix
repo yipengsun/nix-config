@@ -32,6 +32,7 @@
       user.email = "syp@umd.edu";
 
       features.manyFiles = true;
+      init.defaultBranch = "master";
     };
 
     aliases = {
