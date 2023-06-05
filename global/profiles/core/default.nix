@@ -32,6 +32,7 @@ in
       zip
       unzip
       unrar
+      p7zip
 
       # Network utilities
       curl
