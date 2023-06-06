@@ -46,5 +46,6 @@
 
     # misc
     nur.repos.linyinfeng.wemeet
+    nur.repos.xddxdd.baidupcs-go
   ];
 }
