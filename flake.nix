@@ -55,6 +55,9 @@
 
       homeage.url = "github:jordanisaacs/homeage";
       homeage.inputs.nixpkgs.follows = "nixos";
+
+      nixos-wsl.url = "github:nix-community/NixOS-WSL";
+      nixos-wsl.inputs.nixpkgs.follows = "nixos";
     };
 
   outputs =
@@ -73,6 +76,7 @@
     , nixos-cn
     , berberman
     , homeage
+    , nixos-wsl
       #
     , ...
     } @ inputs:
@@ -124,6 +128,7 @@
               digga.nixosModules.nixConfig
               home.nixosModules.home-manager
               agenix.nixosModules.age
+              nixos-wsl.nixosModules.wsl
             ];
           };
 
