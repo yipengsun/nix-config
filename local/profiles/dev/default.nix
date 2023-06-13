@@ -8,7 +8,7 @@
     nixpkgs-fmt # code formatter
     nix-tree # view dependency as a tree
     black # python code formatter
-    jetbrains.clion
+    #jetbrains.clion
     gh # github cli tool
   ];
 
