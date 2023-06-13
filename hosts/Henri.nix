@@ -1,6 +1,5 @@
-{ lib, pkgs, config, ... }:
+{ pkgs, config, modulesPath, suites, ... }:
 
-with lib;
 {
   system.stateVersion = "22.11";
 
@@ -8,13 +7,9 @@ with lib;
   # WSL bundle #
   ##############
 
-  imports = [
-    "${modulesPath}/profiles/minimal.nix"
-  ];
-
   wsl = {
     enable = true;
-    automountPath = "/mnt";
+    wslConf.automount.root = "/mnt";
     defaultUser = "syp";
     startMenuLaunchers = true;
 
@@ -29,11 +24,15 @@ with lib;
   # System config #
   #################
 
-  imports = suites.server;
+  imports = [
+    "${modulesPath}/profiles/minimal.nix"
+  ] ++ suites.wsl;
 
   ###############
   # User config #
   ###############
+
+  users.allowNoPasswordLogin = true; # another WSL hack
 
   home-manager.users.syp = { suites, ... }: {
     imports = suites.server;

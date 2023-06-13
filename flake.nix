@@ -145,7 +145,8 @@
               users = digga.lib.rakeLeaves ./users;
             };
             suites = with profiles; rec {
-              base = [ cachix core users.root ];
+              wsl = [ cachix core ]; # yep, WSL has customized logics for the root user
+              base = wsl ++ [ users.root ];
               service-common = [ zfs docker printer ];
 
               # computer types
