@@ -145,12 +145,12 @@
               users = digga.lib.rakeLeaves ./users;
             };
             suites = with profiles; rec {
-              wsl = [ cachix core ]; # yep, NixOS-WSL (legacy) has customized logics for the root user
-              base = wsl ++ [ users.root ];
+              base = [ cachix core users.root ];
               service-common = [ zfs docker printer ];
 
               # computer types
               laptop = base ++ service-common ++ [ users.syp lang-region-mobile encfs-automount proxy-localhost ];
+              wsl = base ++ [ users.syp lang-region-mobile ];
             };
           };
         };

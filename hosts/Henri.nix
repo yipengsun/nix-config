@@ -34,7 +34,7 @@
 
   imports = [
     "${modulesPath}/profiles/minimal.nix"
-  ] ++ suites.base;
+  ] ++ suites.wsl;
 
   ###############
   # User config #
