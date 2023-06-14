@@ -10,7 +10,7 @@
   wsl = {
     enable = true;
     startMenuLaunchers = false;
-    nativeSystemd = false; # a dangerous proposition
+    nativeSystemd = true; # a dangerous proposition, as the installer doesn't support it yet
     defaultUser = "syp";
 
     wslConf = {
@@ -34,13 +34,13 @@
 
   imports = [
     "${modulesPath}/profiles/minimal.nix"
-  ] ++ suites.wsl;
+  ] ++ suites.base;
 
   ###############
   # User config #
   ###############
 
-  users.allowNoPasswordLogin = true; # another WSL hack
+  #users.allowNoPasswordLogin = true; # another WSL hack
 
   home-manager.users.syp = { suites, ... }: {
     imports = suites.server;
