@@ -9,9 +9,13 @@
 
   wsl = {
     enable = true;
-    wslConf.automount.root = "/mnt";
+    startMenuLaunchers = false;
+    nativeSystemd = false; # a dangerous proposition
     defaultUser = "syp";
-    startMenuLaunchers = true;
+
+    wslConf = {
+      automount.root = "/mnt";
+    };
 
     # Enable native Docker support
     # docker-native.enable = true;
