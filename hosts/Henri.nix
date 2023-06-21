@@ -43,6 +43,6 @@
   #users.allowNoPasswordLogin = true; # another WSL hack
 
   home-manager.users.syp = { suites, ... }: {
-    imports = suites.server;
+    imports = suites.wsl;
   };
 }

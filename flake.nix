@@ -174,6 +174,7 @@
               workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
                 linux-config-cli ++ linux-config-gui;
               server = base ++ coding ++ linux-config-cli;
+              wsl = base ++ [ apps-wsl zathura ] ++ coding ++ prod ++ linux-config-cli;
             };
           };
 
