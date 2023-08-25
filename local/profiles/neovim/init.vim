@@ -97,6 +97,9 @@ set number
 set wildmenu
 set wildmode=longest:full,full
 
+" Disable spell check for CJK chars
+set spelllang+=cjk
+
 
 """"""""""
 " Search "
