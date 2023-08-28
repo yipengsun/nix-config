@@ -10,6 +10,7 @@
     black # python code formatter
     #jetbrains.clion
     gh # github cli tool
+    nix-tree
   ];
 
   # linter config
