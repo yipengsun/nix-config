@@ -21,6 +21,8 @@ inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice
+" FIXME: this also generates a "CmdlineLeave" signal which breaks smart input
+" method switching!
 inoremap <silent><expr><CR> coc#pum#visible() ? coc#pum#confirm()
             \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 

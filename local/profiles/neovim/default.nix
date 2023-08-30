@@ -19,7 +19,6 @@ let
     };
   };
 
-  # feels laggy
   im-select-nvim = pkgs.vimUtils.buildVimPlugin rec {
     pname = "im-select-nvim";
     version = "20230830";
@@ -260,22 +259,25 @@ in
         '';
       }
     ] ++ lib.optionals (!isRoot) [
-      {
-        plugin = vim-im-select;
-        config = ''
-          if has('wsl')
-            let g:im_select_command = "im-select.exe"
-          endif
-        '';
-      }
       # {
-      #   plugin = im-select-nvim;
+      #   plugin = vim-im-select;
       #   config = ''
-      #     lua << EOF
-      #       require('im_select').setup()
-      #     EOF
+      #     if has('wsl')
+      #       let g:im_select_command = "im-select.exe"
+      #     endif
       #   '';
       # }
+      {
+        plugin = im-select-nvim;
+        config = ''
+          lua << EOF
+            require('im_select').setup{
+              set_default_events = { "InsertLeave" },
+              set_previous_events = { "InsertEnter" }
+            }
+          EOF
+        '';
+      }
     ];
 
     extraConfig = builtins.readFile ./init.vim;
