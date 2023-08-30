@@ -19,6 +19,29 @@ let
     };
   };
 
+  # feels laggy
+  im-select-nvim = pkgs.vimUtils.buildVimPlugin rec {
+    pname = "im-select-nvim";
+    version = "20230830";
+    src = pkgs.fetchFromGitHub {
+      owner = "keaising";
+      repo = "im-select.nvim";
+      rev = "13627c8";
+      sha256 = "sha256-FbDRm7/KqGax2n8L9WWPz49vHMKhrHF+DrNhyzhibHc=";
+    };
+  };
+
+  vim-im-select = pkgs.vimUtils.buildVimPlugin rec {
+    pname = "vim-im-select";
+    version = "20230830";
+    src = pkgs.fetchFromGitHub {
+      owner = "brglng";
+      repo = "vim-im-select";
+      rev = "3ddf36a";
+      sha256 = "sha256-UxxnGX5FoQhhXKZFRZUBqcFelYa+s7KFqvM0eSg1Reg=";
+    };
+  };
+
   isRoot = config.home.username == "root";
 in
 {
@@ -236,7 +259,24 @@ in
           EOF
         '';
       }
-    ] ++ lib.optionals (!isRoot) [ fcitx-vim ];
+    ] ++ lib.optionals (!isRoot) [
+      {
+        plugin = vim-im-select;
+        config = ''
+          if has('wsl')
+            let g:im_select_command = "im-select.exe"
+          endif
+        '';
+      }
+      # {
+      #   plugin = im-select-nvim;
+      #   config = ''
+      #     lua << EOF
+      #       require('im_select').setup()
+      #     EOF
+      #   '';
+      # }
+    ];
 
     extraConfig = builtins.readFile ./init.vim;
 
