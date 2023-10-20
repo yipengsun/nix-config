@@ -36,6 +36,12 @@
     "${modulesPath}/profiles/minimal.nix"
   ] ++ suites.wsl;
 
+  ############
+  # Services #
+  ############
+
+  nix.settings.max-jobs = 2; # we don't have enough RAM, really!
+
   ###############
   # User config #
   ###############
