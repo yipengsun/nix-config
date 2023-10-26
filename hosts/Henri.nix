@@ -40,7 +40,9 @@
   # Services #
   ############
 
-  nix.settings.max-jobs = 2; # we don't have enough RAM, really!
+  # we don't have enough RAM, really!
+  nix.settings.max-jobs = 2;
+  nix.settings.cores = 12;
 
   ###############
   # User config #
