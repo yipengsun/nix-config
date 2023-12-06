@@ -1,5 +1,4 @@
-{ suites, ... }:
-{
+{ suites, ... }: {
   ### root password is EMPTY! ###
   imports = suites.base;
 

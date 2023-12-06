@@ -1,5 +1,4 @@
-{ config, ... }:
-{
+{ config, ... }: {
   services.mpd = {
     enable = true;
     musicDirectory = /home/syp/misc/audios;
@@ -10,9 +9,18 @@
     enable = true;
 
     bindings = [
-      { key = "j"; command = "scroll_down"; }
-      { key = "k"; command = "scroll_up"; }
-      { key = "G"; command = "move_home"; }
+      {
+        key = "j";
+        command = "scroll_down";
+      }
+      {
+        key = "k";
+        command = "scroll_up";
+      }
+      {
+        key = "G";
+        command = "move_home";
+      }
     ];
   };
 }

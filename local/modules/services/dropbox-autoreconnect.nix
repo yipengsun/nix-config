@@ -1,7 +1,9 @@
-{ config, lib, pkgs, ... }:
-
+{ config
+, lib
+, pkgs
+, ...
+}:
 with lib;
-
 # based on home-manager's official dropbox service
 let
   cfg = config.services.dropbox-autoreconnect;

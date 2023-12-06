@@ -1,12 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
+{ config
+, lib
+, pkgs
+, ...
+}:
+with lib; let
   cfg = config.xinit;
   envVarsStr = config.lib.zsh.exportAll cfg.envVars;
 in
-
 {
   options = {
     xinit = {

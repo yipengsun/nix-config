@@ -1,5 +1,8 @@
-{ pkgs, config, suites, ... }:
-{
+{ pkgs
+, config
+, suites
+, ...
+}: {
   system.stateVersion = "21.11";
 
   ########

@@ -1,4 +1,7 @@
-{ pkgs, lib, ... }:
+{ pkgs
+, lib
+, ...
+}:
 let
   folder = ./.;
   toImport = name: value: folder + ("/" + name);

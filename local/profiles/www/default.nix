@@ -1,11 +1,9 @@
 { pkgs, ... }:
-
 let
   vim-terminal = pkgs.writeScriptBin "vim-terminal" ''
     alacritty -e nvim $1
   '';
 in
-
 {
   # firefox tridactyl-related
   home.packages = [

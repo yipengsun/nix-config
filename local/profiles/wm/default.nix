@@ -1,23 +1,41 @@
-{ pkgs, config, lib, ... }:
-
-with lib;
-
-let
+{ pkgs
+, config
+, lib
+, ...
+}:
+with lib; let
   customLuaPackages = pkgs.lua53Packages;
 
   weatherApiKeyLoc = "${config.xdg.configHome}/awesome/weather_api_key";
 
   fcitxDstPath = path: "${config.xdg.configHome}/fcitx5/" + path;
   fcitxConfigFiles = [
-    { src = ./fcitx5/config; dst = fcitxDstPath "config"; }
-    { src = ./fcitx5/profile; dst = fcitxDstPath "profile"; }
-    { src = ./fcitx5/conf/classicui.conf; dst = fcitxDstPath "conf/classicui.conf"; }
-    { src = ./fcitx5/conf/cloudpinyin.conf; dst = fcitxDstPath "conf/cloudpinyin.conf"; }
-    { src = ./fcitx5/conf/pinyin.conf; dst = fcitxDstPath "conf/pinyin.conf"; }
-    { src = ./fcitx5/conf/punctuation.conf; dst = fcitxDstPath "conf/punctuation.conf"; }
+    {
+      src = ./fcitx5/config;
+      dst = fcitxDstPath "config";
+    }
+    {
+      src = ./fcitx5/profile;
+      dst = fcitxDstPath "profile";
+    }
+    {
+      src = ./fcitx5/conf/classicui.conf;
+      dst = fcitxDstPath "conf/classicui.conf";
+    }
+    {
+      src = ./fcitx5/conf/cloudpinyin.conf;
+      dst = fcitxDstPath "conf/cloudpinyin.conf";
+    }
+    {
+      src = ./fcitx5/conf/pinyin.conf;
+      dst = fcitxDstPath "conf/pinyin.conf";
+    }
+    {
+      src = ./fcitx5/conf/punctuation.conf;
+      dst = fcitxDstPath "conf/punctuation.conf";
+    }
   ];
 in
-
 {
   # decrypt openweather API key
   homeage.file."weather_api_key" = {

@@ -1,13 +1,6 @@
+# build
 result
-.direnv
-doc/index.html
 
-# Result of bud commands
-vm
-iso
-doi
 
-# VM disk images
-*.qcow2
-
-pkgs/_sources/.shake*
+# config
+.pre-commit-config.yaml
