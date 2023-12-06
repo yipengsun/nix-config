@@ -1,5 +1,4 @@
 { pkgs, ... }:
-
 let
   rangerBundle = pkgs.symlinkJoin {
     name = "ranger-bundle";
@@ -12,7 +11,6 @@ let
     '';
   };
 in
-
 {
   home.packages = [ rangerBundle ];
 

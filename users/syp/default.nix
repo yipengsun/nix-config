@@ -1,5 +1,7 @@
-{ self, pkgs, ... }:
-{
+{ self
+, pkgs
+, ...
+}: {
   age.secrets.passwd_syp.file = "${self}/secrets/passwd_syp.age";
 
   users.users.syp = {

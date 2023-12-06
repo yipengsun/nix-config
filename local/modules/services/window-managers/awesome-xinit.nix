@@ -1,8 +1,9 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
+{ config
+, lib
+, pkgs
+, ...
+}:
+with lib; let
   cfg = config.xinit.windowManager.awesome;
   awesome = cfg.package;
 
@@ -13,7 +14,6 @@ let
 
   awesomeCmd = "${awesome}/bin/awesome ${makeSearchPath cfg.luaModules}";
 in
-
 {
   options = {
     xinit.windowManager.awesome = {
@@ -229,7 +229,7 @@ in
       weather_api_key = read_key(cfg_path.."/weather_api_key")
 
       -- Global variables
-      ${concatStringsSep "\n" (mapAttrsToList (key: val: key+" = "+''"''+val+''"'') cfg.globalVariables)}
+      ${concatStringsSep "\n" (mapAttrsToList (key: val: key + " = " + ''"'' + val + ''"'') cfg.globalVariables)}
 
       -- Define city ID for weather widget
       city_id_weather = ${cfg.cityId}

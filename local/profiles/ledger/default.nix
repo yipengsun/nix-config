@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   home.packages = [ pkgs.ledger ];
 
   home.file.".ledgerrc".text = ''

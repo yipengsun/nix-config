@@ -1,5 +1,7 @@
-{ home, pkgs, ... }:
-{
+{ home
+, pkgs
+, ...
+}: {
   home.packages = with pkgs; [
     cachix
     git-annex

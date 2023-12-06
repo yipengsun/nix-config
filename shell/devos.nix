@@ -1,4 +1,9 @@
-{ pkgs, extraModulesPath, inputs, lib, ... }:
+{ pkgs
+, extraModulesPath
+, inputs
+, lib
+, ...
+}:
 let
   inherit
     (pkgs)
@@ -6,8 +11,10 @@ let
     agenix
     cachix
     #
+
     nixos-generators
     #
+
     shfmt
     nixpkgs-fmt
     editorconfig-checker
@@ -26,18 +33,18 @@ in
     editorconfig-checker
   ];
 
-  commands = with pkgs; [
-    (devos nix)
-    (devos agenix)
+  commands = with pkgs;
+    [
+      (devos nix)
+      (devos agenix)
 
-    (fmt treefmt)
-  ]
-
-  ++ lib.optional
-    (system != "i686-linux")
-    (devos cachix)
-  ++ lib.optionals (pkgs.stdenv.hostPlatform.isLinux && !pkgs.stdenv.buildPlatform.isDarwin) [
-    (devos nixos-generators)
-    (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
-  ];
+      (fmt treefmt)
+    ]
+    ++ lib.optional
+      (system != "i686-linux")
+      (devos cachix)
+    ++ lib.optionals (pkgs.stdenv.hostPlatform.isLinux && !pkgs.stdenv.buildPlatform.isDarwin) [
+      (devos nixos-generators)
+      (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
+    ];
 }

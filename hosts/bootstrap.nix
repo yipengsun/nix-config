@@ -1,5 +1,4 @@
-{ profiles, ... }:
-{
+{ profiles, ... }: {
   imports = [
     # profiles.networking
     profiles.core

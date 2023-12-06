@@ -11,75 +11,75 @@
     ];
   };
 
-  inputs =
-    {
-      # various pointers to official packages
-      nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
-      nixpkgs.follows = "nixpkgs-pointer/nixpkgs";
+  inputs = {
+    # various pointers to official packages
+    nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
+    nixpkgs.follows = "nixpkgs-pointer/nixpkgs";
 
-      # libs/tools
-      flake-parts.url = "github:hercules-ci/flake-parts";
-      flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+    # libs/tools
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
-      devshell.url = "github:numtide/devshell";
+    devshell.url = "github:numtide/devshell";
 
-      treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-      # deployment
-      colmena.url = "github:zhaofengli/colmena";
+    # deployment
+    colmena.url = "github:zhaofengli/colmena";
 
-      # home-manager, nix-darwin, NixOS-WSL
-      home.url = "github:nix-community/home-manager";
-      home.inputs.nixpkgs.follows = "nixpkgs";
+    # home-manager, nix-darwin, NixOS-WSL
+    home.url = "github:nix-community/home-manager";
+    home.inputs.nixpkgs.follows = "nixpkgs";
 
-      darwin.url = "github:LnL7/nix-darwin";
-      darwin.inputs.nixpkgs.follows = "nixpkgs";
+    darwin.url = "github:LnL7/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-      nixos-wsl.url = "github:nix-community/NixOS-WSL";
-      nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
-      # agenix with home-manager integration
-      agenix.url = "github:ryantm/agenix";
-      agenix.inputs.nixpkgs.follows = "nixpkgs";
+    # agenix with home-manager integration
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-      homeage.url = "github:jordanisaacs/homeage";
-      homeage.inputs.nixpkgs.follows = "nixpkgs";
+    homeage.url = "github:jordanisaacs/homeage";
+    homeage.inputs.nixpkgs.follows = "nixpkgs";
 
-      # additional packages/settings
-      nur.url = "github:nix-community/NUR";
+    # additional packages/settings
+    nur.url = "github:nix-community/NUR";
 
-      nixos-hardware.url = "github:nixos/nixos-hardware";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
 
-      nixos-cn.url = "github:nixos-cn/flakes";
-      nixos-cn.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-cn.url = "github:nixos-cn/flakes";
+    nixos-cn.inputs.nixpkgs.follows = "nixpkgs";
 
-      berberman.url = "github:berberman/flakes";
-      berberman.inputs.nixpkgs.follows = "nixpkgs";
-    };
+    berberman.url = "github:berberman/flakes";
+    berberman.inputs.nixpkgs.follows = "nixpkgs";
+  };
 
   outputs =
     { self
     , nixpkgs
-      #
-    , flake-parts
+    , #
+      flake-parts
     , devshell
     , treefmt-nix
-      #
-    , home
+    , #
+      home
     , darwin
     , nixos-wsl
-      #
-    , agenix
+    , #
+      agenix
     , homeage
-      #
-    , nur
+    , #
+      nur
     , nixos-hardware
     , nixos-cn
     , berberman
-      #
-    , ...
+    , #
+      ...
     } @ inputs:
-    flake-parts.lib.mkFlake {inherit inputs;} ({getSystem, ...}: {
+    flake-parts.lib.mkFlake { inherit inputs; } ({ getSystem, ... }: {
       imports = [
         devshell.flakeModule
         treefmt-nix.flakeModule
@@ -87,136 +87,140 @@
 
       systems = [ "x86_64-linux" ];
 
-      perSystem = {
-        inputs',
-        pkgs',
-        ...
-      }: {
-        treefmt = {
-          programs.alejandra.enable = true;
-          flakeFormatter = true;
-          projectRootFile = "flake.nix";
-        };
+      perSystem =
+        { inputs'
+        , pkgs'
+        , config
+        , ...
+        }: {
+          treefmt = {
+            programs.nixpkgs-fmt.enable = true;
+            programs.shfmt.enable = true;
 
-        devshells.default = {pkgs, ...}: {
-          commands = [
-            {package = pkgs.nix;}
-            {package = inputs'.agenix.packages.default;}
-            {package = inputs'.colmena.packages.colmena;}
-          ];
+            flakeFormatter = true;
+            projectRootFile = "flake.nix";
+          };
+
+          devshells.default = { pkgs, ... }: {
+            commands = [
+              { package = pkgs.nix; }
+              { package = inputs'.agenix.packages.default; }
+              { package = inputs'.colmena.packages.colmena; }
+              { package = config.treefmt.build.wrapper; }
+            ];
+          };
         };
-      };
 
       # FIXME: below are not migrated yet.
 
       /*
 
-        #inherit self inputs;
+      #inherit self inputs;
 
-        channelsConfig = { allowUnfree = true; };
+      channelsConfig = { allowUnfree = true; };
 
-        channels = {
-          nixos = {
-            imports = [ (digga.lib.importOverlays ./overlays) ];
-            overlays = [
-              nixos-cn.overlay
-              berberman.overlays.default
-            ];
-          };
-          nixpkgs-darwin-stable = {
-            imports = [ (digga.lib.importOverlays ./overlays) ];
-            overlays = [ ];
-          };
-          latest = { };
-        };
-
-        lib = import ./lib { lib = digga.lib // nixos.lib; };
-
-        sharedOverlays = [
-          (final: prev: {
-            __dontExport = true;
-            lib = prev.lib.extend (lfinal: lprev: {
-              our = self.lib;
-            });
-          })
-
-          nur.overlay
-          agenix.overlays.default
-
-          (import ./pkgs)
-        ];
-
+      channels = {
         nixos = {
-          hostDefaults = {
-            system = "x86_64-linux";
-            channelName = "nixos";
-            imports = [ (digga.lib.importExportableModules ./global/modules) ];
-            modules = [
-              { lib.our = self.lib; }
-              digga.nixosModules.bootstrapIso
-              digga.nixosModules.nixConfig
-              home.nixosModules.home-manager
-              agenix.nixosModules.age
-              nixos-wsl.nixosModules.wsl
-            ];
-          };
+          imports = [ (digga.lib.importOverlays ./overlays) ];
+          overlays = [
+            nixos-cn.overlay
+            berberman.overlays.default
+          ];
+        };
+        nixpkgs-darwin-stable = {
+          imports = [ (digga.lib.importOverlays ./overlays) ];
+          overlays = [ ];
+        };
+        latest = { };
+      };
 
-          imports = [ (digga.lib.importHosts ./hosts) ];
-          hosts = {
-            # set host specific properties here
-            NixOS = { };
-            Thomas = {
-              modules = [ nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
-            };
-          };
-          importables = rec {
-            profiles = digga.lib.rakeLeaves ./global/profiles // {
-              users = digga.lib.rakeLeaves ./users;
-            };
-            suites = with profiles; rec {
-              base = [ cachix core users.root ];
-              service-common = [ zfs docker printer ];
+      lib = import ./lib { lib = digga.lib // nixos.lib; };
 
-              # computer types
-              laptop = base ++ service-common ++ [ users.syp lang-region-mobile encfs-automount proxy-localhost ];
-              wsl = base ++ [ users.syp lang-region-mobile ];
-            };
+      sharedOverlays = [
+        (final: prev: {
+          __dontExport = true;
+          lib = prev.lib.extend (lfinal: lprev: {
+            our = self.lib;
+          });
+        })
+
+        nur.overlay
+        agenix.overlays.default
+
+        (import ./pkgs)
+      ];
+
+      nixos = {
+        hostDefaults = {
+          system = "x86_64-linux";
+          channelName = "nixos";
+          imports = [ (digga.lib.importExportableModules ./global/modules) ];
+          modules = [
+            { lib.our = self.lib; }
+            digga.nixosModules.bootstrapIso
+            digga.nixosModules.nixConfig
+            home.nixosModules.home-manager
+            agenix.nixosModules.age
+            nixos-wsl.nixosModules.wsl
+          ];
+        };
+
+        imports = [ (digga.lib.importHosts ./hosts) ];
+        hosts = {
+          # set host specific properties here
+          NixOS = { };
+          Thomas = {
+            modules = [ nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
+          };
+        };
+        importables = rec {
+          profiles = digga.lib.rakeLeaves ./global/profiles // {
+            users = digga.lib.rakeLeaves ./users;
+          };
+          suites = with profiles; rec {
+            base = [ cachix core users.root ];
+            service-common = [ zfs docker printer ];
+
+            # computer types
+            laptop = base ++ service-common ++ [ users.syp lang-region-mobile encfs-automount proxy-localhost ];
+            wsl = base ++ [ users.syp lang-region-mobile ];
+          };
+        };
+      };
+
+      home = {
+        imports = [ (digga.lib.importExportableModules ./local/modules) ];
+        modules = [ homeage.homeManagerModules.homeage ];
+        importables = rec {
+          profiles = digga.lib.rakeLeaves ./local/profiles;
+          suites = with profiles; rec {
+            base = [ hm-state-version git zsh python neovim tmux ranger ];
+            common-apps = [ apps www term ];
+            coding = [ dev bat direnv fzf ];
+            multimedia = [ mpv mpd ];
+            prod = [ hep zathura ledger dev-secrets ];
+
+            # settings
+            linux-config-cli = [ xdg-user-dirs dircolors ];
+            linux-config-gui = [ xdg-mime-apps fontconfig wm gui ];
+
+            workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
+              linux-config-cli ++ linux-config-gui;
+            server = base ++ coding ++ linux-config-cli;
+            wsl = base ++ [ apps-wsl zathura ] ++ coding ++ prod ++ linux-config-cli;
           };
         };
 
-        home = {
-          imports = [ (digga.lib.importExportableModules ./local/modules) ];
-          modules = [ homeage.homeManagerModules.homeage ];
-          importables = rec {
-            profiles = digga.lib.rakeLeaves ./local/profiles;
-            suites = with profiles; rec {
-              base = [ hm-state-version git zsh python neovim tmux ranger ];
-              common-apps = [ apps www term ];
-              coding = [ dev bat direnv fzf ];
-              multimedia = [ mpv mpd ];
-              prod = [ hep zathura ledger dev-secrets ];
+        # Users here can be deployed without a host
+        users = {
+          dev = { suites, ... }: { imports = suites.server; };
+        }; # digga.lib.importers.rakeLeaves ./users/hm;
+      };
 
-              # settings
-              linux-config-cli = [ xdg-user-dirs dircolors ];
-              linux-config-gui = [ xdg-mime-apps fontconfig wm gui ];
-
-              workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
-                linux-config-cli ++ linux-config-gui;
-              server = base ++ coding ++ linux-config-cli;
-              wsl = base ++ [ apps-wsl zathura ] ++ coding ++ prod ++ linux-config-cli;
-            };
-          };
-
-          # Users here can be deployed without a host
-          users = {
-            dev = { suites, ... }: { imports = suites.server; };
-          }; # digga.lib.importers.rakeLeaves ./users/hm;
-        };
-
-        homeConfigurations =
-          digga.lib.mergeAny
-            (digga.lib.mkHomeConfigurations self.darwinConfigurations)
-            (digga.lib.mkHomeConfigurations self.nixosConfigurations);
-            */
-  });
+      homeConfigurations =
+        digga.lib.mergeAny
+          (digga.lib.mkHomeConfigurations self.darwinConfigurations)
+          (digga.lib.mkHomeConfigurations self.nixosConfigurations);
+      */
+    });
 }

@@ -1,5 +1,10 @@
-{ stdenv, python3, pamixer, symlinkJoin, makeWrapper }:
-
+{ stdenv
+, python3
+, pamixer
+, symlinkJoin
+, makeWrapper
+,
+}:
 let
   pkgName = "awesome-volume-control";
 
@@ -17,7 +22,6 @@ let
 
   scriptBuildInputs = [ pamixer ];
 in
-
 symlinkJoin {
   name = pkgName;
   paths = [ scriptUnwrapped ] ++ scriptBuildInputs;

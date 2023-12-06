@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   home.packages = [ pkgs.zsh-completions ];
 
   programs.zsh =

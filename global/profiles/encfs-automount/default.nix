@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   # set up pam mount
   security.pam.mount.additionalSearchPaths = [ pkgs.encfs ];
   security.pam.mount.extraVolumes = [

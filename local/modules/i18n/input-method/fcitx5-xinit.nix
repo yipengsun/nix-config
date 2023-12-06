@@ -1,15 +1,14 @@
-{ config, pkgs, lib, ... }:
-
-with lib;
-
-let
+{ config
+, pkgs
+, lib
+, ...
+}:
+with lib; let
   im = config.i18n.inputMethod;
   cfg = im.fcitx5;
   fcitx5Package = pkgs.fcitx5-with-addons.override { inherit (cfg) addons; };
 in
-
 {
-
   disabledModules = [
     "i18n/input-method/fcitx5.nix"
   ];

@@ -1,10 +1,12 @@
-{ writeScriptBin, symlinkJoin, makeWrapper }:
-
+{ writeScriptBin
+, symlinkJoin
+, makeWrapper
+,
+}:
 let
   scriptName = "awesomesearch";
   scriptUnwrapped = writeScriptBin scriptName (builtins.readFile ./awesomesearch);
 in
-
 symlinkJoin {
   name = scriptName;
   paths = [ scriptUnwrapped ];

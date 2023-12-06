@@ -1,6 +1,9 @@
-{ pkgs, config, modulesPath, suites, ... }:
-
-{
+{ pkgs
+, config
+, modulesPath
+, suites
+, ...
+}: {
   system.stateVersion = "22.11";
 
   ##############
@@ -32,9 +35,11 @@
   # System config #
   #################
 
-  imports = [
-    "${modulesPath}/profiles/minimal.nix"
-  ] ++ suites.wsl;
+  imports =
+    [
+      "${modulesPath}/profiles/minimal.nix"
+    ]
+    ++ suites.wsl;
 
   ############
   # Services #
