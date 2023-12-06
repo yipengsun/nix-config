@@ -1,8 +1,5 @@
-# Based on:
-#  https://github.com/divnix/digga/blob/main/examples/devos/flake.nix
-
 {
-  description = "A highly structured configuration database.";
+  description = "Yipeng Sun's NixOS/nix-darwin config.";
 
   nixConfig = {
     extra-experimental-features = "nix-command flakes";
@@ -16,73 +13,105 @@
 
   inputs =
     {
-      nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
-
       # various pointers to official packages
-      nixos.follows = "nixpkgs-pointer/nixpkgs";
-      latest.url = "github:nixos/nixpkgs/nixos-unstable";
-      nixpkgs-darwin-stable.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
+      nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
+      nixpkgs.follows = "nixpkgs-pointer/nixpkgs";
 
-      # main framework
-      digga.url = "github:divnix/digga";
-      digga.inputs.nixpkgs.follows = "nixos";
-      digga.inputs.nixlib.follows = "nixos";
-      digga.inputs.home-manager.follows = "home";
-      digga.inputs.deploy.follows = "deploy";
+      # libs/tools
+      flake-parts.url = "github:hercules-ci/flake-parts";
+      flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
+      devshell.url = "github:numtide/devshell";
+
+      treefmt-nix.url = "github:numtide/treefmt-nix";
+
+      # deployment
+      colmena.url = "github:zhaofengli/colmena";
+
+      # home-manager, nix-darwin, NixOS-WSL
       home.url = "github:nix-community/home-manager";
-      home.inputs.nixpkgs.follows = "nixos";
+      home.inputs.nixpkgs.follows = "nixpkgs";
 
       darwin.url = "github:LnL7/nix-darwin";
-      darwin.inputs.nixpkgs.follows = "nixos";
+      darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-      deploy.url = "github:serokell/deploy-rs";
-      deploy.inputs.nixpkgs.follows = "nixos";
+      nixos-wsl.url = "github:nix-community/NixOS-WSL";
+      nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
+      # agenix with home-manager integration
       agenix.url = "github:ryantm/agenix";
-      agenix.inputs.nixpkgs.follows = "nixos";
+      agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-      # additional stuff
+      homeage.url = "github:jordanisaacs/homeage";
+      homeage.inputs.nixpkgs.follows = "nixpkgs";
+
+      # additional packages/settings
       nur.url = "github:nix-community/NUR";
 
       nixos-hardware.url = "github:nixos/nixos-hardware";
 
       nixos-cn.url = "github:nixos-cn/flakes";
-      nixos-cn.inputs.nixpkgs.follows = "nixos";
+      nixos-cn.inputs.nixpkgs.follows = "nixpkgs";
 
       berberman.url = "github:berberman/flakes";
-      berberman.inputs.nixpkgs.follows = "nixos";
-
-      homeage.url = "github:jordanisaacs/homeage";
-      homeage.inputs.nixpkgs.follows = "nixos";
-
-      nixos-wsl.url = "github:nix-community/NixOS-WSL";
-      nixos-wsl.inputs.nixpkgs.follows = "nixos";
+      berberman.inputs.nixpkgs.follows = "nixpkgs";
     };
 
   outputs =
     { self
-    , digga
-    , nixos
+    , nixpkgs
+      #
+    , flake-parts
+    , devshell
+    , treefmt-nix
       #
     , home
     , darwin
-    , deploy
+    , nixos-wsl
+      #
     , agenix
+    , homeage
       #
     , nur
-      #
     , nixos-hardware
     , nixos-cn
     , berberman
-    , homeage
-    , nixos-wsl
       #
     , ...
     } @ inputs:
-    digga.lib.mkFlake
-      {
-        inherit self inputs;
+    flake-parts.lib.mkFlake {inherit inputs;} ({getSystem, ...}: {
+      imports = [
+        devshell.flakeModule
+        treefmt-nix.flakeModule
+      ];
+
+      systems = [ "x86_64-linux" ];
+
+      perSystem = {
+        inputs',
+        pkgs',
+        ...
+      }: {
+        treefmt = {
+          programs.alejandra.enable = true;
+          flakeFormatter = true;
+          projectRootFile = "flake.nix";
+        };
+
+        devshells.default = {pkgs, ...}: {
+          commands = [
+            {package = pkgs.nix;}
+            {package = inputs'.agenix.packages.default;}
+            {package = inputs'.colmena.packages.colmena;}
+          ];
+        };
+      };
+
+      # FIXME: below are not migrated yet.
+
+      /*
+
+        #inherit self inputs;
 
         channelsConfig = { allowUnfree = true; };
 
@@ -184,13 +213,10 @@
           }; # digga.lib.importers.rakeLeaves ./users/hm;
         };
 
-        devshell = ./shell;
-
         homeConfigurations =
           digga.lib.mergeAny
             (digga.lib.mkHomeConfigurations self.darwinConfigurations)
             (digga.lib.mkHomeConfigurations self.nixosConfigurations);
-
-        deploy.nodes = digga.lib.mkDeployNodes self.nixosConfigurations { };
-      };
+            */
+  });
 }
