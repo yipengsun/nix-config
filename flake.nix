@@ -89,11 +89,7 @@
       systems = [ "x86_64-linux" ];
 
       perSystem =
-        { inputs'
-        , pkgs'
-        , config
-        , ...
-        }: {
+        { inputs', pkgs', config, ... }: {
           treefmt = {
             programs.nixpkgs-fmt.enable = true;
             programs.shfmt.enable = true;
