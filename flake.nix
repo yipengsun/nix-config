@@ -86,7 +86,7 @@
         treefmt-nix.flakeModule
       ];
 
-      systems = [ "x86_64-linux" ];
+      systems = [ "x86_64-linux" "x86_64-darwin" ];
 
       perSystem =
         { inputs', pkgs', config, ... }: {
@@ -99,12 +99,18 @@
           };
 
           devshells.default = { pkgs, ... }: {
+            name = "nix-config";
             commands = [
               { package = pkgs.nix; }
               { package = inputs'.agenix.packages.default; }
               { package = inputs'.colmena.packages.colmena; }
               { package = config.treefmt.build.wrapper; }
             ];
+
+            # enable auto-format pre-commit hooks
+            imports = [ (devshell.outPath + "/extra/git/hooks.nix") ];
+            git.hooks.enable = true;
+            git.hooks.pre-commit.text = "treefmt && git add -u";
           };
         };
 
