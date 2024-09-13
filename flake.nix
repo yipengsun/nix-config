@@ -32,9 +32,22 @@
         ./dev.nix
 
         # local modules
+        ./lib/localNixpkgs.nix
       ];
 
-      systems = [ "x86_64-linux" "x86_64-darwin" ];
+      config = {
+        systems = [ "x86_64-linux" "x86_64-darwin" ];
+
+        localNixpkgs = {
+          config = {
+            allowUnfree = true;
+          };
+
+          overlays = [
+            agenix.overlays.default
+          ];
+        };
+      };
     });
 
 

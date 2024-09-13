@@ -16,7 +16,7 @@
 
         buildInputs = with pkgs; [
           nix
-          #agenix  #FIXME: need to import overlay from agenix input
+          agenix
         ] ++ config.pre-commit.settings.enabledPackages;
 
         shellHook = ''
