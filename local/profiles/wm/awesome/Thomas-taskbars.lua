@@ -46,7 +46,7 @@ weather_widget = lain.widget.weather{
         local desc = wn["weather"][1]["description"]
 
         return string.format("%32s, %3d to %3d, feels like %3d  <b>%s</b>  ",
-                             desc, temp_min, temp_max, temp_feel, day)
+            desc, temp_min, temp_max, temp_feel, day)
     end,
     settings = function()
         local city_name = weather_now["name"]

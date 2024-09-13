@@ -31,3 +31,8 @@ indent_size = unset
 
 [*.md]
 max_line_length = unset
+
+
+# special treatments
+[pylintrc]
+indent_size = unset
