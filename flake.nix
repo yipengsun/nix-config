@@ -54,10 +54,47 @@
           ];
         };
 
+        # profiles & suites
         flake.profiles = haumea.lib.load {
           src = ./profiles;
         };
+
+        flake.suites.system =
+          let
+            profiles = self.profiles.nixos;
+          in
+          rec {
+            base = with profiles; [ cachix core ];
+
+            service-common = with profiles; [ zfs docker printer ];
+
+            laptop = base ++ service-common ++ (with profiles.nixos; [ lang-region-mobile encfs-automount ]);
+            wsl = base ++ (with profiles; [ lang-region-mobile ]);
+          };
+
+        flake.suites.home =
+          let
+            profiles = self.profiles.home;
+          in
+          rec {
+            base = with profiles; [ hm-state-version git zsh python neovim tmux ranger ];
+
+            common-apps = with profiles; [ apps www term ];
+            coding = with profiles; [ dev bat direnv fzf ];
+            multimedia = with profiles; [ mpv mpd ];
+            prod = with profiles; [ zathura ledger dev-secrets ];
+
+            # settings
+            linux-config-cli = with profiles; [ xdg-user-dirs dircolors ];
+            linux-config-gui = with profiles; [ xdg-mime-apps fontconfig wm gui ];
+
+            workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
+              linux-config-cli ++ linux-config-gui;
+            server = base ++ coding ++ linux-config-cli;
+            wsl = base ++ (with profiles; [ apps-wsl zathura ]) ++ coding ++ prod ++ linux-config-cli;
+          };
       };
+
     });
 
 
@@ -129,43 +166,6 @@
           NixOS = { };
           Thomas = {
             modules = [ nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
-          };
-        };
-        importables = rec {
-          profiles = digga.lib.rakeLeaves ./global/profiles // {
-            users = digga.lib.rakeLeaves ./users;
-          };
-          suites = with profiles; rec {
-            base = [ cachix core users.root ];
-            service-common = [ zfs docker printer ];
-
-            # computer types
-            laptop = base ++ service-common ++ [ users.syp lang-region-mobile encfs-automount proxy-localhost ];
-            wsl = base ++ [ users.syp lang-region-mobile ];
-          };
-        };
-      };
-
-      home = {
-        imports = [ (digga.lib.importExportableModules ./local/modules) ];
-        modules = [ homeage.homeManagerModules.homeage ];
-        importables = rec {
-          profiles = digga.lib.rakeLeaves ./local/profiles;
-          suites = with profiles; rec {
-            base = [ hm-state-version git zsh python neovim tmux ranger ];
-            common-apps = [ apps www term ];
-            coding = [ dev bat direnv fzf ];
-            multimedia = [ mpv mpd ];
-            prod = [ hep zathura ledger dev-secrets ];
-
-            # settings
-            linux-config-cli = [ xdg-user-dirs dircolors ];
-            linux-config-gui = [ xdg-mime-apps fontconfig wm gui ];
-
-            workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
-              linux-config-cli ++ linux-config-gui;
-            server = base ++ coding ++ linux-config-cli;
-            wsl = base ++ [ apps-wsl zathura ] ++ coding ++ prod ++ linux-config-cli;
           };
         };
       */
