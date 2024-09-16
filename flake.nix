@@ -15,11 +15,16 @@
 
   outputs =
     { self
+    , nixpkgs
+      #
     , flake-parts
+    , haumea
       #
     , git-hooks
       #
     , agenix
+      #
+    , nur
     , ...
     } @ inputs:
     flake-parts.lib.mkFlake { inherit inputs; } ({ ... }: {
@@ -45,7 +50,12 @@
 
           overlays = [
             agenix.overlays.default
+            nur.overlay
           ];
+        };
+
+        flake.profiles = haumea.lib.load {
+          src = ./profiles;
         };
       };
     });
@@ -98,42 +108,6 @@
   # FIXME: below are not migrated yet.
 
   /*
-
-      #inherit self inputs;
-
-      channelsConfig = { allowUnfree = true; };
-
-      channels = {
-        nixos = {
-          imports = [ (digga.lib.importOverlays ./overlays) ];
-          overlays = [
-            nixos-cn.overlay
-            berberman.overlays.default
-          ];
-        };
-        nixpkgs-darwin-stable = {
-          imports = [ (digga.lib.importOverlays ./overlays) ];
-          overlays = [ ];
-        };
-        latest = { };
-      };
-
-      lib = import ./lib { lib = digga.lib // nixos.lib; };
-
-      sharedOverlays = [
-        (final: prev: {
-          __dontExport = true;
-          lib = prev.lib.extend (lfinal: lprev: {
-            our = self.lib;
-          });
-        })
-
-        nur.overlay
-        agenix.overlays.default
-
-        (import ./pkgs)
-      ];
-
       nixos = {
         hostDefaults = {
           system = "x86_64-linux";
@@ -194,16 +168,5 @@
             wsl = base ++ [ apps-wsl zathura ] ++ coding ++ prod ++ linux-config-cli;
           };
         };
-
-        # Users here can be deployed without a host
-        users = {
-          dev = { suites, ... }: { imports = suites.server; };
-        }; # digga.lib.importers.rakeLeaves ./users/hm;
-      };
-
-      homeConfigurations =
-        digga.lib.mergeAny
-          (digga.lib.mkHomeConfigurations self.darwinConfigurations)
-          (digga.lib.mkHomeConfigurations self.nixosConfigurations);
       */
 }
