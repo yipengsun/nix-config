@@ -34,7 +34,7 @@
         #inputs.lite-config.flakeModule
 
         # devShell
-        ./dev.nix
+        ./lib/devShell.nix
 
         # local modules
         ./lib/localNixpkgs.nix
