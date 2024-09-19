@@ -15,7 +15,6 @@
 
   outputs =
     { self
-    , nixpkgs
       #
     , flake-parts
     , haumea
@@ -28,7 +27,6 @@
       imports = [
         # third-party libs
         git-hooks.flakeModule
-        #inputs.lite-config.flakeModule
 
         # devShell
         ./lib/devShell.nix
@@ -41,6 +39,10 @@
       config = rec {
         systems = [ "x86_64-linux" "x86_64-darwin" ];
 
+        flake.overlays = {
+          default = import ./overlays/default;
+        };
+
         localNixpkgs = {
           config = {
             allowUnfree = true;
@@ -48,7 +50,7 @@
           overlays = [
             inputs.agenix.overlays.default
             inputs.nur.overlay
-          ];
+          ] ++ [ flake.overlays.default ];
         };
 
         # hosts
@@ -121,10 +123,9 @@
     nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
     nixpkgs.follows = "nixpkgs-pointer/nixpkgs";
 
-    # libs/devShell
+    # libs
     flake-parts.url = "github:hercules-ci/flake-parts";
     haumea.url = "github:nix-community/haumea";
-    #lite-config.url = "github:yelite/lite-config";
 
     git-hooks.url = "github:cachix/git-hooks.nix";
     git-hooks.inputs.nixpkgs.follows = "nixpkgs";

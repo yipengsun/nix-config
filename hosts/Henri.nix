@@ -1,10 +1,9 @@
 { pkgs
 , config
 , modulesPath
-, suites
 , ...
 }: {
-  system.stateVersion = "22.11";
+  system.stateVersion = "24.05";
 
   ##############
   # WSL bundle #
@@ -38,8 +37,7 @@
   imports =
     [
       "${modulesPath}/profiles/minimal.nix"
-    ]
-    ++ suites.wsl;
+    ];
 
   ############
   # Services #
@@ -54,8 +52,4 @@
   ###############
 
   #users.allowNoPasswordLogin = true; # another WSL hack
-
-  home-manager.users.syp = { suites, ... }: {
-    imports = suites.wsl;
-  };
 }
