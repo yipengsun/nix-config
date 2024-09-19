@@ -12,6 +12,7 @@ let
   inherit (builtins)
     attrValues
     foldl'
+    length
     ;
 
   inherit (lib)
@@ -162,12 +163,12 @@ let
       in
       if hostPlatform.isLinux
       then {
-        nixosConfiguration.${hostName} = cfgSupport.nixpkgs.lib.nixosSystem builderArgs;
+        nixosConfigurations.${hostName} = cfgSupport.nixpkgs.lib.nixosSystem builderArgs;
       }
       else if hostPlatform.isDarwin
       then {
         # NOTE: hard-coded darwin builder
-        darwinConfiguration.${hostName} = inputs.nix-darwin.lib.darwinSystem builderArgs;
+        darwinConfigurations.${hostName} = inputs.nix-darwin.lib.darwinSystem builderArgs;
       }
       else errUnsupportedSys hostPlatform.system);
 
