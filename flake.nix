@@ -22,9 +22,6 @@
       #
     , git-hooks
       #
-    , agenix
-      #
-    , nur
     , ...
     } @ inputs:
     flake-parts.lib.mkFlake { inherit inputs; } ({ ... }: {
@@ -38,26 +35,49 @@
 
         # local modules
         ./lib/localNixpkgs.nix
+        ./lib/systemBuilder.nix
       ];
 
-      config = {
+      config = rec {
         systems = [ "x86_64-linux" "x86_64-darwin" ];
 
         localNixpkgs = {
           config = {
             allowUnfree = true;
           };
-
           overlays = [
-            agenix.overlays.default
-            nur.overlay
+            inputs.agenix.overlays.default
+            inputs.nur.overlay
           ];
         };
 
-        # profiles & suites
-        flake.profiles = haumea.lib.load {
-          src = ./profiles;
+        # hosts
+        systemBuilder = {
+          hosts = {
+            Henri = {
+              system = "x86_64-linux";
+              systemSuites = flake.suites.system.wsl;
+              homeSuites = flake.suites.home.wsl;
+            };
+          };
+          hostModuleDir = ./hosts;
+
+          # modules applied to all* hosts
+          nixosModules = haumea.lib.load { src = ./modules/nixos; }
+            ++
+            [
+              inputs.agenix.nixosModules.age
+              inputs.nixos-wsl.nixosModules.wsl
+            ];
+          homeModules = haumea.lib.load { src = ./modules/home; }
+            ++
+            [
+              inputs.homeage.homeManagerModules.homeage
+            ];
         };
+
+        # profiles & suites
+        flake.profiles = haumea.lib.load { src = ./profiles; };
 
         flake.suites.system =
           let
@@ -94,7 +114,6 @@
             wsl = base ++ (with profiles; [ apps-wsl zathura ]) ++ coding ++ prod ++ linux-config-cli;
           };
       };
-
     });
 
 
@@ -145,22 +164,6 @@
   # FIXME: below are not migrated yet.
 
   /*
-      nixos = {
-        hostDefaults = {
-          system = "x86_64-linux";
-          channelName = "nixos";
-          imports = [ (digga.lib.importExportableModules ./global/modules) ];
-          modules = [
-            { lib.our = self.lib; }
-            digga.nixosModules.bootstrapIso
-            digga.nixosModules.nixConfig
-            home.nixosModules.home-manager
-            agenix.nixosModules.age
-            nixos-wsl.nixosModules.wsl
-          ];
-        };
-
-        imports = [ (digga.lib.importHosts ./hosts) ];
         hosts = {
           # set host specific properties here
           NixOS = { };
