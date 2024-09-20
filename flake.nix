@@ -81,6 +81,9 @@
             ];
         };
 
+        # users
+        flake.users = haumea.lib.load { src = ./users; };
+
         # profiles & suites
         flake.profiles = haumea.lib.load { src = ./profiles; };
 
