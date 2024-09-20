@@ -36,12 +36,14 @@ with lib; let
     }
   ];
 in
-{
+rec {
   # decrypt openweather API key
-  homeage.file."weather_api_key" = {
-    source = ../../../secrets/weather_api_key.age;
-    symlinks = [ weatherApiKeyLoc ];
+  age.secrets.weather_api_key_syp.file = ../../../secrets/weather_api_key.age;
+  home.file."weather_api_key" = {
+    source = age.secrets.weather_api_key_syp.path;
+    target = weatherApiKeyLoc;
   };
+
   xinit.requiredFiles = [ weatherApiKeyLoc ];
 
   # sadly you need to put this line in your host setting manually:

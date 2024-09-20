@@ -97,7 +97,7 @@
           homeModules = (loadAsList ./modules/home)
             ++
             [
-              inputs.homeage.homeManagerModules.homeage
+              inputs.agenix.homeManagerModules.default
             ];
         };
 
@@ -180,9 +180,6 @@
     # agenix with home-manager integration
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
-
-    homeage.url = "github:jordanisaacs/homeage";
-    homeage.inputs.nixpkgs.follows = "nixpkgs";
 
     # additional packages/modules
     nur.url = "github:nix-community/NUR";
