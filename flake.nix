@@ -15,18 +15,22 @@
 
   outputs =
     { self
-      #
     , flake-parts
     , haumea
-      #
-    , git-hooks
-      #
     , ...
     } @ inputs:
+    let
+      # helper functions
+      loadAsList = src:
+        let
+          attrs = haumea.lib.load { src = src; };
+        in
+        (map (key: builtins.getAttr key attrs) (builtins.attrNames attrs));
+    in
     flake-parts.lib.mkFlake { inherit inputs; } ({ ... }: {
       imports = [
         # third-party libs
-        git-hooks.flakeModule
+        inputs.git-hooks.flakeModule
 
         # devShell
         ./lib/devShell.nix
@@ -37,6 +41,7 @@
       ];
 
       config = rec {
+        debug = true;
         systems = [ "x86_64-linux" "x86_64-darwin" ];
 
         flake.overlays = {
@@ -58,20 +63,18 @@
           hosts = {
             Henri = {
               system = "x86_64-linux";
-              systemSuites = flake.suites.system.wsl;
+              systemSuites = flake.suites.nixos.wsl;
               homeSuites = flake.suites.home.wsl;
             };
           };
           hostModuleDir = ./hosts;
 
           # modules applied to all* hosts
-          nixosModules = haumea.lib.load { src = ./modules/nixos; }
-            ++
-            [
-              inputs.agenix.nixosModules.age
-              inputs.nixos-wsl.nixosModules.wsl
-            ];
-          homeModules = haumea.lib.load { src = ./modules/home; }
+          nixosModules = [
+            inputs.agenix.nixosModules.age
+            inputs.nixos-wsl.nixosModules.wsl
+          ];
+          homeModules = (loadAsList ./modules/home)
             ++
             [
               inputs.homeage.homeManagerModules.homeage
@@ -81,16 +84,20 @@
         # profiles & suites
         flake.profiles = haumea.lib.load { src = ./profiles; };
 
-        flake.suites.system =
+        flake.suites.common = {
+          base = with flake.profiles.nixos; [ cachix core ];
+        };
+
+        flake.suites.nixos =
           let
-            profiles = self.profiles.nixos;
+            profiles = flake.profiles.nixos;
           in
           rec {
-            base = with profiles; [ cachix core ];
+            inherit (flake.suites.common) base;
 
-            service-common = with profiles; [ zfs docker printer ];
+            services = with profiles; [ zfs docker ];
 
-            laptop = base ++ service-common ++ (with profiles.nixos; [ lang-region-mobile encfs-automount ]);
+            laptop = base ++ services ++ (with profiles.nixos; [ lang-region-mobile encfs-automount ]);
             wsl = base ++ (with profiles; [ lang-region-mobile ]);
           };
 
