@@ -21,13 +21,7 @@
     } @ inputs:
     let
       # helper functions
-      loadAsList = src:
-        let
-          attrs = haumea.lib.load { src = src; };
-        in
-        (map (key: builtins.getAttr key attrs) (builtins.attrNames attrs));
-
-      loadProfiles = src:
+      loadStripped = src:
         let
           attrs = haumea.lib.load {
             src = src;
@@ -44,6 +38,12 @@
               x;
         in
         stripDefault attrs;
+
+      loadStrippedAsList = src:
+        let
+          attrs = loadStripped src;
+        in
+        (map (key: builtins.getAttr key attrs) (builtins.attrNames attrs));
     in
     flake-parts.lib.mkFlake { inherit inputs; } ({ ... }: {
       imports = [
@@ -94,7 +94,7 @@
             inputs.agenix.nixosModules.default
             inputs.nixos-wsl.nixosModules.default
           ];
-          homeModules = (loadAsList ./modules/home)
+          homeModules = (loadStrippedAsList ./modules/home)
             ++
             [
               inputs.agenix.homeManagerModules.default
@@ -102,13 +102,10 @@
         };
 
         # users
-        flake.users = haumea.lib.load {
-          src = ./users;
-          loader = haumea.lib.loaders.path;
-        };
+        flake.users = loadStripped ./users;
 
         # profiles & suites
-        flake.profiles = loadProfiles ./profiles;
+        flake.profiles = loadStripped ./profiles;
 
         flake.suites.common = {
           base = with flake.profiles.nixos; [ cachix core ];
@@ -193,14 +190,11 @@
   };
 
   # FIXME: below are not migrated yet.
-
   /*
-        hosts = {
-          # set host specific properties here
-          NixOS = { };
-          Thomas = {
-            modules = [ nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
-          };
-        };
-      */
+    hosts = {
+    Thomas = {
+      modules = [ nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
+    };
+    };
+  */
 }
