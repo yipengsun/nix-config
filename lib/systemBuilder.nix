@@ -43,19 +43,11 @@ let
             '';
       };
 
-      systemSuites = mkOption {
+      suites = mkOption {
         type = types.listOf types.deferredModule;
         default = [ ];
         description = ''
           System suites (NixOS or nix-darwin) to be imported by this host.
-        '';
-      };
-
-      homeSuites = mkOption {
-        type = types.listOf types.deferredModule;
-        default = [ ];
-        description = ''
-          Home suites to be imported by this host.
         '';
       };
     };
@@ -103,7 +95,7 @@ let
         type = types.listOf types.deferredModule;
         default = [ ];
         description = ''
-          Home modules to be imported by all hosts.
+          Home-manager modules to be imported by all hosts.
         '';
       };
     };
@@ -144,14 +136,14 @@ let
             networking.hostName = hostName;
           }
         ]
-        ++ systemModules ++ hostConfig.systemSuites
+        ++ systemModules ++ hostConfig.suites
         ++
         [
           homeManagerSystemModule
           {
             _file = ./.;
             home-manager = {
-              sharedModules = cfg.homeModules ++ hostConfig.homeSuites;
+              sharedModules = cfg.homeModules;
               useGlobalPkgs = true;
               extraSpecialArgs = specialArgs;
             };

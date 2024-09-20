@@ -81,18 +81,18 @@
           hosts = {
             Henri = {
               system = "x86_64-linux";
-              systemSuites = flake.suites.nixos.wsl
+              suites = flake.suites.nixos.wsl
                 ++
                 (with flake.users; [ root syp ]);
-              homeSuites = flake.suites.home.wsl;
+              #homeSuites = flake.suites.home.wsl;
             };
           };
           hostModuleDir = ./hosts;
 
           # modules applied to all* hosts
           nixosModules = [
-            inputs.agenix.nixosModules.age
-            inputs.nixos-wsl.nixosModules.wsl
+            inputs.agenix.nixosModules.default
+            inputs.nixos-wsl.nixosModules.default
           ];
           homeModules = (loadAsList ./modules/home)
             ++
