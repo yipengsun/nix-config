@@ -75,7 +75,7 @@ let
         type = types.path;
         description = ''
           The directory that contains host modules. Module at
-          `''${hostMouduleDir}/''${hostName}` will be imported in
+          `''${hostMouduleDir}/''${hostName}.nix` will be imported in
           the configuration of host `hostName` by default.
 
           The host module used by a host can be overridden in
@@ -119,7 +119,7 @@ let
     withSystem hostConfig.system ({ pkgs, ... }:
       let
         hostPlatform = pkgs.stdenv.hostPlatform;
-        hostModule = "${cfg.hostModuleDir}/${hostName}";
+        hostModule = "${cfg.hostModuleDir}/${hostName}.nix";
 
         systemModules =
           if hostPlatform.isLinux then cfg.nixosModules
