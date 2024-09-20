@@ -26,6 +26,24 @@
           attrs = haumea.lib.load { src = src; };
         in
         (map (key: builtins.getAttr key attrs) (builtins.attrNames attrs));
+
+      loadProfiles = src:
+        let
+          attrs = haumea.lib.load {
+            src = src;
+            loader = haumea.lib.loaders.path;
+          };
+
+          stripDefault = x:
+            if builtins.isAttrs x
+            then
+              if builtins.hasAttr "default" x
+              then x.default
+              else builtins.mapAttrs (name: value: stripDefault value) x
+            else
+              x;
+        in
+        stripDefault attrs;
     in
     flake-parts.lib.mkFlake { inherit inputs; } ({ ... }: {
       imports = [
@@ -63,7 +81,9 @@
           hosts = {
             Henri = {
               system = "x86_64-linux";
-              systemSuites = flake.suites.nixos.wsl;
+              systemSuites = flake.suites.nixos.wsl
+                ++
+                (with flake.users; [ root syp ]);
               homeSuites = flake.suites.home.wsl;
             };
           };
@@ -82,10 +102,13 @@
         };
 
         # users
-        flake.users = haumea.lib.load { src = ./users; };
+        flake.users = haumea.lib.load {
+          src = ./users;
+          loader = haumea.lib.loaders.path;
+        };
 
         # profiles & suites
-        flake.profiles = haumea.lib.load { src = ./profiles; };
+        flake.profiles = loadProfiles ./profiles;
 
         flake.suites.common = {
           base = with flake.profiles.nixos; [ cachix core ];
