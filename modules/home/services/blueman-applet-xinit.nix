@@ -11,13 +11,14 @@ with lib; {
         // {
           description = ''
             Whether to enable the Blueman applet.
-            </para><para>
+
             Note, for the applet to work, the 'blueman' service should
             be enabled system-wide. You can enable it in the system
             configuration using
-            <programlisting language="nix">
-              services.blueman.enable = true;
-            </programlisting>
+
+            ```nix
+            services.blueman.enable = true;
+            ```
           '';
         };
     };
