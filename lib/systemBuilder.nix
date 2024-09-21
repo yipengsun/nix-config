@@ -3,7 +3,8 @@
 #
 # build NixOS/darwin systems
 
-{ inputs
+{ self
+, inputs
 , lib
 , withSystem
 , ...
@@ -128,6 +129,10 @@ let
           inherit inputs hostPlatform;
         };
 
+        homeSuites = with builtins; lib.optionalAttrs
+          (hasAttr "suites" self && hasAttr "home" self.suites)
+          self.suites.home;
+
         modules = [
           hostModule
           {
@@ -145,7 +150,7 @@ let
             home-manager = {
               sharedModules = cfg.homeModules;
               useGlobalPkgs = true;
-              extraSpecialArgs = specialArgs;
+              extraSpecialArgs = specialArgs // { suites = homeSuites; };
             };
           }
         ];
