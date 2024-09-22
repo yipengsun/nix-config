@@ -126,12 +126,10 @@ let
           else errUnsupportedSys hostPlatform.system;
 
         specialArgs = {
-          inherit inputs hostPlatform;
+          inherit self inputs hostPlatform;
         };
 
-        homeSuites = with builtins; lib.optionalAttrs
-          (hasAttr "suites" self && hasAttr "home" self.suites)
-          self.suites.home;
+        #homeSuites = lib.optionalAttrs (self ? suites && self.suites ? home) self.suites.home;
 
         modules = [
           hostModule
@@ -141,19 +139,19 @@ let
             networking.hostName = hostName;
           }
         ]
-        ++ systemModules ++ hostConfig.suites
-        ++
-        [
-          homeManagerSystemModule
-          {
-            _file = ./.;
-            home-manager = {
-              sharedModules = cfg.homeModules;
-              useGlobalPkgs = true;
-              extraSpecialArgs = specialArgs // { suites = homeSuites; };
-            };
-          }
-        ];
+        ++ systemModules ++ hostConfig.suites;
+        #++
+        #[
+        #  homeManagerSystemModule
+        #  {
+        #    _file = ./.;
+        #    home-manager = {
+        #      sharedModules = cfg.homeModules;
+        #      useGlobalPkgs = true;
+        #      extraSpecialArgs = specialArgs; #// { suites = homeSuites; };
+        #    };
+        #  }
+        #];
 
         # aggregated args
         builderArgs = { inherit specialArgs modules; };
@@ -187,8 +185,5 @@ in
     };
   };
 
-
-  config = {
-    flake = systemAttrset;
-  };
+  config.flake = systemAttrset;
 }

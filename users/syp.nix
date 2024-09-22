@@ -5,7 +5,7 @@
   age.secrets.passwd_syp.file = "${self}/secrets/passwd_syp.age";
 
   users.users.syp = {
-    passwordFile = "/run/agenix/passwd_syp";
+    hashedPasswordFile = "/run/agenix/passwd_syp";
     description = "Yipeng Sun";
     shell = pkgs.zsh;
     isNormalUser = true;
@@ -15,6 +15,10 @@
     ];
   };
 
-  # for decrypting files on user login
-  home-manager.users.syp.age.identityPaths = [ "~/.ssh/id_rsa" ];
+  #home-manager.users.syp = {
+  #  home.stateVersion = "24.05";
+
+  #  # for decrypting files on user login
+  #  age.identityPaths = [ "~/.ssh/id_rsa" ];
+  #};
 }

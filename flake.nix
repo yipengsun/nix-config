@@ -21,21 +21,21 @@
     } @ inputs:
     let
       # helper functions
+      stripDefault = x:
+        if builtins.isAttrs x
+        then
+          if builtins.hasAttr "default" x
+          then x.default
+          else builtins.mapAttrs (name: value: stripDefault value) x
+        else
+          x;
+
       loadStripped = src:
         let
           attrs = haumea.lib.load {
             src = src;
             loader = haumea.lib.loaders.path;
           };
-
-          stripDefault = x:
-            if builtins.isAttrs x
-            then
-              if builtins.hasAttr "default" x
-              then x.default
-              else builtins.mapAttrs (name: value: stripDefault value) x
-            else
-              x;
         in
         stripDefault attrs;
 
@@ -94,7 +94,7 @@
             inputs.agenix.nixosModules.default
             inputs.nixos-wsl.nixosModules.default
           ];
-          homeModules = (loadStrippedAsList ./modules/home)
+          homeModules = [ ] /*(loadStrippedAsList ./modules/home)*/
             ++
             [
               inputs.agenix.homeManagerModules.default
