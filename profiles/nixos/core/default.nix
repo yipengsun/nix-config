@@ -61,7 +61,7 @@ in
   };
 
   fonts = {
-    fonts = with pkgs; [
+    packages = with pkgs; [
       dejavu_fonts
       wqy_microhei
       (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
