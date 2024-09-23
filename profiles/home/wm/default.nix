@@ -40,7 +40,7 @@ rec {
   # decrypt openweather API key
   age.secrets.weather_api_key_syp.file = ../../../secrets/weather_api_key.age;
   home.file."weather_api_key" = {
-    source = age.secrets.weather_api_key_syp.path;
+    source = config.age.secrets.weather_api_key_syp.path;
     target = weatherApiKeyLoc;
   };
 
