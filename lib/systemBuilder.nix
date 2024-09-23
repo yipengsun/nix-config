@@ -51,6 +51,14 @@ let
           System suites (NixOS or nix-darwin) to be imported by this host.
         '';
       };
+
+      extraConfig = mkOption {
+        type = types.deferredModule;
+        default = { };
+        description = ''
+          Extra config passed to the host.
+        '';
+      };
     };
   };
 
@@ -149,7 +157,9 @@ let
               extraSpecialArgs = specialArgs;
             };
           }
-        ];
+        ]
+        ++
+        [ hostConfig.extraConfig ];
 
         # aggregated args
         builderArgs = { inherit specialArgs modules; };

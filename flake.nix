@@ -82,7 +82,11 @@
               suites = flake.suites.nixos.wsl
                 ++
                 (with flake.users; [ root syp ]);
-              #homeSuites = flake.suites.home.wsl;
+              extraConfig = {
+                home-manager.users.syp = {
+                  imports = self.suites.home.wsl;
+                };
+              };
             };
           };
           hostModuleDir = ./hosts;

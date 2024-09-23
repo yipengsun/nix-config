@@ -15,10 +15,8 @@
     ];
   };
 
-  #home-manager.users.syp = {
-  #  home.stateVersion = "24.05";
-
-  #  # for decrypting files on user login
-  #  age.identityPaths = [ "~/.ssh/id_rsa" ];
-  #};
+  home-manager.users.syp = {
+    # for decrypting files on user login
+    age.identityPaths = [ "~/.ssh/id_rsa" ];
+  };
 }
