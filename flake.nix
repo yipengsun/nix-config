@@ -150,8 +150,9 @@
 
 
   inputs = {
-    nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
-    nixpkgs.follows = "nixpkgs-pointer/nixpkgs";
+    #nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
+    #nixpkgs.follows = "nixpkgs-pointer/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # libs
     flake-parts.url = "github:hercules-ci/flake-parts";
