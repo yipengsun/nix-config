@@ -24,11 +24,13 @@
       stripDefault = x:
         if builtins.isAttrs x
         then
-          if builtins.hasAttr "default" x
+          if x ? default
           then x.default
           else builtins.mapAttrs (name: value: stripDefault value) x
         else
           x;
+
+      setToList = set: with builtins; (map (key: getAttr key set) (attrNames set));
 
       loadStripped = src:
         let
@@ -39,13 +41,9 @@
         in
         stripDefault attrs;
 
-      loadStrippedAsList = src:
-        let
-          attrs = loadStripped src;
-        in
-        (map (key: builtins.getAttr key attrs) (builtins.attrNames attrs));
+      loadStrippedAsList = src: setToList (loadStripped src);
     in
-    flake-parts.lib.mkFlake { inherit inputs; } ({ ... }: {
+    flake-parts.lib.mkFlake { inherit inputs; } ({ ... } @ args: {
       imports = [
         # third-party libs
         inputs.git-hooks.flakeModule
@@ -94,7 +92,7 @@
             inputs.agenix.nixosModules.default
             inputs.nixos-wsl.nixosModules.default
           ];
-          homeModules = [ ] /*(loadStrippedAsList ./modules/home)*/
+          homeModules = loadStrippedAsList ./modules/home
             ++
             [
               inputs.agenix.homeManagerModules.default

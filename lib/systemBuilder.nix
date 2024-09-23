@@ -129,8 +129,6 @@ let
           inherit self inputs hostPlatform;
         };
 
-        #homeSuites = lib.optionalAttrs (self ? suites && self.suites ? home) self.suites.home;
-
         modules = [
           hostModule
           {
@@ -139,19 +137,19 @@ let
             networking.hostName = hostName;
           }
         ]
-        ++ systemModules ++ hostConfig.suites;
-        #++
-        #[
-        #  homeManagerSystemModule
-        #  {
-        #    _file = ./.;
-        #    home-manager = {
-        #      sharedModules = cfg.homeModules;
-        #      useGlobalPkgs = true;
-        #      extraSpecialArgs = specialArgs; #// { suites = homeSuites; };
-        #    };
-        #  }
-        #];
+        ++ systemModules ++ hostConfig.suites
+        ++
+        [
+          homeManagerSystemModule
+          {
+            _file = ./.;
+            home-manager = {
+              sharedModules = cfg.homeModules;
+              useGlobalPkgs = true;
+              extraSpecialArgs = specialArgs;
+            };
+          }
+        ];
 
         # aggregated args
         builderArgs = { inherit specialArgs modules; };

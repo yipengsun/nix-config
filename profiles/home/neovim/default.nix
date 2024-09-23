@@ -60,7 +60,7 @@ in
     # language servers
     ccls
     #texlab # too damn slow
-    rnix-lsp
+    #rnix-lsp
   ];
 
   home.file.".editorconfig".text = ''
