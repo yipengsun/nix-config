@@ -4,7 +4,7 @@
 , ...
 }:
 with lib; let
-  customLuaPackages = pkgs.lua53Packages;
+  customLuaPackages = pkgs.lua52Packages;
 
   weatherApiKeyLoc = "${config.xdg.configHome}/awesome/weather_api_key";
 
@@ -38,7 +38,9 @@ with lib; let
 in
 rec {
   # decrypt openweather API key
-  age.secrets.weather_api_key_syp.file = ../../../secrets/weather_api_key.age;
+  age.secrets.weather_api_key_syp = {
+    file = ../../../secrets/weather_api_key.age;
+  };
   home.file."weather_api_key" = {
     source = config.age.secrets.weather_api_key_syp.path;
     target = weatherApiKeyLoc;
