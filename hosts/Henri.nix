@@ -1,6 +1,7 @@
 { modulesPath, ... }: {
+
   ##############
-  # wsl bundle #
+  # WSL config #
   ##############
 
   wsl = {
@@ -15,17 +16,17 @@
       automount.root = "/mnt";
     };
 
-    # enable integration with docker desktop (must be installed on windows)
+    # Enable integration with docker desktop (must be installed on Windows)
     # docker-desktop.enable = true;
   };
 
-  # special treatment for containers
-  # see https://github.com/NixOS/nixpkgs/issues/119841
+  # Special treatment for containers, see
+  #   https://github.com/NixOS/nixpkgs/issues/119841
   environment.noXlibs = false;
 
 
   #################
-  # system config #
+  # System config #
   #################
 
   imports =
@@ -37,10 +38,10 @@
 
 
   ############
-  # services #
+  # Services #
   ############
 
-  # we don't have enough ram, really!
+  # We don't have enough RAM, really!
   nix.settings.max-jobs = 2;
   nix.settings.cores = 12;
 }
