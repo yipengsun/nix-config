@@ -7,7 +7,6 @@ in
 {
   # firefox tridactyl-related
   home.packages = [
-    pkgs.tridactyl-native # native messenger
     vim-terminal
   ];
 
@@ -65,15 +64,13 @@ in
 
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox.override {
-      cfg = { enableTridactylNative = true; };
-    };
+
+    nativeMessagingHosts = [ pkgs.tridactyl-native ];
 
     profiles."syp" = {
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         tridactyl
         ublock-origin
-        unpaywall
         darkreader # dark theme for all websites
         copy-selection-as-markdown
         i-dont-care-about-cookies
@@ -81,7 +78,6 @@ in
         no-pdf-download # open pdf directly instead of asking for download
         offline-qr-code-generator
         private-relay # email aliases by firefox
-        search-by-image
       ];
 
       isDefault = true;
