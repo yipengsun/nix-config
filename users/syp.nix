@@ -15,8 +15,10 @@
     ];
   };
 
-  home-manager.users.syp = {
+  home-manager.users.syp = { config, ... }: {
     # for decrypting files on user login
-    age.identityPaths = [ "~/.ssh/id_rsa" ];
+    age.identityPaths = [
+      "${config.home.homeDirectory}/.ssh/id_rsa"
+    ];
   };
 }
