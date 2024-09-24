@@ -1,28 +1,21 @@
-{ pkgs
-, config
-, modulesPath
-, ...
-}: {
-  system.stateVersion = "24.05";
-
+{ modulesPath, ... }: {
   ##############
-  # WSL bundle #
+  # wsl bundle #
   ##############
 
   wsl = {
     enable = true;
-    startMenuLaunchers = false;
-    nativeSystemd = true; # a dangerous proposition, as the installer doesn't support it yet
+
     defaultUser = "syp";
+
+    nativeSystemd = true;
+    useWindowsDriver = true;
 
     wslConf = {
       automount.root = "/mnt";
     };
 
-    # Enable native Docker support
-    # docker-native.enable = true;
-
-    # Enable integration with Docker Desktop (needs to be installed)
+    # enable integration with docker desktop (must be installed on windows)
     # docker-desktop.enable = true;
   };
 
@@ -30,8 +23,9 @@
   # see https://github.com/NixOS/nixpkgs/issues/119841
   environment.noXlibs = false;
 
+
   #################
-  # System config #
+  # system config #
   #################
 
   imports =
@@ -39,17 +33,14 @@
       "${modulesPath}/profiles/minimal.nix"
     ];
 
+  system.stateVersion = "24.05";
+
+
   ############
-  # Services #
+  # services #
   ############
 
-  # we don't have enough RAM, really!
+  # we don't have enough ram, really!
   nix.settings.max-jobs = 2;
   nix.settings.cores = 12;
-
-  ###############
-  # User config #
-  ###############
-
-  #users.allowNoPasswordLogin = true; # another WSL hack
 }
