@@ -88,6 +88,10 @@
                 };
               };
             };
+
+            Thomas = {
+              system = "x86_64-linux";
+            };
           };
           hostModuleDir = ./hosts;
 
@@ -117,35 +121,35 @@
           let
             profiles = flake.profiles.nixos;
           in
-          rec {
+          with profiles; rec {
             inherit (flake.suites.common) base;
 
-            services = with profiles; [ zfs docker ];
+            services = [ zfs docker ];
 
-            laptop = base ++ services ++ (with profiles.nixos; [ lang-region-mobile encfs-automount ]);
-            wsl = base ++ (with profiles; [ lang-region-mobile ]);
+            laptop = base ++ services ++ [ lang-region-mobile encfs-automount ];
+            wsl = base ++ [ lang-region-mobile ];
           };
 
         flake.suites.home =
           let
             profiles = self.profiles.home;
           in
-          rec {
-            base = with profiles; [ hm-state-version git zsh python neovim tmux ranger ];
+          with profiles; rec {
+            base = [ hm-state-version git zsh python neovim tmux ranger ];
 
-            common-apps = with profiles; [ apps www term ];
-            coding = with profiles; [ dev bat direnv fzf ];
-            multimedia = with profiles; [ mpv mpd ];
-            prod = with profiles; [ zathura ledger dev-secrets ];
+            common-apps = [ apps apps-extra www term ];
+            coding = [ dev bat direnv fzf ];
+            multimedia = [ mpv mpd ];
+            prod = [ zathura ledger dev-secrets ];
 
             # settings
-            linux-config-cli = with profiles; [ xdg-user-dirs dircolors ];
-            linux-config-gui = with profiles; [ xdg-mime-apps fontconfig wm gui ];
+            linux-config-cli = [ xdg-user-dirs dircolors ];
+            linux-config-gui = [ xdg-mime-apps fontconfig wm gui ];
 
             workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
               linux-config-cli ++ linux-config-gui;
             server = base ++ coding ++ linux-config-cli;
-            wsl = base ++ (with profiles; [ apps-wsl zathura ]) ++ coding ++ prod ++ linux-config-cli;
+            wsl = base ++ [ apps zathura ] ++ coding ++ prod ++ linux-config-cli;
           };
       };
     });

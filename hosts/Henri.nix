@@ -1,4 +1,6 @@
 { modulesPath, ... }: {
+  system.stateVersion = "24.05";
+
 
   ##############
   # WSL config #
@@ -33,8 +35,6 @@
     [
       "${modulesPath}/profiles/minimal.nix"
     ];
-
-  system.stateVersion = "24.05";
 
 
   ############

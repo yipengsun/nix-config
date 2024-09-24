@@ -1,9 +1,26 @@
 { pkgs
 , config
-, suites
+, self
+, lib
 , ...
-}: {
-  system.stateVersion = "21.11";
+}:
+let
+  latestZfsCompatLinuxPackages = lib.pipe pkgs.linuxKernel.packages [
+    builtins.attrValues
+    (builtins.filter (
+      kPkgs:
+      (builtins.tryEval kPkgs).success
+      && kPkgs ? kernel
+      && kPkgs.kernel.pname == "linux"
+      && !kPkgs.zfs.meta.broken
+    ))
+    (builtins.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)))
+    lib.last
+  ];
+in
+{
+  system.stateVersion = "24.05";
+
 
   ########
   # Boot #
@@ -12,7 +29,7 @@
   boot.initrd.availableKernelModules = [ "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
 
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages = latestZfsCompatLinuxPackages;
   boot.kernelModules = [ "kvm-amd" "acpi_call" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
@@ -26,6 +43,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
 
   ##############
   # Filesystem #
@@ -61,30 +79,19 @@
   # For zfs
   networking.hostId = "559e7746";
 
-  #################
-  # Drivers, etc. #
-  #################
+
+  ############
+  # Hardware #
+  ############
 
   hardware.enableRedistributableFirmware = true;
 
-  # Hardware OpenGL acceleration
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+  hardware.graphics.enable = true;
 
-  # Enable CPU microcode update
   hardware.cpu.amd.updateMicrocode = true;
 
   # ACPI light instead of xbacklight
   hardware.acpilight.enable = true;
-
-  # Audio
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudioFull;
-    support32Bit = true;
-  };
 
   # Custom network interface naming
   services.udev.extraRules = ''
@@ -101,8 +108,9 @@
   #hardware.bluetooth.enable = true;
   #services.blueman.enable = true;
 
-  hardware.trackpoint.speed = 15;
-  hardware.trackpoint.sensitivity = 15;
+  #hardware.trackpoint.speed = 15;
+  #hardware.trackpoint.sensitivity = 15;
+
 
   ############
   # Services #
@@ -133,11 +141,13 @@
 
   networking.networkmanager.enable = true;
 
+
   #################
   # System config #
   #################
 
-  imports = suites.laptop; # this is from the global suite!
+  imports = self.suites.nixos.laptop ++ (with self.users; [ root syp ]);
+
 
   ###############
   # User config #
@@ -145,18 +155,18 @@
 
   programs.dconf.enable = true;
 
-  home-manager.users.syp = { suites, ... }: {
-    imports = suites.workstation;
+  home-manager.users.syp = { pkgs, ... }: {
+    imports = self.suites.home.workstation;
 
     xinit.windowManager.awesome = {
-      taskbars = ./../local/profiles/wm/awesome/Thomas-taskbars.lua;
-      theme = ./../local/profiles/wm/awesome/Thomas-theme;
-      wallpaper = ./../local/profiles/wm/awesome/Thomas-wallpaper.png;
+      taskbars = ../profiles/home/wm/awesome/Thomas-taskbars.lua;
+      theme = ../profiles/home/wm/awesome/Thomas-theme;
+      wallpaper = ../profiles/home/wm/awesome/Thomas-wallpaper.png;
     };
 
-    xinit.initExtra = ''
-      xinput set-prop "TPPS/2 ALPS TrackPoint" "libinput Accel Speed" -0.1
-    '';
+    #xinit.initExtra = ''
+    #  xinput set-prop "TPPS/2 ALPS TrackPoint" "libinput Accel Speed" -0.1
+    #'';
 
     home.packages = with pkgs; [
       acpilight # To make adj. brightness w/ hotkey work
@@ -164,6 +174,7 @@
 
     #services.blueman-applet-xinit.enable = true;
   };
+
 
   ################
   # Legacy stuff #
