@@ -28,10 +28,6 @@
         # git
         g = "git";
 
-        # grep
-        grep = "rg";
-        gi = "grep -i";
-
         # internet ip
         myip = "dig +short myip.opendns.com @208.67.222.222 2>&1";
 
@@ -43,23 +39,8 @@
         nsysgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         nstrayroots = ''nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/\w+-system|\{memory)"'';
 
-        # sudo
-        s = "sudo -E ";
-        si = "sudo -i";
-        se = "sudoedit";
-
         # top
         top = "btm"; # bottom
-
-        # systemd
-        ctl = "systemctl";
-        stl = "s systemctl";
-        utl = "systemctl --user";
-        ut = "systemctl --user start";
-        un = "systemctl --user stop";
-        up = "s systemctl start";
-        dn = "s systemctl stop";
-        jtl = "journalctl";
 
         # misc.
         df = "df -hT";
