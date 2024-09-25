@@ -90,7 +90,7 @@
         bindkey '\e\e' sudo-command-line
 
         # Emit OSC 7 for wezterm to consume
-        urlencode() {
+        url-encode() {
           local length="''${#1}"
           for (( i = 0; i < length; i++ )); do
             local c="''${1:$i:1}"
@@ -101,15 +101,15 @@
           done
         }
 
-        osc7_cwd() {
-          printf '\e]7;file://%s%s\a' "$HOSTNAME" "$(urlencode "$PWD")"
+        osc7-cwd() {
+          printf '\e]7;file://%s%s\a' "$HOSTNAME" "$(url-encode "$PWD")"
         }
 
         autoload -Uz add-zsh-hook
-        add-zsh-hook -Uz chpwd osc7_cwd
+        add-zsh-hook -Uz chpwd osc7-cwd
 
-        # run osc7_cwd on zsh startup
-        osc7_cwd
+        # Run osc7-cwd on zsh startup
+        osc7-cwd
       '';
 
       prezto = {
