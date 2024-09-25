@@ -48,6 +48,11 @@
       # jump between words with ctrl-j/ctrl-k
       bind \cj backward-word
       bind \ck forward-word
+
+      # configure pure-fish
+      set --universal pure_enable_nixdevshell false  # true -> 1 residual char at line start
+      set --universal pure_show_prefix_root_prompt true
+      set --universal pure_symbol_prefix_root_prompt "root"
     '';
 
     plugins = [
