@@ -7,7 +7,7 @@
   users.users.syp = {
     hashedPasswordFile = "/run/agenix/passwd_syp";
     description = "Yipeng Sun";
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "audio" "docker" "adbusers" ];
     openssh.authorizedKeys.keys = [

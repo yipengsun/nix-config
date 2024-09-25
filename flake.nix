@@ -135,7 +135,7 @@
             profiles = self.profiles.home;
           in
           with profiles; rec {
-            base = [ hm-state-version git zsh fish python neovim tmux ranger ];
+            base = [ hm-state-version git /*zsh*/ fish python neovim tmux ranger ];
 
             common-apps = [ apps apps-extra www term ];
             coding = [ dev bat direnv fzf ];
