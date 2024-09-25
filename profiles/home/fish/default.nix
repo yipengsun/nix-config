@@ -28,6 +28,22 @@
       bind j 'if commandline --paging-mode; commandline --function down-line; else; commandline --insert j; end'
       bind k 'if commandline --paging-mode; commandline --function up-line; else; commandline --insert k; end'
       bind l 'if commandline --paging-mode; commandline --function forward-char; else; commandline --insert l; end'
+
+      # expand ... as ../..
+      function expand-dot-to-parent-directory-path -d 'expand ... to ../.. etc'
+          # get commandline up to cursor
+          set -l cmd (commandline --cut-at-cursor)
+
+          # match last line
+          switch $cmd[-1]
+              case '*..'
+                  commandline --insert '/..'
+              case '*'
+                  commandline --insert '.'
+          end
+      end
+
+      bind . 'expand-dot-to-parent-directory-path'
     '';
 
     plugins = [
