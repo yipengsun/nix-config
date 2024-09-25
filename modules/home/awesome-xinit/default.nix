@@ -7,7 +7,7 @@ with lib; let
   cfg = config.xinit.windowManager.awesome;
   awesome = cfg.package;
 
-  getLuaPath = lib: dir: "${lib}/${dir}/lua/${cfg.luaPackages.lua.luaversion}";
+  getLuaPath = lib: dir: "${lib}/${dir}/lua/${awesome.lua.luaversion}";
   makeSearchPath = lib.concatMapStrings (path:
     " --search ${getLuaPath path "share"}"
     + " --search ${getLuaPath path "lib"}");

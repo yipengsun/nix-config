@@ -41,22 +41,21 @@ rec {
   age.secrets.weather_api_key_syp = {
     file = ../../../secrets/weather_api_key.age;
   };
-  home.file."weather_api_key" = {
-    source = config.age.secrets.weather_api_key_syp.path;
-    target = weatherApiKeyLoc;
-  };
+  #home.file."weather_api_key" = {
+  #  source = config.age.secrets.weather_api_key_syp.path;
+  #  target = weatherApiKeyLoc;
+  #};
 
-  xinit.requiredFiles = [ weatherApiKeyLoc ];
+  #xinit.requiredFiles = [ weatherApiKeyLoc ];
 
   # sadly you need to put this line in your host setting manually:
   #   services.xserver.displayManager.startx.enable = true;
-  xinit.enable = true;
+  #xinit.enable = true;
 
-  xinit.windowManager.awesome = {
+  xsession.windowManager.awesome = {
     enable = true;
 
     package = pkgs.awesome.override { lua = customLuaPackages.lua; };
-    luaPackages = customLuaPackages;
 
     luaModules = [
       customLuaPackages.vicious
@@ -80,5 +79,5 @@ rec {
   ];
 
   # enable dropbox
-  services.dropbox-autoreconnect.enable = true;
+  #services.dropbox-autoreconnect.enable = true;
 }

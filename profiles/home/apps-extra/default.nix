@@ -21,7 +21,7 @@
     krop # crop figures from pdf
 
     # chat
-    wechat-uos
+    #wechat-uos
 
     # git utils
     #git-author-rewrite

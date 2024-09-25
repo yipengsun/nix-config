@@ -180,13 +180,13 @@ in
   # Legacy stuff #
   ################
 
-  environment.systemPackages = with pkgs; [
-    # Email
-    mutt
-    getmail6
-    msmtp
-    procmail
-    gnupg
-    w3m
-  ];
+  #environment.systemPackages = with pkgs; [
+  #  # Email
+  #  mutt
+  #  getmail6
+  #  msmtp
+  #  procmail
+  #  gnupg
+  #  w3m
+  #];
 }
