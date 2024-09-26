@@ -37,23 +37,27 @@ final: prev: {
 
   lua5_2 = prev.lua5_2.override {
     packageOverrides = luafinal: luaprev: {
-      lain = prev.callPackage ({ fetchFromGitHub }: prev.buildLuaPackage rec {
-        pname = "lain";
-        version = "unstable-20240925";
+      lain = prev.callPackage
+        ({ fetchFromGitHub }: prev.stdenv.mkDerivation rec {
+          pname = "lain";
+          version = "unstable-20240925";
 
-        src = prev.fetchFromGitHub {
-          owner = "lcpz";
-          repo = "lain";
-          rev = "88f5a8a";
-          sha256 = "NPXsgKcOGp4yDvbv/vouCpDhrEcmXsM2I1IUkDadgjw=";
-        };
+          src = prev.fetchFromGitHub {
+            owner = "lcpz";
+            repo = "lain";
+            rev = "88f5a8a";
+            sha256 = "NPXsgKcOGp4yDvbv/vouCpDhrEcmXsM2I1IUkDadgjw=";
+          };
 
-        installPhase = ''
-          mkdir -p $out/lib/lua/${luaprev.lua.luaversion}/
-          cp -r . $out/lib/lua/${luaprev.lua.luaversion}/lain/
-          printf "package.path = '$out/lib/lua/${luaprev.lua.luaversion}/?/init.lua;' ..  package.path\nreturn require((...) .. '.init')\n" > $out/lib/lua/${luaprev.lua.luaversion}/lain.lua
-        '';
-      });
+          buildInputs = [ prev.lua5_2 ];
+
+          installPhase = ''
+            mkdir -p $out/lib/lua/${luaprev.lua.luaversion}/
+            cp -r . $out/lib/lua/${luaprev.lua.luaversion}/lain/
+            printf "package.path = '$out/lib/lua/${luaprev.lua.luaversion}/?/init.lua;' ..  package.path\nreturn require((...) .. '.init')\n" > $out/lib/lua/${luaprev.lua.luaversion}/lain.lua
+          '';
+        })
+        { };
     };
   };
   lua52Packages = final.lua5_2.pkgs;
