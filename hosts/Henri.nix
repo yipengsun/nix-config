@@ -22,10 +22,6 @@
     # docker-desktop.enable = true;
   };
 
-  # Special treatment for containers, see
-  #   https://github.com/NixOS/nixpkgs/issues/119841
-  environment.noXlibs = false;
-
 
   #################
   # System config #

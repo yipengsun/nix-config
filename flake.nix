@@ -149,19 +149,18 @@
             workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
               linux-config-cli ++ linux-config-gui;
             server = base ++ coding ++ linux-config-cli;
-            wsl = base ++ [ apps zathura wsl-restart-systemd-user ] ++ coding ++ prod ++ linux-config-cli;
+            wsl = base ++ [ apps zathura /*wsl-restart-systemd-user*/ ] ++ coding ++ prod ++ linux-config-cli;
           };
       };
     });
 
 
   inputs = {
-    #nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
-    #nixpkgs.follows = "nixpkgs-pointer/nixpkgs";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";
+    nixpkgs.follows = "nixpkgs-pointer/nixpkgs";
 
     # libs
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.follows = "nixpkgs-pointer/flake-parts";
     haumea.url = "github:nix-community/haumea";
 
     git-hooks.url = "github:cachix/git-hooks.nix";
@@ -191,6 +190,7 @@
 
     nixos-cn.url = "github:nixos-cn/flakes";
     nixos-cn.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-cn.inputs.flake-utils.follows = "nixpkgs-pointer/flake-utils";
 
     berberman.url = "github:berberman/flakes";
     berberman.inputs.nixpkgs.follows = "nixpkgs";
