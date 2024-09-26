@@ -122,7 +122,7 @@ in
   services.logind.lidSwitchExternalPower = "ignore";
   services.logind.lidSwitchDocked = "ignore";
 
-  services.openssh.permitRootLogin = "no";
+  services.openssh.settings.PermitRootLogin = "no";
 
   # X11
   services.xserver.enable = true;
@@ -156,13 +156,13 @@ in
   programs.dconf.enable = true;
 
   home-manager.users.syp = { pkgs, ... }: {
-    imports = self.suites.home.workstation;
+    imports = self.suites.home.workstation ++ [ self.profiles.home.wm-x11 ];
 
-    xinit.windowManager.awesome = {
-      taskbars = ../profiles/home/wm/awesome/Thomas-taskbars.lua;
-      theme = ../profiles/home/wm/awesome/Thomas-theme;
-      wallpaper = ../profiles/home/wm/awesome/Thomas-wallpaper.png;
-    };
+    #xinit.windowManager.awesome = {
+    #  taskbars = ../profiles/home/wm/awesome/Thomas-taskbars.lua;
+    #  theme = ../profiles/home/wm/awesome/Thomas-theme;
+    #  wallpaper = ../profiles/home/wm/awesome/Thomas-wallpaper.png;
+    #};
 
     #xinit.initExtra = ''
     #  xinput set-prop "TPPS/2 ALPS TrackPoint" "libinput Accel Speed" -0.1
