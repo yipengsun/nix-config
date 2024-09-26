@@ -146,7 +146,7 @@ in
   # System config #
   #################
 
-  imports = self.suites.nixos.laptop ++ (with self.users; [ root syp ]);
+  imports = self.suites.nixos.laptop ++ [ self.profiles.nixos.proxy-localhost ] ++ (with self.users; [ root syp ]);
 
 
   ###############
@@ -171,22 +171,5 @@ in
     home.packages = with pkgs; [
       acpilight # To make adj. brightness w/ hotkey work
     ];
-
-    #services.blueman-applet-xinit.enable = true;
   };
-
-
-  ################
-  # Legacy stuff #
-  ################
-
-  #environment.systemPackages = with pkgs; [
-  #  # Email
-  #  mutt
-  #  getmail6
-  #  msmtp
-  #  procmail
-  #  gnupg
-  #  w3m
-  #];
 }
