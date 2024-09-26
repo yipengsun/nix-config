@@ -4,7 +4,6 @@
 }: {
   home.packages = with pkgs; [
     # utilities
-    scrot # screen shot
     neofetch
     colortest
     dmidecode # hardware info

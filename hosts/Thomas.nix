@@ -158,18 +158,22 @@ in
   home-manager.users.syp = { pkgs, ... }: {
     imports = self.suites.home.workstation ++ [ self.profiles.home.wm-x11 ];
 
-    #xinit.windowManager.awesome = {
-    #  taskbars = ../profiles/home/wm/awesome/Thomas-taskbars.lua;
-    #  theme = ../profiles/home/wm/awesome/Thomas-theme;
-    #  wallpaper = ../profiles/home/wm/awesome/Thomas-wallpaper.png;
-    #};
+    awesome-wm-config = {
+      extraPackages = with pkgs; [
+        acpilight # to make adj. brightness w/ hotkey work
+        scrot # screenshot
+        i3lock
+        awesomesearch
+        awesome-volume-control
+      ];
+
+      taskbars = ./Thomas-support/awesome/Thomas-taskbars.lua;
+      theme = ./Thomas-support/awesome/Thomas-theme;
+      wallpaper = ./Thomas-support/awesome/Thomas-wallpaper.png;
+    };
 
     #xinit.initExtra = ''
     #  xinput set-prop "TPPS/2 ALPS TrackPoint" "libinput Accel Speed" -0.1
     #'';
-
-    home.packages = with pkgs; [
-      acpilight # To make adj. brightness w/ hotkey work
-    ];
   };
 }

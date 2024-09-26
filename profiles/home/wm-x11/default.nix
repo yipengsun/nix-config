@@ -40,13 +40,10 @@ rec {
   # decrypt openweather API key
   age.secrets.weather_api_key_syp = {
     file = ../../../secrets/weather_api_key.age;
+    path = weatherApiKeyLoc;
   };
 
   #xinit.requiredFiles = [ weatherApiKeyLoc ];
-
-  # sadly you need to put this line in your host setting manually:
-  #   services.xserver.displayManager.startx.enable = true;
-  #xinit.enable = true;
 
   xsession.enable = true;
   xsession.windowManager.awesome = {
@@ -60,6 +57,8 @@ rec {
     ];
   };
 
+  awesome-wm-config.enable = true;
+
   # copy fcitx5 config on generation and forget about it
   home.activation.copyFcitxConfig = hm.dag.entryAfter [ "writeBoundary" ] ''
     ${concatMapStrings (x: "chmod 644 ${x.dst}\n") fcitxConfigFiles}
@@ -68,12 +67,12 @@ rec {
   '';
 
   # lets also define programs that run with X here
-  i18n.inputMethod.enabled = "fcitx5";
-  i18n.inputMethod.fcitx5.addons = with pkgs; [
-    fcitx5-chinese-addons
-    fcitx5-material-color
-    fcitx5-pinyin-zhwiki # huge Chinese dict for pinyin input
-  ];
+  #i18n.inputMethod.enabled = "fcitx5";
+  #i18n.inputMethod.fcitx5.addons = with pkgs; [
+  #  fcitx5-chinese-addons
+  #  fcitx5-material-color
+  #  fcitx5-pinyin-zhwiki # huge Chinese dict for pinyin input
+  #];
 
   # enable dropbox
   #services.dropbox-autoreconnect.enable = true;
