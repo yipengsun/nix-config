@@ -11,26 +11,18 @@ indent_size = 2
 [*.{py,vim,lua}]
 indent_size = 4
 
-
-# ignores
-[*.{diff,patch}]
-end_of_line = unset
-insert_final_newline = unset
-trim_trailing_whitespace = unset
-charset = unset
-indent_style = unset
-indent_size = unset
-
-[{.*,secrets}/**]
-end_of_line = unset
-insert_final_newline = unset
-trim_trailing_whitespace = unset
-charset = unset
-indent_style = unset
-indent_size = unset
-
 [*.md]
 max_line_length = unset
+
+
+# ignores
+[*.{diff,patch,age}]
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+charset = unset
+indent_style = unset
+indent_size = unset
 
 
 # special treatments
