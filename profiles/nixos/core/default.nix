@@ -1,15 +1,5 @@
-{ self
-, config
-, lib
-, pkgs
-, ...
-}:
-let
-  inherit (lib) fileContents;
-in
+{ lib, pkgs, ... }:
 {
-  imports = [ ../cachix ];
-
   security.sudo.enable = true;
   security.sudo.wheelNeedsPassword = false; # I'm a lazy bastard
 
@@ -49,7 +39,6 @@ in
 
       # Dev tools
       git
-      tig
       fd # find-like
       ripgrep # grep-like
     ];

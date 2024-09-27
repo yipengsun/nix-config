@@ -1,4 +1,7 @@
+{ pkgs, ... }:
 {
+  home.packages = [ pkgs.tig ];
+
   # tig config to resolve contrast issues w/ dracula
   xdg.configFile."tig/config".text = ''
     # color default         white   black
