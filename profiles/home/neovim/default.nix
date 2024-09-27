@@ -59,8 +59,8 @@ in
 
     # language servers
     ccls
+    nil
     #texlab # too damn slow
-    #rnix-lsp
   ];
 
   home.file.".editorconfig".text = ''
@@ -272,14 +272,6 @@ in
         }
       ]
       ++ lib.optionals (!isRoot) [
-        # {
-        #   plugin = vim-im-select;
-        #   config = ''
-        #     if has('wsl')
-        #       let g:im_select_command = "im-select.exe"
-        #     endif
-        #   '';
-        # }
         {
           plugin = im-select-nvim;
           config = ''
@@ -354,8 +346,9 @@ in
           };
         };
         nix = {
-          command = "rnix-lsp";
+          command = "nil";
           filetypes = [ "nix" ];
+          rootPatterns = [ "flake.nix" ];
         };
       };
     };

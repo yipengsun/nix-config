@@ -210,7 +210,8 @@ nnoremap <silent><F4> :call ToggleSpellCheck()<CR>
 " Filetypes "
 """""""""""""
 
-au FileType gitcommit set colorcolumn=73
+au FileType gitcommit set colorcolumn=121
+au FileType gitcommit set formatoptions-=t formatoptions-=l " don't automatically break lines
 
 au FileType gitcommit,tex,markdown set spell
 
