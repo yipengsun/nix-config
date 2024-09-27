@@ -126,7 +126,7 @@
             services = [ zfs docker ];
 
             laptop = base ++ services ++ [ lang-region encfs-automount ];
-            wsl = base ++ [ lang-region ];
+            wsl = base ++ [ lang-region wsl-vscode-remote ];
           };
 
         flake.suites.home =
