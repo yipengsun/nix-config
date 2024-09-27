@@ -109,4 +109,7 @@ in
   # Enable required basic nix integration for various shells
   #programs.zsh.enable = true;
   programs.fish.enable = true;
+
+  programs.command-not-found.enable = false;
+  programs.nix-index.enable = true;
 }
