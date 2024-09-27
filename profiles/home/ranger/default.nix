@@ -1,18 +1,20 @@
 { pkgs, ... }:
-let
-  rangerBundle = pkgs.symlinkJoin {
-    name = "ranger-bundle";
-    paths = [ pkgs.ranger pkgs.ueberzug ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      for prog in ranger rifle ueberzug; do
-        wrapProgram "$out/bin/$prog" --set PYTHONPATH "$out/lib"
-      done
-    '';
-  };
-in
 {
-  home.packages = [ rangerBundle ];
+  programs.ranger = {
+    enable = true;
 
-  xdg.configFile."ranger/rc.conf".source = ./rc.conf;
+    settings = {
+      column_ratios = "1,1,3,4";
+      unicode_ellipsis = true;
+      scroll_offset = 8;
+      shorten_title = 3;
+      tilde_in_titlebar = true;
+      status_bar_on_top = false;
+      draw_borders = true;
+
+      # image preview
+      preview_images = true;
+      preview_images_method = "kitty"; # doesn't work inside WSL due to lack of TERMINFO
+    };
+  };
 }
