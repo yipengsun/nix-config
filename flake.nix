@@ -14,8 +14,7 @@
 
 
   outputs =
-    { self
-    , flake-parts
+    { flake-parts
     , haumea
     , ...
     } @ inputs:
@@ -43,7 +42,7 @@
 
       loadStrippedAsList = src: setToList (loadStripped src);
     in
-    flake-parts.lib.mkFlake { inherit inputs; } ({ ... } @ args: {
+    flake-parts.lib.mkFlake { inherit inputs; } ({ ... }: {
       imports = [
         # third-party libs
         inputs.git-hooks.flakeModule
@@ -83,7 +82,7 @@
                 ++
                 (with flake.users; [ root syp ]);
               extraConfig = {
-                home-manager.users.syp = {
+                home-manager.users.syp = { self, ... }: {
                   imports = self.suites.home.wsl;
                 };
               };
