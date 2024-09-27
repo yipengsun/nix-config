@@ -14,7 +14,13 @@
 
       # image preview
       preview_images = true;
-      preview_images_method = "kitty"; # doesn't work inside WSL due to lack of TERMINFO
+
+      # need to set TERM=xterm-kitty, might not be possible
+      #preview_images_method = "kitty"; # doesn't work inside WSL due to lack of TERMINFO
+
+      preview_images_method = "ueberzug";
     };
+
+    extraPackages = [ pkgs.ueberzugpp ];
   };
 }
