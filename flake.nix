@@ -132,7 +132,7 @@
 
         flake.suites.home =
           let
-            profiles = self.profiles.home;
+            profiles = flake.profiles.home;
           in
           with profiles; rec {
             base = [ hm-state-version git /*zsh*/ fish python neovim tmux ranger ];
