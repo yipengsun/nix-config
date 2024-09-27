@@ -23,7 +23,7 @@ let
     };
   };
 
-  im-select-nvim = pkgs.vimUtils.buildVimPlugin rec {
+  im-select-nvim = pkgs.vimUtils.buildVimPlugin {
     pname = "im-select-nvim";
     version = "20230830";
     src = pkgs.fetchFromGitHub {
@@ -31,17 +31,6 @@ let
       repo = "im-select.nvim";
       rev = "13627c8";
       sha256 = "sha256-FbDRm7/KqGax2n8L9WWPz49vHMKhrHF+DrNhyzhibHc=";
-    };
-  };
-
-  vim-im-select = pkgs.vimUtils.buildVimPlugin rec {
-    pname = "vim-im-select";
-    version = "20230830";
-    src = pkgs.fetchFromGitHub {
-      owner = "brglng";
-      repo = "vim-im-select";
-      rev = "3ddf36a";
-      sha256 = "sha256-UxxnGX5FoQhhXKZFRZUBqcFelYa+s7KFqvM0eSg1Reg=";
     };
   };
 
