@@ -1,6 +1,6 @@
 # nix-config
 
-My NixOS/nix-darwin/home-manager config
+My NixOS/nix-darwin config.
 
 
 ## Switch system config
@@ -37,3 +37,13 @@ Enable/disable auto-snapshot with the following command:
 ```
 sudo zfs set com.sun:auto-snapshot=true <pool>/<fs>
 ```
+
+
+## Acknowledgement
+
+- This project was originally based on [`digga`](https://github.com/divnix/digga).
+- `digga` is no longer actively maintained.
+  To learn `nix` and make things simpler,
+  I studied [`lite-config`](https://github.com/yelite/lite-config) flake,
+  stole the bits useful to me,
+  and remade the project into its current state.
