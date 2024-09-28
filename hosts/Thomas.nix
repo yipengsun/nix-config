@@ -133,6 +133,9 @@ in
   '';
   services.xserver.displayManager.startx.enable = true;
 
+  # Display manager
+  services.displayManager.ly.enable = true;
+
   # Update firmware
   services.fwupd.enable = true;
 
