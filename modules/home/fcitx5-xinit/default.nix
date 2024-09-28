@@ -9,32 +9,32 @@ with lib; let
   fcitx5Package = pkgs.fcitx5-with-addons.override { inherit (cfg) addons; };
 in
 {
-  disabledModules = [
-    "i18n/input-method/fcitx5.nix"
-  ];
+  #disabledModules = [
+  #  "i18n/input-method/fcitx5.nix"
+  #];
 
-  options = {
-    i18n.inputMethod.fcitx5 = {
-      addons = mkOption {
-        type = with types; listOf package;
-        default = [ ];
-        example = literalExpression "with pkgs; [ fcitx5-rime ]";
-        description = ''
-          Enabled Fcitx5 addons.
-        '';
-      };
-    };
-  };
+  #options = {
+  #  i18n.inputMethod.fcitx5 = {
+  #    addons = mkOption {
+  #      type = with types; listOf package;
+  #      default = [ ];
+  #      example = literalExpression "with pkgs; [ fcitx5-rime ]";
+  #      description = ''
+  #        Enabled Fcitx5 addons.
+  #      '';
+  #    };
+  #  };
+  #};
 
-  config = mkIf (im.enabled == "fcitx5") {
-    i18n.inputMethod.package = fcitx5Package;
+  #config = mkIf (im.enabled == "fcitx5") {
+  #  i18n.inputMethod.package = fcitx5Package;
 
-    home.sessionVariables = {
-      GTK_IM_MODULE = "fcitx";
-      QT_IM_MODULE = "fcitx";
-      XMODIFIERS = "@im=fcitx";
-    };
+  #  home.sessionVariables = {
+  #    GTK_IM_MODULE = "fcitx";
+  #    QT_IM_MODULE = "fcitx";
+  #    XMODIFIERS = "@im=fcitx";
+  #  };
 
-    xinit.initExtra = "${fcitx5Package}/bin/fcitx5 -r &";
-  };
+  #  xinit.initExtra = "${fcitx5Package}/bin/fcitx5 -r &";
+  #};
 }
