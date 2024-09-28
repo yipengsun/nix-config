@@ -1,27 +1,43 @@
-{ pkgs, ... }: {
-  home.packages = [ pkgs.xcolor ];
-
+{ pkgs, ... }:
+let
+  themeName = "Dracula";
+in
+{
   # NOTE: need to add
   #   programs.dconf.enable = true
-  # in host settings
+  # in nixos settings
   gtk = {
     enable = true;
     font = {
-      name = "Dejavu Sans Mono for Powerline";
+      name = "monospace";
       size = 9;
     };
 
     iconTheme = {
-      package = pkgs.dracula-theme;
-      name = "Dracula";
+      name = themeName;
+      package = pkgs.dracula-icon-theme;
     };
 
-    theme.name = "Dracula";
+    theme = {
+      name = themeName;
+      package = pkgs.dracula-theme;
+    };
   };
 
   qt = {
     enable = true;
-    platformTheme.name = "gtk";
-    style.name = "Dracula";
+    style = {
+      name = themeName;
+      package = pkgs.dracula-qt5-theme;
+    };
+  };
+
+  home.pointerCursor = {
+    package = pkgs.catppuccin-cursors.mochaDark;
+    name = "catppuccin-mocha-dark-cursors";
+    size = 48;
+
+    x11.enable = true;
+    gtk.enable = true;
   };
 }
