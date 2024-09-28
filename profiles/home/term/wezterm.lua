@@ -11,6 +11,9 @@ local config = wezterm.config_builder()
 config.scrollback_lines = 3000
 config.warn_about_missing_glyphs = false
 
+-- workaround for https://github.com/wez/wezterm/issues/5990
+config.front_end = "WebGpu"
+
 
 ------------------
 -- key bindings --
