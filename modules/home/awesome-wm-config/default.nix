@@ -109,12 +109,6 @@ in
     wallpaper = mkOption {
       type = types.path;
     };
-
-
-    city = mkOption {
-      type = types.attrsOf types.str;
-      default = { lat = "39.9042"; lon = "116.4074"; }; # Beijing
-    };
   };
 
   config = mkIf cfg.enable {
@@ -189,10 +183,6 @@ in
 
       -- Global variables
       ${concatStringsSep "\n" (mapAttrsToList (key: val: key + " = " + ''"'' + val + ''"'') cfg.globalVariables)}
-
-      -- Define city ID for weather widget
-      city_lat = ${cfg.city.lat}
-      city_lon = ${cfg.city.lon}
 
       layouts = {
         ${concatStringsSep ",\n" cfg.layouts}

@@ -31,32 +31,6 @@ vicious.register(bat_widget, vicious.widgets.bat, "Bat: "..mk.fg.color(beautiful
 mail_widget = wibox.widget.textbox()
 vicious.register(mail_widget, vicious.widgets.mdir, "Mail: "..mk.fg.color(beautiful.fg_focus, "$1"), 5, { home_path.."/mail/" })
 
--- Weather
-weather_widget = lain.widget.weather{
-    APPID = weather_api_key,
-    lat = city_lat,
-    lon = city_lon,
-    followtag = true,
-    -- For the pop-up, we can only do 5 days for the free version of the API
-    notification_text_fun = function(wn)
-        local day = os.date("%a %d", wn["dt"])
-        local temp_min = math.floor(wn["main"]["temp_min"])
-        local temp_max = math.floor(wn["main"]["temp_max"])
-        local temp_feel = math.floor(wn["main"]["feels_like"])
-        local desc = wn["weather"][1]["description"]
-
-        return string.format("%32s, %3d to %3d, feels like %3d <b>%s</b> ",
-            desc, temp_min, temp_max, temp_feel, day)
-    end,
-    settings = function()
-        local city_name = weather_now["name"]
-        local descr = weather_now["weather"][1]["description"]
-        local temp = math.floor(weather_now["main"]["temp"])
-
-        widget:set_markup("Weather: "..mk.fg.color(beautiful.fg_focus, city_name..", "..descr.." "..temp.."°C"))
-    end,
-}.widget
-
 --}}}
 
 --{{{ Taskbar layout
@@ -132,8 +106,6 @@ awful.screen.connect_for_each_screen(function(s)
         ,
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            spacer,
-            weather_widget,
             spacer,
             thermal_widget,
             spacer,

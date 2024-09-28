@@ -5,7 +5,7 @@
 let
   customLuaPackages = pkgs.lua53Packages;
 
-  weatherApiKeyLoc = "${config.xdg.configHome}/awesome/weather_api_key";
+  #weatherApiKeyLoc = "${config.xdg.configHome}/awesome/weather_api_key";
 
   fcitxDstPath = path: "${config.xdg.configHome}/fcitx5/" + path;
   fcitxConfigFiles = [
@@ -37,10 +37,10 @@ let
 in
 {
   # decrypt openweather API key
-  age.secrets.weather_api_key_syp = {
-    file = ../../../secrets/weather_api_key.age;
-    path = weatherApiKeyLoc;
-  };
+  #age.secrets.weather_api_key_syp = {
+  #  file = ../../../secrets/weather_api_key.age;
+  #  path = weatherApiKeyLoc;
+  #};
 
   #xinit.requiredFiles = [ weatherApiKeyLoc ];
 
