@@ -1,8 +1,4 @@
-{ pkgs
-, lib
-, config
-, ...
-}:
+{ pkgs, ... }:
 let
   # this version can't be found on github anymore
   # forgot how I found it in the first place
@@ -22,20 +18,6 @@ let
       sha256 = "aWt618LWLwnWAhKN9TTCTn2mJQR7Ntt8JV3L/VDiS84=";
     };
   };
-
-  im-select-nvim = pkgs.vimUtils.buildVimPlugin {
-    pname = "im-select-nvim";
-    version = "20230830";
-    src = pkgs.fetchFromGitHub {
-      owner = "keaising";
-      repo = "im-select.nvim";
-      rev = "13627c8";
-      sha256 = "sha256-FbDRm7/KqGax2n8L9WWPz49vHMKhrHF+DrNhyzhibHc=";
-    };
-  };
-
-  isRoot = config.home.username == "root";
-  hasImSelect = config.i18n.inputMethod.enabled == "fcitx5";
 in
 {
   home.sessionVariables = {
@@ -253,19 +235,6 @@ in
             EOF
           '';
         }
-      ]
-      ++ lib.optionals (!isRoot && hasImSelect) [
-        {
-          plugin = im-select-nvim;
-          config = ''
-            lua << EOF
-              require('im_select').setup{
-                set_default_events = { "InsertLeave" },
-                set_previous_events = { "InsertEnter" }
-              }
-            EOF
-          '';
-        }
       ];
 
     extraConfig = builtins.readFile ./init.vim;
@@ -279,6 +248,7 @@ in
     coc.enable = true;
     coc.settings = {
       suggest.defaultSortMethod = "none";
+
       diagnostic-languageserver.filetypes.python = "pylint";
       diagnostic-languageserver.linters = {
         pylint = {
@@ -318,6 +288,7 @@ in
           formatLines = 1;
         };
       };
+
       languageserver = {
         ccls = {
           command = "ccls";

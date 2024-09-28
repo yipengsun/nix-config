@@ -84,6 +84,7 @@
               extraConfig = {
                 home-manager.users.syp = { self, ... }: {
                   imports = self.suites.home.wsl;
+                  im-select.enable = true;
                 };
               };
             };
@@ -117,10 +118,7 @@
         };
 
         flake.suites.nixos =
-          let
-            profiles = flake.profiles.nixos;
-          in
-          with profiles; rec {
+          with flake.profiles.nixos; rec {
             inherit (flake.suites.common) base;
 
             services = [ zfs docker ];
@@ -130,25 +128,21 @@
           };
 
         flake.suites.home =
-          let
-            profiles = flake.profiles.home;
-          in
-          with profiles; rec {
-            base = [ hm-state-version git /*zsh*/ fish python neovim tmux ranger ];
+          with flake.profiles.home; rec {
+            base = [ hm-state-version git fish python neovim tmux ];
 
             common-apps = [ apps apps-extra www term ];
             coding = [ dev bat direnv fzf ];
             multimedia = [ mpv mpd ];
-            prod = [ zathura ledger dev-secrets ];
+            prod = [ zathura ledger dev-secrets ranger ];
 
-            # settings
             linux-config-cli = [ xdg-user-dirs dircolors ];
             linux-config-gui = [ xdg-mime-apps fontconfig gui ];
 
             workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
               linux-config-cli ++ linux-config-gui;
             server = base ++ coding ++ linux-config-cli;
-            wsl = base ++ [ apps zathura ] ++ coding ++ prod ++ linux-config-cli;
+            wsl = base ++ [ apps ] ++ coding ++ prod ++ linux-config-cli;
           };
       };
     });
