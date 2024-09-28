@@ -16,9 +16,6 @@
     # document
     krop # crop figures from pdf
 
-    # chat
-    #wechat-uos
-
     # git utils
     #git-author-rewrite
 

@@ -5,8 +5,6 @@
 let
   customLuaPackages = pkgs.lua53Packages;
 
-  #weatherApiKeyLoc = "${config.xdg.configHome}/awesome/weather_api_key";
-
   fcitxDstPath = path: "${config.xdg.configHome}/fcitx5/" + path;
   fcitxConfigFiles = [
     {
@@ -36,14 +34,7 @@ let
   ];
 in
 {
-  # decrypt openweather API key
-  #age.secrets.weather_api_key_syp = {
-  #  file = ../../../secrets/weather_api_key.age;
-  #  path = weatherApiKeyLoc;
-  #};
-
-  #xinit.requiredFiles = [ weatherApiKeyLoc ];
-
+  # awesome
   xsession.enable = true;
   xsession.windowManager.awesome = {
     enable = true;
@@ -58,6 +49,14 @@ in
 
   awesome-wm-config.enable = true;
 
+  # fcitx
+  i18n.inputMethod.enabled = "fcitx5";
+  i18n.inputMethod.fcitx5.addons = with pkgs; [
+    fcitx5-chinese-addons
+    nur.repos.ruixi-rebirth.fcitx5-pinyin-moegirl
+    nur.repos.ruixi-rebirth.fcitx5-pinyin-zhwiki
+  ];
+
   # copy fcitx5 config on generation and forget about it
   #home.activation.copyFcitxConfig = hm.dag.entryAfter [ "writeBoundary" ] ''
   #  ${concatMapStrings (x: "chmod 644 ${x.dst}\n") fcitxConfigFiles}
@@ -65,14 +64,6 @@ in
   #  ${concatMapStrings (x: "chmod 644 ${x.dst}\n") fcitxConfigFiles}
   #'';
 
-  # lets also define programs that run with X here
-  #i18n.inputMethod.enabled = "fcitx5";
-  #i18n.inputMethod.fcitx5.addons = with pkgs; [
-  #  fcitx5-chinese-addons
-  #  fcitx5-material-color
-  #  fcitx5-pinyin-zhwiki # huge Chinese dict for pinyin input
-  #];
-
-  # enable dropbox
+  # dropbox
   #services.dropbox-autoreconnect.enable = true;
 }
