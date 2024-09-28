@@ -88,6 +88,7 @@
 
             Thomas = {
               system = "x86_64-linux";
+              suites = [ inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
             };
           };
           hostModuleDir = ./hosts;
@@ -152,6 +153,7 @@
     # libs
     flake-parts.follows = "nixpkgs-pointer/flake-parts";
     haumea.url = "github:nix-community/haumea";
+    haumea.inputs.nixpkgs.follows = "nixpkgs";
 
     git-hooks.url = "github:cachix/git-hooks.nix";
     git-hooks.inputs.nixpkgs.follows = "nixpkgs";
@@ -178,13 +180,4 @@
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:nixos/nixos-hardware";
   };
-
-  # FIXME: below are not migrated yet.
-  /*
-    hosts = {
-    Thomas = {
-      modules = [ nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
-    };
-    };
-  */
 }
