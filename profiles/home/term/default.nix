@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       env.TERM = "xterm-256color";
-      key_bindings = [
+      keyboard.bindings = [
         {
           key = "Return";
           mods = "Control|Shift";
@@ -34,10 +34,6 @@
           focused_match = {
             foreground = "#44475a";
             background = "#ffb86c";
-          };
-          footer_bar = {
-            background = "#282a36";
-            foreground = "#f8f8f2";
           };
         };
         hints = {
