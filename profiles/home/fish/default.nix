@@ -55,34 +55,10 @@
       set --universal pure_symbol_prefix_root_prompt "root"
     '';
 
-    plugins = [
-      {
-        name = "pure";
-        src = pkgs.fetchFromGitHub {
-          owner = "pure-fish";
-          repo = "pure";
-          rev = "28447d2e7a4edf3c954003eda929cde31d3621d2";
-          sha256 = "sha256-8zxqPU9N5XGbKc0b3bZYkQ3yH64qcbakMsHIpHZSne4=";
-        };
-      }
-      {
-        name = "z";
-        src = pkgs.fetchFromGitHub {
-          owner = "jethrokuan";
-          repo = "z";
-          rev = "85f863f20f24faf675827fb00f3a4e15c7838d76";
-          sha256 = "sha256-+FUBM7CodtZrYKqU542fQD+ZDGrd2438trKM0tIESs0=";
-        };
-      }
-      {
-        name = "fzf.fish";
-        src = pkgs.fetchFromGitHub {
-          owner = "PatrickF1";
-          repo = "fzf.fish";
-          rev = "8920367cf85eee5218cc25a11e209d46e2591e7a";
-          sha256 = "sha256-T8KYLA/r/gOKvAivKRoeqIwE2pINlxFQtZJHpOy9GMM=";
-        };
-      }
+    plugins = with pkgs.fishPlugins; [
+      { name = "pure"; src = pure.src; }
+      { name = "z"; src = z.src; }
+      { name = "fzf"; src = fzf.src; }
     ];
   };
 }
