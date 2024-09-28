@@ -32,18 +32,18 @@ awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1
 
 -- This rule apply to all size/amount adjustments
 -- In general, more left keys are mapped as "bigger" function, and vice versa
--- h = more
--- l = less (reduce the size of master layout)
--- v = more
--- l = less (reduce the size of current slave client)
+-- l = more
+-- h = less (reduce the size of master layout)
+-- n = more
+-- v = less (reduce the size of current slave client)
 
 -- Adjust the layout between master and slave
-awful.key({ modkey,           }, "h", function () awful.tag.incmwfact( 0.05)    end),
-awful.key({ modkey,           }, "l", function () awful.tag.incmwfact(-0.05)    end),
+awful.key({ modkey,           }, "h", function () awful.tag.incmwfact(-0.05)    end),
+awful.key({ modkey,           }, "l", function () awful.tag.incmwfact( 0.05)    end),
 
 -- Adjust the layout between slave clients
-awful.key({ modkey,           }, "v", function () awful.client.incwfact( 0.05) end),
-awful.key({ modkey,           }, "n", function () awful.client.incwfact(-0.05) end),
+awful.key({ modkey,           }, "v", function () awful.client.incwfact(-0.05) end),
+awful.key({ modkey,           }, "n", function () awful.client.incwfact( 0.05) end),
 
 -- Splice/merge master layout
 awful.key({ modkey, "Shift"   }, "h", function () awful.tag.incnmaster( 1)      end),
