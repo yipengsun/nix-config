@@ -1,7 +1,4 @@
-{ home
-, pkgs
-, ...
-}: {
+{ pkgs, ... }: {
   home.packages = with pkgs; [
     # utilities
     neofetch
@@ -14,7 +11,7 @@
     xorg.xmodmap
     arandr
     glxinfo
-    #pychrom
+    xcolor # screen color picker
 
     # document
     krop # crop figures from pdf
