@@ -14,10 +14,7 @@
 
 
   outputs =
-    { flake-parts
-    , haumea
-    , ...
-    } @ inputs:
+    { flake-parts, haumea, ... } @ inputs:
     let
       # helper functions
       stripDefault = x:
@@ -180,13 +177,6 @@
     # additional packages/modules
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:nixos/nixos-hardware";
-
-    nixos-cn.url = "github:nixos-cn/flakes";
-    nixos-cn.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-cn.inputs.flake-utils.follows = "nixpkgs-pointer/flake-utils";
-
-    berberman.url = "github:berberman/flakes";
-    berberman.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   # FIXME: below are not migrated yet.

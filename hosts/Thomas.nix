@@ -149,7 +149,9 @@ in
   # System config #
   #################
 
-  imports = self.suites.nixos.laptop ++ [ self.profiles.nixos.proxy-localhost ] ++ (with self.users; [ root syp ]);
+  imports = self.suites.nixos.laptop
+    ++ [ self.profiles.nixos.proxy-localhost ]
+    ++ (with self.users; [ root syp ]);
 
 
   ###############
@@ -160,6 +162,10 @@ in
 
   home-manager.users.syp = { pkgs, ... }: {
     imports = self.suites.home.workstation ++ [ self.profiles.home.wm-x11 ];
+
+    home.packages = [
+      pkgs.nur.repos.xddxdd.wine-wechat
+    ];
 
     awesome-wm-config = {
       extraPackages = with pkgs; [
