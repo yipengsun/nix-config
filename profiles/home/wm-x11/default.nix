@@ -65,5 +65,5 @@ in
   #'';
 
   # dropbox
-  #services.dropbox-autoreconnect.enable = true;
+  services.dropbox.enable = true;
 }
