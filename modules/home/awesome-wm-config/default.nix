@@ -181,7 +181,7 @@ in
       modkey = "${cfg.modKey}"
 
       -- OpenWeather API key
-      weather_api_key = read_key(cfg_path.."/weather_api_key")
+      --weather_api_key = read_key(cfg_path.."/weather_api_key")
 
       -- Global variables
       ${concatStringsSep "\n" (mapAttrsToList (key: val: key + " = " + ''"'' + val + ''"'') cfg.globalVariables)}
