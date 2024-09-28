@@ -1,6 +1,6 @@
 {
   programs.wezterm = {
-    enable = false;
+    enable = true;
 
     colorSchemes = {
       Dracula = {
@@ -93,7 +93,7 @@
   };
 
   programs.alacritty = {
-    enable = true;
+    enable = false;
     settings = {
       env.TERM = "xterm-256color";
       keyboard.bindings = [
@@ -175,7 +175,7 @@
     };
   };
 
-  home.file.".Xdefaults".text = ''
+  xresources.extraConfig = ''
     ! Fix Alt Key Input
     XTerm*eightBitInput: false
     XTerm*altSendsEscape: true
