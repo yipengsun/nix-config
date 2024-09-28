@@ -5,7 +5,16 @@
 with lib; let
   cfg = config.awesome-wm-config;
 
-  defaultTerm = if config.programs.wezterm.enable then "wezterm" else "xterm";
+  preferredTerm = elems:
+    with builtins;
+    if elems == [ ] then "xterm"
+    else if (head elems).pred then (head elems).value
+    else preferredTerm (tail elems);
+
+  defaultTerm = preferredTerm [
+    { pred = config.programs.wezterm.enable; value = "wezterm"; }
+    { pred = config.programs.alacritty.enable; value = "alacritty"; }
+  ];
 in
 {
   options.awesome-wm-config = {
