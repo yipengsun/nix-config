@@ -1,6 +1,6 @@
 {
   programs.wezterm = {
-    enable = true;
+    enable = false;
 
     colorSchemes = {
       Dracula = {
@@ -93,7 +93,7 @@
   };
 
   programs.alacritty = {
-    enable = false;
+    enable = true;
     settings = {
       env.TERM = "xterm-256color";
       keyboard.bindings = [
@@ -103,7 +103,11 @@
           action = "SpawnNewInstance";
         }
       ];
+
+      # alacritty has weired font size behavior. see:
+      #   https://github.com/alacritty/alacritty/issues/1501
       font.size = 6;
+
       # dracula theme
       colors = {
         primary = {
@@ -204,7 +208,7 @@
 
     ! Fonts
     XTerm*fontMenu*fontdefault*Label: Default
-    XTerm*faceName: DejaVu Sans Mono
+    XTerm*faceName: monospace
     XTerm*faceSize: 10
 
     XTerm*scrollbar: no

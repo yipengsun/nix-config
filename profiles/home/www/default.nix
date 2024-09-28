@@ -1,21 +1,32 @@
-{ pkgs, ... }:
+{ config
+, pkgs
+, ...
+}:
 let
+  preferredTerm = elems:
+    with builtins;
+    if elems == [ ] then "xterm"
+    else if (head elems).pred then (head elems).value
+    else preferredTerm (tail elems);
+
+  defaultTerm = preferredTerm [
+    { pred = config.programs.wezterm.enable; value = "wezterm"; }
+    { pred = config.programs.alacritty.enable; value = "alacritty"; }
+  ];
+
   vim-terminal = pkgs.writeScriptBin "vim-terminal" ''
-    alacritty -e nvim $1
+    ${defaultTerm} -e nvim $1
   '';
 in
 {
   # firefox tridactyl-related
-  home.packages = [
-    vim-terminal
-  ];
+  home.packages = [ vim-terminal ];
 
   home.file.".tridactylrc".text = ''
     """""""""""
     " Generic "
     """""""""""
 
-    " Set editorcmd to 'vim-terminal'
     set editorcmd vim-terminal
 
     " Scroll settings
@@ -89,7 +100,7 @@ in
       };
       userChrome = ''
         * {
-          font-family: "DejaVu Sans Mono";
+          font-family: "monospace";
           font-size: 9pt;
         }
       '';

@@ -1,4 +1,4 @@
-local wezterm = require 'wezterm'
+--local wezterm = require 'wezterm' -- hm does this automatically
 
 
 ------------
@@ -184,8 +184,8 @@ config.mouse_bindings = {
 --------
 
 -- font
-config.font = wezterm.font 'FiraCode Nerd Font Mono'
-config.font_size = 12
+config.font = wezterm.font 'monospace'
+config.font_size = 10
 
 
 -- color theme
