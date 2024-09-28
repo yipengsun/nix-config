@@ -84,7 +84,7 @@ in
     };
 
     tagLayouts = mkOption {
-      default = [ 2 1 3 3 ];
+      default = [ 2 1 3 2 ];
       type = types.listOf types.int;
     };
 
