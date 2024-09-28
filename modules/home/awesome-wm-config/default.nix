@@ -4,6 +4,8 @@
 }:
 with lib; let
   cfg = config.awesome-wm-config;
+
+  defaultTerm = if config.programs.wezterm.enable then "wezterm" else "xterm";
 in
 {
   options.awesome-wm-config = {
@@ -41,7 +43,7 @@ in
       default = {
         editor = "vi";
 
-        terminal = "alacritty";
+        terminal = defaultTerm;
         browser = "firefox";
         chrome = "chromium";
         lock = "i3lock -f -c 000000";
