@@ -35,6 +35,7 @@ let
   };
 
   isRoot = config.home.username == "root";
+  hasImSelect = config.i18n.inputMethod.enabled == "fcitx5";
 in
 {
   home.sessionVariables = {
@@ -253,7 +254,7 @@ in
           '';
         }
       ]
-      ++ lib.optionals (!isRoot) [
+      ++ lib.optionals (!isRoot && hasImSelect) [
         {
           plugin = im-select-nvim;
           config = ''
