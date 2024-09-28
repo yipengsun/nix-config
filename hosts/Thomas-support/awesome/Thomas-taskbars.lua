@@ -32,10 +32,10 @@ mail_widget = wibox.widget.textbox()
 vicious.register(mail_widget, vicious.widgets.mdir, "Mail: "..mk.fg.color(beautiful.fg_focus, "$1"), 5, { home_path.."/mail/" })
 
 -- Weather
--- List of city IDs can be downloaded here: http://bulk.openweathermap.org/sample/
 weather_widget = lain.widget.weather{
     APPID = weather_api_key,
-    city_id = city_id_weather,
+    lat = city_lat,
+    lon = city_lon,
     followtag = true,
     -- For the pop-up, we can only do 5 days for the free version of the API
     notification_text_fun = function(wn)
@@ -45,7 +45,7 @@ weather_widget = lain.widget.weather{
         local temp_feel = math.floor(wn["main"]["feels_like"])
         local desc = wn["weather"][1]["description"]
 
-        return string.format("%32s, %3d to %3d, feels like %3d  <b>%s</b>  ",
+        return string.format("%32s, %3d to %3d, feels like %3d <b>%s</b> ",
             desc, temp_min, temp_max, temp_feel, day)
     end,
     settings = function()

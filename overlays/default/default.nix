@@ -35,10 +35,10 @@ final: prev: {
   awesomesearch = prev.callPackage ./awesomesearch { };
   awesome-volume-control = prev.callPackage ./awesome-volume-control { };
 
-  lua5_2 = prev.lua5_2.override {
+  lua5_3 = prev.lua5_3.override {
     packageOverrides = luafinal: luaprev: {
       lain = prev.callPackage
-        ({ fetchFromGitHub }: prev.stdenv.mkDerivation rec {
+        ({ fetchFromGitHub }: prev.stdenv.mkDerivation {
           pname = "lain";
           version = "unstable-20240925";
 
@@ -49,7 +49,8 @@ final: prev: {
             sha256 = "NPXsgKcOGp4yDvbv/vouCpDhrEcmXsM2I1IUkDadgjw=";
           };
 
-          buildInputs = [ prev.lua5_2 ];
+          # lain requires lua 5.3+
+          buildInputs = [ prev.lua5_3 ];
 
           installPhase = ''
             mkdir -p $out/lib/lua/${luaprev.lua.luaversion}/
@@ -60,5 +61,5 @@ final: prev: {
         { };
     };
   };
-  lua52Packages = final.lua5_2.pkgs;
+  lua53Packages = final.lua5_3.pkgs;
 }

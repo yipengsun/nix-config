@@ -1,6 +1,5 @@
 { config
 , lib
-, pkgs
 , ...
 }:
 with lib; let
@@ -111,11 +110,10 @@ in
       type = types.path;
     };
 
-    # go to openweathermap.org, search for city name, the number in the URL is the city ID.
-    cityId = mkOption {
-      # default = "4351977"; # College Park, MD, USA
-      default = "1816670"; # Beijing, China
-      type = types.str;
+
+    city = mkOption {
+      type = types.attrsOf types.str;
+      default = { lat = "39.9042"; lon = "116.4074"; }; # Beijing
     };
   };
 
@@ -193,7 +191,8 @@ in
       ${concatStringsSep "\n" (mapAttrsToList (key: val: key + " = " + ''"'' + val + ''"'') cfg.globalVariables)}
 
       -- Define city ID for weather widget
-      city_id_weather = ${cfg.cityId}
+      city_lat = ${cfg.city.lat}
+      city_lon = ${cfg.city.lon}
 
       layouts = {
         ${concatStringsSep ",\n" cfg.layouts}
