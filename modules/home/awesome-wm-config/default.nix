@@ -1,5 +1,6 @@
 { config
 , lib
+, pkgs
 , ...
 }:
 with lib; let
@@ -123,6 +124,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [ awesomesearch awesome-volume-control ];
+
     xdg.configFile."awesome/rc.lua".text = ''
       -- Check if awesome encountered an error during startup and fall back to
       -- another config (This code will only ever execute for the fallback config)
