@@ -53,12 +53,28 @@
     packages = with pkgs; [
       dejavu_fonts
       wqy_microhei
-      (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
+      (nerdfonts.override {
+        fonts = [
+          "FiraCode"
+          "DejaVuSansMono"
+        ];
+      })
     ];
 
     fontconfig.defaultFonts = {
-      monospace = [ "DejaVuSansMono Nerd Font" ];
-      sansSerif = [ "DejaVu Sans" ];
+      monospace = [
+        "FiraCode Nerd Font Mono"
+        "DejaVuSansM Nerd Font Mono"
+        "WenQuanYi Micro Hei Mono"
+      ];
+      serif = [
+        "DejaVu Serif"
+        "WenQuanYi Micro Hei"
+      ];
+      sansSerif = [
+        "DejaVu Sans"
+        "WenQuanYi Micro Hei"
+      ];
     };
   };
 
