@@ -28,12 +28,12 @@ config.keys = {
     {
         key = 'c',
         mods = 'CTRL|SHIFT',
-        action = act.CopyTo 'ClipboardAndPrimarySelection'
+        action = act.CopyTo 'Clipboard'
     },
     {
         key = 'v',
         mods = 'CTRL|SHIFT',
-        action = act.PasteFrom 'PrimarySelection'
+        action = act.PasteFrom 'Clipboard'
     },
 
     -- open search overlay
