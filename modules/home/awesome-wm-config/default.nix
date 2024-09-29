@@ -24,7 +24,12 @@ in
     enable = mkEnableOption "Awesome window manager config.";
 
     extraPackages = mkOption {
-      default = with pkgs; [ awesomesearch awesome-volume-control i3lock ];
+      default = with pkgs; [
+        awesomesearch
+        awesome-volume-control
+        i3lock
+        scrot
+      ];
       type = types.listOf types.package;
     };
 

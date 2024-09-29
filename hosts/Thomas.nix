@@ -19,7 +19,7 @@ let
   ];
 in
 {
-  system.stateVersion = "24.11";
+  system.stateVersion = "24.05";
 
 
   ########
@@ -170,19 +170,11 @@ in
     awesome-wm-config = {
       extraPackages = with pkgs; [
         acpilight # to make adj. brightness w/ hotkey work
-        scrot # screenshot
-        i3lock
-        awesomesearch
-        awesome-volume-control
       ];
 
       taskbars = ./Thomas-support/awesome-wm/taskbars.lua;
       theme = ./Thomas-support/awesome-wm/theme;
       wallpaper = ./Thomas-support/awesome-wm/wallpaper.png;
     };
-
-    #xinit.initExtra = ''
-    #  xinput set-prop "TPPS/2 ALPS TrackPoint" "libinput Accel Speed" -0.1
-    #'';
   };
 }
