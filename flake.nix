@@ -120,7 +120,7 @@
             services = [ zfs docker ];
 
             # typical use cases
-            workstation = base ++ services ++ [ lang-region encfs-automount ];
+            workstation = base ++ services ++ [ lang-region encfs-automount maestral ];
             server = base ++ services ++ [ lang-region ];
             wsl = base ++ [ lang-region wsl-vscode-remote ];
           };
