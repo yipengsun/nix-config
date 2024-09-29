@@ -3,7 +3,7 @@
     enable = true;
 
     desktop = "$HOME/misc";
-    documents = "$HOME/misc/documents";
+    documents = "$HOME/public";
     download = "$HOME/downloads";
     music = "$HOME/misc/audios";
     pictures = "$HOME/misc/images";
