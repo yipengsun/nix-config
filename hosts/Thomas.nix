@@ -149,7 +149,7 @@ in
   # System config #
   #################
 
-  imports = self.suites.nixos.laptop
+  imports = self.suites.nixos.workstation
     ++ [ self.profiles.nixos.proxy-localhost ]
     ++ (with self.users; [ root syp ]);
 

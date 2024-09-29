@@ -70,7 +70,6 @@
           ] ++ [ flake.overlays.default ];
         };
 
-        # hosts
         systemBuilder = {
           hosts = {
             Henri = {
@@ -94,10 +93,12 @@
           hostModuleDir = ./hosts;
 
           # modules applied to all* hosts
-          nixosModules = [
-            inputs.agenix.nixosModules.default
-            inputs.nixos-wsl.nixosModules.default
-          ];
+          nixosModules = loadStrippedAsList ./modules/nixos
+            ++
+            [
+              inputs.agenix.nixosModules.default
+              inputs.nixos-wsl.nixosModules.default
+            ];
           homeModules = loadStrippedAsList ./modules/home
             ++
             [
@@ -121,26 +122,29 @@
 
             services = [ zfs docker ];
 
-            laptop = base ++ services ++ [ lang-region encfs-automount ];
+            # typical use cases
+            workstation = base ++ services ++ [ lang-region encfs-automount ];
+            server = base ++ services ++ [ lang-region ];
             wsl = base ++ [ lang-region wsl-vscode-remote ];
           };
 
         flake.suites.home =
           with flake.profiles.home; rec {
-            base = [ hm-state-version git fish python neovim tmux ];
+            base = [ hm-state-version git fish fzf bat neovim tmux ranger ];
 
-            common-apps = [ apps apps-extra www term ];
-            coding = [ dev bat direnv fzf ];
+            common-apps = [ apps apps-extra www term zathura ledger dev-secrets ];
+            coding = [ dev direnv python ];
             multimedia = [ mpv mpd ];
-            prod = [ zathura ledger dev-secrets ranger ];
 
             linux-config-cli = [ xdg-user-dirs dircolors ];
             linux-config-gui = [ xdg-mime-apps fontconfig gui ];
 
-            workstation = base ++ common-apps ++ coding ++ multimedia ++ prod ++
+            # typical use cases
+            workstation = base ++ common-apps ++ coding ++ multimedia ++
               linux-config-cli ++ linux-config-gui;
             server = base ++ coding ++ linux-config-cli;
-            wsl = base ++ [ apps ] ++ coding ++ prod ++ linux-config-cli;
+            wsl = base ++ coding ++ linux-config-cli ++
+              [ apps zathura dev-secrets ];
           };
       };
     });
