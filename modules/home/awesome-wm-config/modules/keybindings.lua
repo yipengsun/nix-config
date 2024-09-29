@@ -1,4 +1,4 @@
--- Module: keybindings.lua
+-- module: keybindings.lua
 -- vim:fdm=marker
 
 local swshell = awful.util.spawn_with_shell

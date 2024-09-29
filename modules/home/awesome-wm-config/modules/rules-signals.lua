@@ -1,4 +1,4 @@
--- Module: rules_signals.lua
+-- module: rules-signals.lua
 -- vim:fdm=marker
 
 --{{{ Rules
@@ -43,7 +43,7 @@ awful.rules.rules = {
     -- { rule = { class = "XTerm" },
     --     callback = function(c)
     --         c:tags({ awful.screen.focused().selected_tag, awful.screen.focused().tags[#awful.screen.focused().tags] }) end },
-    { rule_any = { class = { "XTerm", "Alacritty"} },
+    { rule_any = { class = { "XTerm", "Alacritty", "org.wezfurlong.wezterm" } },
         callback = awful.client.setslave  },
 }
 

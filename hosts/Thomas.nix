@@ -176,9 +176,9 @@ in
         awesome-volume-control
       ];
 
-      taskbars = ./Thomas-support/awesome/Thomas-taskbars.lua;
-      theme = ./Thomas-support/awesome/Thomas-theme;
-      wallpaper = ./Thomas-support/awesome/Thomas-wallpaper.png;
+      taskbars = ./Thomas-support/awesome-wm/taskbars.lua;
+      theme = ./Thomas-support/awesome-wm/theme;
+      wallpaper = ./Thomas-support/awesome-wm/wallpaper.png;
     };
 
     #xinit.initExtra = ''

@@ -1,4 +1,4 @@
--- Module: taskbars.lua
+-- module: taskbars.lua
 -- vim:fdm=marker
 
 local mk = lain.util.markup
