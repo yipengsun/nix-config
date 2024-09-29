@@ -18,18 +18,20 @@ with lib; let
   ];
 
   customLuaPackages = pkgs.lua53Packages;
+
+  requiredPackages = with pkgs; [
+    awesomesearch
+    awesome-volume-control
+    i3lock
+    scrot
+  ];
 in
 {
   options.awesome-wm-config = {
     enable = mkEnableOption "Awesome window manager config.";
 
     extraPackages = mkOption {
-      default = with pkgs; [
-        awesomesearch
-        awesome-volume-control
-        i3lock
-        scrot
-      ];
+      default = [ ];
       type = types.listOf types.package;
     };
 
@@ -131,7 +133,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = cfg.extraPackages;
+    home.packages = requiredPackages ++ cfg.extraPackages;
 
     xsession.enable = true;
     xsession.windowManager.awesome = {
