@@ -24,7 +24,7 @@ in
     enable = mkEnableOption "Awesome window manager config.";
 
     extraPackages = mkOption {
-      default = [ ];
+      default = with pkgs; [ awesomesearch awesome-volume-control i3lock ];
       type = types.listOf types.package;
     };
 
@@ -126,7 +126,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ awesomesearch awesome-volume-control ];
+    home.packages = cfg.extraPackages;
 
     xsession.enable = true;
     xsession.windowManager.awesome = {
