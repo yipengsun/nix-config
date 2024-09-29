@@ -106,10 +106,7 @@
             ];
         };
 
-        # users
         flake.users = loadStripped ./users;
-
-        # profiles & suites
         flake.profiles = loadStripped ./profiles;
 
         flake.suites.common = {
