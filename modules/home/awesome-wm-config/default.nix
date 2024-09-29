@@ -16,6 +16,8 @@ with lib; let
     { pred = config.programs.wezterm.enable; value = "wezterm"; }
     { pred = config.programs.alacritty.enable; value = "alacritty"; }
   ];
+
+  customLuaPackages = pkgs.lua53Packages;
 in
 {
   options.awesome-wm-config = {
@@ -125,6 +127,16 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [ awesomesearch awesome-volume-control ];
+
+    xsession.enable = true;
+    xsession.windowManager.awesome = {
+      enable = true;
+      package = pkgs.awesome.override { lua = customLuaPackages.lua; };
+      luaModules = [
+        customLuaPackages.vicious
+        customLuaPackages.lain
+      ];
+    };
 
     xdg.configFile."awesome/rc.lua".text = ''
       -- Check if awesome encountered an error during startup and fall back to
