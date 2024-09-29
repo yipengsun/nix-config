@@ -15,6 +15,7 @@
 
     # document
     krop # crop figures from pdf
+    satty # screenshot annotation
 
     # git utils
     #git-author-rewrite
