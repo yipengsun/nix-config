@@ -19,5 +19,5 @@
   ];
 
   # linter config
-  #xdg.configFile."pylintrc".text = builtins.readFile ./pylintrc;
+  xdg.configFile."pylintrc".text = builtins.readFile ./pylintrc;
 }
