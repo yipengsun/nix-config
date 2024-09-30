@@ -109,6 +109,7 @@ awful.key({                   }, "XF86AudioPlay",        function () swshell(mpd
 awful.key({                   }, "Print", function () swshell(prtscr) end),
 
 -- Misc.
+awful.key({                   }, "XF86Display",          function () swshell('autorandr -c') end),
 awful.key({ modkey,           }, "F8",                   function () swshell('arandr')       end),
 
 -- Drop-down console
