@@ -128,17 +128,14 @@
         flake.suites.home =
           with flake.profiles.home; rec {
             base = [ hm-state-version git fish fzf bat neovim tmux ranger ];
-
-            common-apps = [ apps apps-extra www term zathura ledger dev-secrets ];
             coding = [ dev direnv python ];
-            multimedia = [ mpv mpd ];
 
             linux-config-cli = [ xdg-user-dirs dircolors ];
             linux-config-gui = [ xdg-mime-apps fontconfig gui ];
 
             # typical use cases
-            workstation = base ++ common-apps ++ coding ++ multimedia ++
-              linux-config-cli ++ linux-config-gui;
+            workstation = base ++ coding ++ linux-config-cli ++ linux-config-gui ++
+              [ apps zathura dev-secrets ] ++ [ apps-extra www term ledger mpv ];
             server = base ++ coding ++ linux-config-cli;
             wsl = base ++ coding ++ linux-config-cli ++
               [ apps zathura dev-secrets ];
