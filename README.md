@@ -7,7 +7,7 @@ My NixOS/nix-darwin config.
 
 In the project root:
 
-```
+```shell
 sudo nixos-rebuild switch --flake ".#<hostname>"
 ```
 
@@ -18,7 +18,7 @@ sudo nixos-rebuild switch --flake ".#<hostname>"
 
 On non-NixOS, use the Determinate `nix` installer:
 
-```
+```shell
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
 
@@ -34,7 +34,7 @@ nix repl
 
 Enable/disable auto-snapshot with the following command:
 
-```
+```shell
 sudo zfs set com.sun:auto-snapshot=true <pool>/<fs>
 ```
 
