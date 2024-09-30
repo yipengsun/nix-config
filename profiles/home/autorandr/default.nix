@@ -21,7 +21,7 @@ in
     };
 
     profiles = {
-      "mobile" = {
+      "Thomas-mobile" = {
         fingerprint = {
           eDP = edidLenoveT14;
         };
@@ -41,7 +41,7 @@ in
         };
       };
 
-      "home" = {
+      "Thomas-home" = {
         fingerprint = {
           DisplayPort-1 = edidShelfUsbC;
           eDP = edidLenoveT14;
