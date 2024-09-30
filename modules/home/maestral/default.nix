@@ -25,6 +25,10 @@ in
           "graphical-session.target"
         ];
         Requires = After;
+
+        ConditionPathExists = [
+          "${config.xdg.configHome}/maestral/maestral.ini"
+        ];
       };
 
       Service = {
