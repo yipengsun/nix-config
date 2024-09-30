@@ -28,8 +28,8 @@ bat_widget = wibox.widget.textbox()
 vicious.register(bat_widget, vicious.widgets.bat, "Bat: "..mk.fg.color(beautiful.fg_focus, "$1$2%"), 20, "BAT0")
 
 -- Mail
-mail_widget = wibox.widget.textbox()
-vicious.register(mail_widget, vicious.widgets.mdir, "Mail: "..mk.fg.color(beautiful.fg_focus, "$1"), 5, { home_path.."/mail/" })
+--mail_widget = wibox.widget.textbox()
+--vicious.register(mail_widget, vicious.widgets.mdir, "Mail: "..mk.fg.color(beautiful.fg_focus, "$1"), 5, { home_path.."/mail/" })
 
 --}}}
 
@@ -114,8 +114,6 @@ awful.screen.connect_for_each_screen(function(s)
             mem_widget,
             spacer,
             bat_widget,
-            spacer,
-            mail_widget,
             spacer,
             textclock,
             ---- Create a systray
