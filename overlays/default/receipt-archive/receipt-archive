@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+src=~/misc/documents/archives/scanned
+dst=~/misc/documents/archives/receipts
+year="2024"  # initial year
+year_cur=$(date +"%Y")  # current year
+month_cur=$(date +"%-m")  # current month
+
+
+month_align () {
+    if [ ${#1} -eq 1 ]; then
+        echo "0$1"
+    else
+        echo "$1"
+    fi
+}
+
+
+while [ $year -lt $year_cur ]; do
+    month="1"
+    cd ${src}
+
+    while [ $month -lt "13" ]; do
+        echo "Working on ${year}, ${month}"
+        M=$(month_align $month)
+
+        filename=${year:2}${M}
+        packname=${year}${M}.zip
+
+        apack ${dst}/${packname} ${filename}*.pdf
+        rm ${src}/${filename}*
+
+        let "month++"
+    done
+
+    let "year++"
+done
+
+if [ $year -eq $year_cur ]; then
+    month="1"
+    cd ${src}
+
+    while [ $month -lt $month_cur ]; do
+        echo "Working on ${year}, ${month}"
+        M=$(month_align $month)
+
+        filename=${year:2}${M}
+        packname=${year}${M}.zip
+
+        apack ${dst}/${packname} ${filename}*.pdf
+        rm ${src}/${filename}*
+
+        let "month++"
+    done
+
+    let "year++"
+fi

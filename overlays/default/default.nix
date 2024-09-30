@@ -34,6 +34,7 @@ final: prev: {
 
   awesomesearch = prev.callPackage ./awesomesearch { };
   awesome-volume-control = prev.callPackage ./awesome-volume-control { };
+  receipt-archive = prev.callPackage ./receipt-archive { };
 
   lua5_3 = prev.lua5_3.override {
     packageOverrides = luafinal: luaprev: {

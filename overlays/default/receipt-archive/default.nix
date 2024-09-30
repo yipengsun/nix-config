@@ -1,14 +1,16 @@
 { writeScriptBin
 , symlinkJoin
 , makeWrapper
+, atool
+, zip
 }:
 let
-  scriptName = "awesomesearch";
-  scriptUnwrapped = writeScriptBin scriptName (builtins.readFile ./awesomesearch);
+  scriptName = "receipt-archive";
+  scriptUnwrapped = writeScriptBin scriptName (builtins.readFile ./receipt-archive);
 in
 symlinkJoin {
   name = scriptName;
-  paths = [ scriptUnwrapped ];
+  paths = [ scriptUnwrapped zip atool ];
   buildInputs = [ makeWrapper ];
   postBuild = "wrapProgram $out/bin/${scriptName} --prefix PATH : $out/bin";
 }
