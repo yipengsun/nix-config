@@ -74,7 +74,7 @@ in
         voldown = "volume-control.py --vol-down";
         volup = "volume-control.py --vol-up";
         volmute = "volume-control.py --mute-output";
-        capmute = "volume-control.py --mute-input --index 2";
+        capmute = "volume-control.py --mute-input --index 0";
 
         lcdup = "xbacklight -inc 10";
         lcddown = "xbacklight -dec 10";

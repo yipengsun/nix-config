@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD
-# Last Change: Fri Apr 09, 2021 at 04:38 AM +0200
+# Last Change: Mon Sep 30, 2024 at 10:52 AM +0800
 #
 # Description: Processing volume control multi-media keys for newer thinkpad
 #              models. This is a PulseAudio version. Also please make sure
@@ -57,7 +57,7 @@ def parse_input():
                         help="mute PulseAudio output.")
 
     parser.add_argument("-i", "--index",
-                        default="1",
+                        default="0",
                         help="specify index of the source/sink.")
 
     return parser
@@ -102,11 +102,7 @@ def adjust_volume(step):
 
 def toggle_mute(toggle_type, index):
     if toggle_type == "input":
-        cur_stat = str(os.popen('pamixer --source {} --get-mute'.format(
-            index)).read())
-        if len(cur_stat) == 0:
-            cur_stat = str(os.popen('pamixer --source 1 --get-mute').read())
-            index = "1"
+        cur_stat = str(os.popen(f'pamixer --source {index} --get-mute').read())
 
         if "false" in cur_stat:
             call(["pamixer", "--source", index, "--mute"])
@@ -117,6 +113,7 @@ def toggle_mute(toggle_type, index):
 
     if toggle_type == "output":
         cur_stat = str(os.popen('pamixer --get-mute').read())
+
         if "false" in cur_stat:
             call(["pamixer", "--mute"])
             notify_awesome_wm("Volume: Mute")
