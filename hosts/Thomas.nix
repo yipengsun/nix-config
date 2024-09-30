@@ -170,7 +170,11 @@ in
   programs.dconf.enable = true;
 
   home-manager.users.syp = { pkgs, ... }: {
-    imports = self.suites.home.workstation ++ [ self.profiles.home.wm-x11 ];
+    imports = self.suites.home.workstation
+      ++ [
+      self.profiles.home.wm-x11
+      self.profiles.home.autorandr
+    ];
 
     home.packages = [
       pkgs.nur.repos.xddxdd.wine-wechat
