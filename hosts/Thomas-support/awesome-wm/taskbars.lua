@@ -91,7 +91,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mypromptbox = awful.widget.prompt()
 
     -- Create the wiboxes
-    s.taskbar_top = awful.wibox({ position = "top", height = "20", screen = s })
+    s.taskbar_top = awful.wibar({ position = "top", height = "20", screen = s })
 
     s.taskbar_top:setup {
         layout = wibox.layout.align.horizontal,
