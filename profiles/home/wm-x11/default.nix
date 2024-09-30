@@ -9,8 +9,15 @@
   services.picom = {
     enable = true;
     shadow = true;
+    backend = "glx";
+
     shadowExclude = [
-      "_NET_WM_WINDOW_TYPE@:32a * = '_NET_WM_WINDOW_TYPE_DOCK'"
+      "window_type *= 'menu' && name ~= 'Firefox$'"
+      "window_type *= 'utility' && name ~= 'Firefox$'"
     ];
+
+    wintypes = {
+      dock = { shadow = false; };
+    };
   };
 }
