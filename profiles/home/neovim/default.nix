@@ -28,11 +28,13 @@ in
   home.packages = with pkgs; [
     xclip # copy-on-select for neovim
     nodejs # required by coc-nvim
+    universal-ctags
 
     # language servers
     ccls
     nil
     #texlab # too damn slow
+
   ];
 
   home.file.".editorconfig".text = ''
@@ -158,20 +160,6 @@ in
             let g:NERDCreateDefaultMappings = 1
             let g:NERDSpaceDelims = 1
             let g:NERDDefaultAlign = 'left'
-
-            func! AutoHead()
-                let fl = line(".")
-                if getline(fl) !~ "^$"
-                    let fl += 1
-                endif
-                let ll = fl+2
-                call setline(fl, "Author: Yipeng Sun")
-                call append(fl, "Last Change: " . strftime("%a %b %d, %Y at %I:%M %p %z"))
-                call append(fl, "License: GPLv3")
-                call append(fl+2, "")
-                execute fl . ','. ll .'call nerdcommenter#Comment("n", "Toggle")'
-            endfunc
-            nnoremap ,h :call AutoHead()<CR>
           '';
         }
         {
@@ -189,12 +177,18 @@ in
                             \ 'path_html': '~/data/wiki/html',
                             \ }]
             endif
-            nnoremap \ty :VimwikiToggleListItem<CR>
           '';
         }
         {
           plugin = vim-clang-format;
           config = "let g:clang_format#detect_style_file = 1";
+        }
+        {
+          plugin = vista-vim;
+          config = ''
+            nnoremap <silent><F3> :Vista!!<CR>
+            let g:vista_default_executive = 'coc'
+          '';
         }
 
         # ui
@@ -217,10 +211,6 @@ in
               }
             EOF
           '';
-        }
-        {
-          plugin = tagbar;
-          config = "nnoremap <silent><F2> :TagbarToggle<CR>";
         }
         (nvim-treesitter.withPlugins (p: pkgs.tree-sitter.allGrammars))
         {
