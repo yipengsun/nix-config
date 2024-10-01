@@ -90,8 +90,9 @@ set linebreak
 set iskeyword+=_,$,@,%,#,-
 set wrap
 
-" Show line number by default
+" Show relative line number by default
 set number
+set rnu
 
 " Turn on wildmenu
 set wildmenu
@@ -99,6 +100,16 @@ set wildmode=longest:full,full
 
 " Disable spell check for CJK chars
 set spelllang+=cjk
+
+
+"""""""""""""
+" Movements "
+"""""""""""""
+
+" Disable page-scolling with CTRL-F, CTRL-B, CTRL-U, etc
+nnoremap <C-f> <NOP>
+nnoremap <C-b> <NOP>
+nnoremap <C-u> <NOP>
 
 
 """"""""""
@@ -163,16 +174,15 @@ nnoremap <silent><SPACE> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 " Clear search highlight
 nnoremap <silent><C-k> <ESC>:nohl<CR>
 
-" Set Ctrl-c, Ctrl-v, Ctrl-x
+" Set CTRL-C, CTRL-V, CTRL-X
 vnoremap <C-c> "+y
 inoremap <silent><C-v> <ESC>:set paste<CR>"+gp<ESC>:set nopaste<CR>
 vnoremap <C-x> "+x
 
 " Function-keys mapping
 nnoremap <F1> <NOP>
-inoremap <F1> <NOP>
 vnoremap <F1> <NOP>
-inoremap <silent><F3> <C-R>=strftime("%F")<BAR><CR>
+inoremap <silent><F1> <C-R>=strftime("%F")<BAR><CR>
 
 " Auto copy text under mouse-selection
 vnoremap <LeftRelease> "*ygv

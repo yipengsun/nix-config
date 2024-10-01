@@ -38,11 +38,11 @@ endfunction
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Remap keys for gotos, open in a new vertical buffer
-nmap <silent> gd :call CocAction('jumpDefinition', 'vsp')<CR>
-nmap <silent> gy :call CocAction('jumpTypeDefinition', 'vsp')<CR>
-nmap <silent> gi :call CocAction('jumpImplementation', 'vsp')<CR>
-nmap <silent> gr :call CocAction('jumpReferences', 'vsp')<CR>
+" Remap keys for gotos, open in a new horizontal buffer
+nmap <silent> gd :call CocAction('jumpDefinition', 'sp')<CR>
+nmap <silent> gy :call CocAction('jumpTypeDefinition', 'sp')<CR>
+nmap <silent> gi :call CocAction('jumpImplementation', 'sp')<CR>
+nmap <silent> gr :call CocAction('jumpReferences', 'sp')<CR>
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -59,7 +59,7 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+nmap <F2> <Plug>(coc-rename)
 
 " Remap for format selected region
 xmap <leader>f  <Plug>(coc-format-selected)
