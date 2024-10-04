@@ -154,7 +154,10 @@ in
           '';
         }
 
-        # coc
+        # nvim's builtin lsp
+        lsp-zero-nvim
+
+        # coc extra
         {
           plugin = telescope-coc-nvim;
           config = ''
@@ -172,10 +175,6 @@ in
               require("telescope").load_extension("coc")
             EOF
           '';
-        }
-        {
-          plugin = coc-nvim;
-          config = builtins.readFile ./coc-nvim.vim;
         }
         coc-pyright # sadly based on JS
         coc-pairs # yet another autopairs
@@ -275,6 +274,7 @@ in
       ];
 
     coc.enable = true;
+    coc.pluginConfig = builtins.readFile ./coc-nvim.vim;
     coc.settings = {
       suggest.defaultSortMethod = "none";
 
