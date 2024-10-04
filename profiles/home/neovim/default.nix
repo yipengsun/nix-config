@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   # this version can't be found on github anymore
   # forgot how I found it in the first place
@@ -18,6 +18,11 @@ let
       sha256 = "aWt618LWLwnWAhKN9TTCTn2mJQR7Ntt8JV3L/VDiS84=";
     };
   };
+
+  enableNvimLsp = false;
+  enableCoc = true;
+  vistaDefaultExe = if enableCoc then "coc" else "ctags";
+  # ^relevant options: coc, ctags, nvim_lsp, ...
 in
 {
   home.sessionVariables = {
@@ -142,6 +147,8 @@ in
                 },
               }
             EOF
+
+            nnoremap <silent><C-t> :Telescope<CR>
           '';
         }
         {
@@ -150,39 +157,8 @@ in
             lua << EOF
               require("telescope").load_extension "file_browser"
             EOF
-            nnoremap <silent><C-t> :Telescope<CR>
           '';
         }
-
-        # nvim's builtin lsp
-        lsp-zero-nvim
-
-        # coc extra
-        {
-          plugin = telescope-coc-nvim;
-          config = ''
-            lua << EOF
-              require("telescope").setup {
-                extensions = {
-                  coc = {
-                      theme = 'ivy',
-                      prefer_locations = true,
-                      push_cursor_on_edit = true,
-                      timeout = 3000,
-                  }
-                },
-              }
-              require("telescope").load_extension("coc")
-            EOF
-          '';
-        }
-        coc-pyright # sadly based on JS
-        coc-pairs # yet another autopairs
-        coc-diagnostic # for pylint
-        coc-vimtex
-        coc-vimlsp
-        coc-yaml
-        coc-lua
 
         # ide
         (nvim-treesitter.withPlugins (p: pkgs.tree-sitter.allGrammars))
@@ -219,7 +195,7 @@ in
           plugin = vista-vim;
           config = ''
             nnoremap <silent><F3> :Vista!!<CR>
-            let g:vista_default_executive = 'coc'
+            let g:vista_default_executive = '${vistaDefaultExe}'
           '';
         }
 
@@ -263,6 +239,41 @@ in
             EOF
           '';
         }
+      ] ++ lib.optionals (enableCoc) [
+        {
+          plugin = telescope-coc-nvim;
+          config = ''
+            lua << EOF
+              require("telescope").setup {
+                extensions = {
+                  coc = {
+                      theme = 'ivy',
+                      prefer_locations = true,
+                      push_cursor_on_edit = true,
+                      timeout = 3000,
+                  }
+                },
+              }
+              require("telescope").load_extension("coc")
+            EOF
+          '';
+        }
+        coc-pyright # sadly based on JS
+        coc-pairs # yet another autopairs
+        coc-diagnostic # for pylint
+        coc-vimtex
+        coc-vimlsp
+        coc-yaml
+        coc-lua
+      ] ++ lib.optionals (enableNvimLsp) [
+        {
+          plugin = lsp-zero-nvim;
+          config = ''
+            lua << EOF
+              requires("lsp-zero")
+            EOF
+          '';
+        }
       ];
 
     extraConfig = builtins.readFile ./init.vim;
@@ -273,7 +284,7 @@ in
         pylint
       ];
 
-    coc.enable = true;
+    coc.enable = enableCoc;
     coc.pluginConfig = builtins.readFile ./coc-nvim.vim;
     coc.settings = {
       suggest.defaultSortMethod = "none";
