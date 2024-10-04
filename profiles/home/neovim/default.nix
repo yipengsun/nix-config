@@ -76,92 +76,6 @@ in
         # misc
         vim-fugitive
         tabular
-
-        # float terminal
-        {
-          plugin = vim-floaterm;
-          config = ''
-            nnoremap <silent> <F9> :FloatermToggle<CR>
-            tnoremap <silent> <F9> <C-\><C-n>:FloatermToggle<CR>
-          '';
-        }
-
-        {
-          plugin = csv-vim;
-          config = ''
-            au BufRead,BufNewFile *.csv set ft=csv
-            au BufRead,BufNewFile *.csv nnoremap \e :WhatColumn<CR>
-            au BufRead,BufNewFile *.csv nnoremap \q :HiColumn<CR>
-            au BufRead,BufNewFile *.csv nnoremap \Q :HiColumn!<CR>
-          '';
-        }
-        {
-          plugin = vim-localvimrc;
-          config = ''
-            let g:localvimrc_sandbox = 0
-            let g:localvimrc_persistent = 2
-          '';
-        }
-        delimitMate
-        {
-          plugin = vim-pandoc;
-          config = "let g:pandoc#syntax#conceal#use = 0";
-        }
-        lastchange
-
-        # syntax
-        vim-nix
-        vim-ledger-stable
-        vim-pandoc-syntax
-
-        # file manager
-        telescope-nvim
-        {
-          plugin = telescope-file-browser-nvim;
-          config = ''
-            lua << EOF
-              require("telescope").load_extension "file_browser"
-            EOF
-          '';
-        }
-
-        # ide
-        {
-          plugin = coc-nvim;
-          config = builtins.readFile ./coc-nvim.vim;
-        }
-        #vim-lsp-cxx-highlight
-        coc-pyright # sadly based on JS
-        coc-pairs # yet another autopairs
-        coc-diagnostic # for pylint
-        coc-vimtex
-        coc-vimlsp
-        coc-yaml
-        coc-lua
-        {
-          plugin = vimtex;
-          config = ''
-            let g:vimtex_fold_enabled = 1
-            let g:tex_conceal = ""
-            let g:tex_flavor = "latex"
-            let g:vimtex_quickfix_ignore_filters = [
-              \ "Loading 'csquotes' recommended",
-              \ "Package microtype Warning",
-              \ "Overfull",
-              \ "Package hyperref Warning: Token not allowed",
-              \ "contains only floats",
-            \]
-          '';
-        }
-        vim-python-pep8-indent
-        {
-          plugin = nerdcommenter;
-          config = ''
-            let g:NERDCreateDefaultMappings = 1
-            let g:NERDSpaceDelims = 1
-            let g:NERDDefaultAlign = 'left'
-          '';
-        }
         {
           plugin = vimwiki;
           config = ''
@@ -177,6 +91,119 @@ in
                             \ 'path_html': '~/data/wiki/html',
                             \ }]
             endif
+          '';
+        }
+        {
+          plugin = vim-localvimrc;
+          config = ''
+            let g:localvimrc_sandbox = 0
+            let g:localvimrc_persistent = 2
+          '';
+        }
+        delimitMate
+        lastchange
+
+        # syntax
+        vim-nix
+        vim-ledger-stable
+        vim-pandoc-syntax
+        {
+          plugin = vim-pandoc;
+          config = "let g:pandoc#syntax#conceal#use = 0";
+        }
+        {
+          plugin = csv-vim;
+          config = ''
+            au BufRead,BufNewFile *.csv set ft=csv
+            au BufRead,BufNewFile *.csv nnoremap \e :WhatColumn<CR>
+            au BufRead,BufNewFile *.csv nnoremap \q :HiColumn<CR>
+            au BufRead,BufNewFile *.csv nnoremap \Q :HiColumn!<CR>
+          '';
+        }
+
+        # telescope
+        {
+          plugin = telescope-nvim;
+          config = ''
+            lua << EOF
+              require("telescope").setup {
+                pickers = {
+                  defaults = {
+                    mappings = {
+                      i = { ["<CR>"] = "file_vsplit" },
+                    },
+                  },
+                },
+              }
+            EOF
+          '';
+        }
+        {
+          plugin = telescope-file-browser-nvim;
+          config = ''
+            lua << EOF
+              require("telescope").load_extension "file_browser"
+            EOF
+            nnoremap <silent><C-t> :Telescope<CR>
+          '';
+        }
+
+        # coc
+        {
+          plugin = telescope-coc-nvim;
+          config = ''
+            lua << EOF
+              require("telescope").setup {
+                extensions = {
+                  coc = {
+                      theme = 'ivy',
+                      prefer_locations = true,
+                      push_cursor_on_edit = true,
+                      timeout = 3000,
+                  }
+                },
+              }
+              require("telescope").load_extension("coc")
+            EOF
+          '';
+        }
+        {
+          plugin = coc-nvim;
+          config = builtins.readFile ./coc-nvim.vim;
+        }
+        coc-pyright # sadly based on JS
+        coc-pairs # yet another autopairs
+        coc-diagnostic # for pylint
+        coc-vimtex
+        coc-vimlsp
+        coc-yaml
+        coc-lua
+
+        # ide
+        (nvim-treesitter.withPlugins (p: pkgs.tree-sitter.allGrammars))
+
+        vim-python-pep8-indent
+        {
+          plugin = nerdcommenter;
+          config = ''
+            let g:NERDCreateDefaultMappings = 1
+            let g:NERDSpaceDelims = 1
+            let g:NERDDefaultAlign = 'left'
+          '';
+        }
+        {
+          plugin = vimtex;
+          config = ''
+            let g:vimtex_fold_enabled = 1
+            let g:tex_conceal = ""
+            let g:tex_flavor = "latex"
+            let g:vimtex_quickfix_ignore_filters = [
+              \ "Loading 'csquotes' recommended",
+              \ "Package microtype Warning",
+              \ "Overfull",
+              \ "Package hyperref Warning: Token not allowed",
+              \ "contains only floats",
+            \]
           '';
         }
         {
@@ -212,7 +239,13 @@ in
             EOF
           '';
         }
-        (nvim-treesitter.withPlugins (p: pkgs.tree-sitter.allGrammars))
+        {
+          plugin = vim-floaterm;
+          config = ''
+            nnoremap <silent> <F9> :FloatermToggle<CR>
+            tnoremap <silent> <F9> <C-\><C-n>:FloatermToggle<CR>
+          '';
+        }
         {
           plugin = indent-blankline-nvim;
           config = ''
