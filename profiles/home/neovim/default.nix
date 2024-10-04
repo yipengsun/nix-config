@@ -127,12 +127,18 @@ in
           config = ''
             lua << EOF
               require("telescope").setup {
-                pickers = {
-                  defaults = {
-                    mappings = {
-                      i = { ["<CR>"] = "file_vsplit" },
+                defaults = {
+                  mappings = {
+                    i = {
+                      ["<C-u>"] = false,
                     },
                   },
+                },
+                pickers = {
+                  git_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
+                  find_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
+                  lsp_definitions = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
+                  lsp_references = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
                 },
               }
             EOF
