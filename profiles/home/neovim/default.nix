@@ -136,16 +136,10 @@ in
           config = ''
             lua << EOF
               require("telescope").setup {
-                defaults = {
-                  mappings = {
-                    i = {
-                      ["<C-u>"] = false,
-                    },
-                  },
-                },
                 pickers = {
                   git_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
                   find_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
+                  live_grep = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
                 },
               }
             EOF
@@ -241,6 +235,19 @@ in
             EOF
           '';
         }
+        {
+          plugin = goto-preview;
+          config = ''
+            lua << EOF
+              require("goto-preview").setup {
+                width = 120,
+                height = 24,
+              }
+
+              vim.keymap.set("n", "<F12>", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>")
+            EOF
+          '';
+        }
       ] ++ lib.optionals (enableCoc) [
         {
           plugin = telescope-coc-nvim;
@@ -280,6 +287,13 @@ in
           plugin = nvim-lspconfig;
           config = ''
             lua << EOF
+              -- Github Copilot
+              require("copilot").setup {
+                suggestions = { enable = false },
+                panel = { enable = false },
+              }
+
+              -- auto completion
               local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
               local lspconfig = require("lspconfig")
@@ -291,10 +305,6 @@ in
                 }
               end
 
-              require("copilot").setup {
-                suggestions = { enable = false },
-                panel = { enable = false },
-              }
               require("copilot_cmp").setup()
 
               local cmp = require("cmp")
