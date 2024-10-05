@@ -22,10 +22,7 @@ let
   enableCoc = false;
   enableNvimLsp = true;
 
-  vistaDefaultExe =
-    if enableCoc then "coc"
-    else if enableNvimLsp then "nvim_lsp"
-    else "ctags";
+  vistaDefaultExe = if enableCoc then "coc" else "ctags";
   # ^relevant options: coc, nvim_lsp, ctags
 in
 {
@@ -131,6 +128,7 @@ in
         }
 
         # telescope
+        telescope-symbols-nvim
         {
           plugin = telescope-nvim;
           config = ''
@@ -140,11 +138,16 @@ in
                   git_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
                   find_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
                   live_grep = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
+                  lsp_dynamic_workspace_symbols = {
+                    mappings = { i = { ["<CR>"] = "file_vsplit" } }
+                  },
                 },
               }
             EOF
 
-            nnoremap <silent><C-t> :Telescope<CR>
+            nnoremap <silent><C-p> :Telescope<CR>
+            nnoremap <silent><C-t> :Telescope lsp_dynamic_workspace_symbols<CR>
+            nnoremap <silent><C-f> :Telescope git_files<CR>
           '';
         }
         {
@@ -153,6 +156,8 @@ in
             lua << EOF
               require("telescope").load_extension "file_browser"
             EOF
+
+            nnoremap <silent><C-e> :Telescope file_browser<CR>
           '';
         }
 
@@ -187,13 +192,6 @@ in
           plugin = vim-clang-format;
           config = "let g:clang_format#detect_style_file = 1";
         }
-        {
-          plugin = vista-vim;
-          config = ''
-            nnoremap <silent><F3> :Vista!!<CR>
-            let g:vista_default_executive = '${vistaDefaultExe}'
-          '';
-        }
 
         # ui
         {
@@ -210,7 +208,11 @@ in
               require("lualine").setup {
                 options = {
                   theme = "dracula",
-                  globalstatus = true,
+                  globalstatus = false,
+                  disabled_filetypes = {
+                    "trouble",
+                    "vista",
+                  },
                 }
               }
             EOF
@@ -244,8 +246,18 @@ in
                 height = 24,
               }
 
-              vim.keymap.set("n", "<F12>", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>")
+              vim.keymap.set("n", "<F12>",
+                            "<cmd>lua require('goto-preview').goto_preview_definition()<CR>",
+                            { noremap = true, silent = true })
             EOF
+          '';
+        }
+      ] ++ lib.optionals (!enableNvimLsp) [
+        {
+          plugin = vista-vim;
+          config = ''
+            nnoremap <silent><F3> :Vista!!<CR>
+            let g:vista_default_executive = '${vistaDefaultExe}'
           '';
         }
       ] ++ lib.optionals (enableCoc) [
@@ -263,6 +275,7 @@ in
                   }
                 },
               }
+
               require("telescope").load_extension("coc")
             EOF
           '';
@@ -350,6 +363,25 @@ in
                   { name = "omni" },
                 },
               }
+            EOF
+          '';
+        }
+        {
+          plugin = trouble-nvim;
+          config = ''
+            lua << EOF
+              require("trouble").setup {
+                modes = {
+                  diagnostics = { auto_open = false },
+                }
+              }
+
+              vim.keymap.set("n", "<F3>",
+                            "<cmd>Trouble symbols toggle focus=false<CR>",
+                            { noremap = true, silent = true })
+              vim.keymap.set("n", "<C-m>",
+                            "<cmd>Trouble diagnostics toggle filter.buf=0<CR>",
+                            { noremap = true, silent = true })
             EOF
           '';
         }
