@@ -107,9 +107,9 @@ set spelllang+=cjk
 """""""""""""
 
 " Disable page-scolling with CTRL-F, CTRL-B, CTRL-U, etc
-nnoremap <C-f> <NOP>
+"nnoremap <C-f> <NOP>
 nnoremap <C-b> <NOP>
-nnoremap <C-u> <NOP>
+"nnoremap <C-u> <NOP>
 
 
 """"""""""

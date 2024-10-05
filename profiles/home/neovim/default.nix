@@ -34,7 +34,7 @@ in
   home.packages = with pkgs; [
     xclip # copy-on-select for neovim
     universal-ctags # fallback for vista.vim
-    nodejs # copilot plugn/coc both require this
+    nodejs # copilot/coc both require this
 
     # language servers
     ccls
@@ -99,13 +99,7 @@ in
             endif
           '';
         }
-        {
-          plugin = vim-localvimrc;
-          config = ''
-            let g:localvimrc_sandbox = 0
-            let g:localvimrc_persistent = 2
-          '';
-        }
+        direnv-vim
         delimitMate
         lastchange
 
@@ -193,6 +187,41 @@ in
           config = "let g:clang_format#detect_style_file = 1";
         }
 
+        # debug
+        nvim-dap-ui
+        nvim-dap-python
+        {
+          plugin = nvim-dap;
+          config = ''
+            lua << EOF
+              local dap, dapui = require("dap"), require("dapui")
+
+              dapui.setup()
+
+              vim.keymap.set("n", "<F5>",
+                            "<cmd>lua require('dap').continue()<CR>",
+                            { noremap = true, silent = true })
+              vim.keymap.set("n", "<F10>",
+                            "<cmd>lua require('dap').step_over()<CR>",
+                            { noremap = true, silent = true })
+              vim.keymap.set("n", "<F11>",
+                            "<cmd>lua require('dap').step_into()<CR>",
+                            { noremap = true, silent = true })
+              vim.keymap.set("n", "<C-F11>",
+                            "<cmd>lua require('dap').step_out()<CR>",
+                            { noremap = true, silent = true })
+
+              vim.keymap.set("n", "<C-u>",
+                            "<cmd>lua require('dapui').toggle()<CR>",
+                            { noremap = true, silent = true })
+
+              vim.keymap.set("n", "<leader>b",
+                            "<cmd>lua require('dap').toggle_breakpoint()<CR>",
+                            { noremap = true, silent = true })
+            EOF
+          '';
+        }
+
         # ui
         {
           plugin = dracula-vim;
@@ -210,8 +239,10 @@ in
                   theme = "dracula",
                   globalstatus = false,
                   disabled_filetypes = {
-                    "trouble",
-                    "vista",
+                    statusline = {
+                      "trouble",
+                      "vista",
+                    },
                   },
                 }
               }
