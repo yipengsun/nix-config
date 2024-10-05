@@ -188,15 +188,41 @@ in
         }
 
         # debug
+        nvim-dap-virtual-text
         nvim-dap-ui
-        nvim-dap-python
         {
           plugin = nvim-dap;
           config = ''
             lua << EOF
               local dap, dapui = require("dap"), require("dapui")
 
-              dapui.setup()
+              vim.fn.sign_define("DapBreakpoint", { text="🔴" })
+              vim.fn.sign_define("DapBreakpointCondition", { text="🟠" })
+              vim.fn.sign_define("DapBreakpointCondition", { text="🔵" })
+              vim.fn.sign_define("DapBreakpointRejected", { text="❌" })
+              vim.fn.sign_define("DapStopped", { text="⟶" })
+
+              dap.adapters.gdb = {
+                type = "executable",
+                command = "gdb",
+                args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
+              }
+
+              dapui.setup();
+              require("nvim-dap-virtual-text").setup()
+
+              dap.listeners.before.attach.dapui_config = function()
+                dapui.open()
+              end
+              dap.listeners.before.launch.dapui_config = function()
+                dapui.open()
+              end
+              dap.listeners.before.event_terminated.dapui_config = function()
+                dapui.close()
+              end
+              dap.listeners.before.event_exited.dapui_config = function()
+                dapui.close()
+              end
 
               vim.keymap.set("n", "<F5>",
                             "<cmd>lua require('dap').continue()<CR>",
