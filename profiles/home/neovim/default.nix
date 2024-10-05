@@ -19,10 +19,14 @@ let
     };
   };
 
-  enableNvimLsp = false;
-  enableCoc = true;
-  vistaDefaultExe = if enableCoc then "coc" else "ctags";
-  # ^relevant options: coc, ctags, nvim_lsp, ...
+  enableCoc = false;
+  enableNvimLsp = true;
+
+  vistaDefaultExe =
+    if enableCoc then "coc"
+    else if enableNvimLsp then "nvim_lsp"
+    else "ctags";
+  # ^relevant options: coc, nvim_lsp, ctags
 in
 {
   home.sessionVariables = {
@@ -32,15 +36,13 @@ in
 
   home.packages = with pkgs; [
     xclip # copy-on-select for neovim
-    nodejs # required by coc-nvim
-    universal-ctags
+    universal-ctags # fallback for vista.vim
 
     # language servers
     ccls
     nil
     #texlab # too damn slow
-
-  ];
+  ] ++ lib.optionals (enableCoc) [ nodejs ];
 
   home.file.".editorconfig".text = ''
     root = true
@@ -142,8 +144,6 @@ in
                 pickers = {
                   git_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
                   find_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
-                  lsp_definitions = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
-                  lsp_references = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
                 },
               }
             EOF
@@ -266,11 +266,59 @@ in
         coc-yaml
         coc-lua
       ] ++ lib.optionals (enableNvimLsp) [
+        nvim-cmp
+        cmp-nvim-lsp
         {
-          plugin = lsp-zero-nvim;
+          plugin = nvim-lspconfig;
           config = ''
             lua << EOF
-              requires("lsp-zero")
+              local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+              local lspconfig = require("lspconfig")
+
+              local servers = { "ccls", "rust_analyzer", "pyright", "nil_ls" }
+              for _, lsp in ipairs(servers) do
+                lspconfig[lsp].setup {
+                  capabilities = default_capabilities
+                }
+              end
+
+              local cmp = require("cmp")
+              cmp.setup {
+                mapping = cmp.mapping.preset.insert({
+                  ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
+                  ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+                  -- C-b (back) C-f (forward) for snippet placeholder navigation.
+
+                  ['<C-y>'] = cmp.mapping.complete(),
+                  ['<CR>'] = cmp.mapping.confirm {
+                    behavior = cmp.ConfirmBehavior.Replace,
+                    select = true,
+                  },
+                  ['<Tab>'] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                      cmp.select_next_item()
+                    elseif luasnip.expand_or_jumpable() then
+                      luasnip.expand_or_jump()
+                    else
+                      fallback()
+                    end
+                  end, { 'i', 's' }),
+                  ['<S-Tab>'] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                      cmp.select_prev_item()
+                    elseif luasnip.jumpable(-1) then
+                      luasnip.jump(-1)
+                    else
+                      fallback()
+                    end
+                  end, { 'i', 's' }),
+                }),
+
+                sources = {
+                  { name = 'nvim_lsp' },
+                },
+              }
             EOF
           '';
         }
