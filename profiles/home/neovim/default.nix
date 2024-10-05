@@ -42,7 +42,9 @@ in
     ccls
     nil
     #texlab # too damn slow
-  ] ++ lib.optionals (enableCoc) [ nodejs ];
+  ]
+  ++ lib.optionals (enableCoc) [ nodejs ]
+  ++ lib.optionals (enableNvimLsp) [ pyright rust-analyzer ];
 
   home.file.".editorconfig".text = ''
     root = true
@@ -265,9 +267,13 @@ in
         coc-vimlsp
         coc-yaml
         coc-lua
+        coc-rust-analyzer
       ] ++ lib.optionals (enableNvimLsp) [
         nvim-cmp
         cmp-nvim-lsp
+        cmp-treesitter
+        cmp-buffer
+        cmp-omni
         {
           plugin = nvim-lspconfig;
           config = ''
@@ -286,37 +292,36 @@ in
               local cmp = require("cmp")
               cmp.setup {
                 mapping = cmp.mapping.preset.insert({
-                  ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-                  ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+                  ["<C-u>"] = cmp.mapping.scroll_docs(-4), -- Up
+                  ["<C-d>"] = cmp.mapping.scroll_docs(4), -- Down
                   -- C-b (back) C-f (forward) for snippet placeholder navigation.
 
-                  ['<C-y>'] = cmp.mapping.complete(),
-                  ['<CR>'] = cmp.mapping.confirm {
+                  ["<C-y>"] = cmp.mapping.complete(),
+                  ["<CR>"] = cmp.mapping.confirm {
                     behavior = cmp.ConfirmBehavior.Replace,
                     select = true,
                   },
-                  ['<Tab>'] = cmp.mapping(function(fallback)
+                  ["<Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                       cmp.select_next_item()
-                    elseif luasnip.expand_or_jumpable() then
-                      luasnip.expand_or_jump()
                     else
                       fallback()
                     end
-                  end, { 'i', 's' }),
-                  ['<S-Tab>'] = cmp.mapping(function(fallback)
+                  end, { "i", "s" }),
+                  ["<S-Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                       cmp.select_prev_item()
-                    elseif luasnip.jumpable(-1) then
-                      luasnip.jump(-1)
                     else
                       fallback()
                     end
-                  end, { 'i', 's' }),
+                  end, { "i", "s" }),
                 }),
 
                 sources = {
-                  { name = 'nvim_lsp' },
+                  { name = "nvim_lsp" },
+                  { name = "treesitter" },
+                  { name = "buffer" },
+                  { name = "omni" },
                 },
               }
             EOF
