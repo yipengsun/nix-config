@@ -37,13 +37,13 @@ in
   home.packages = with pkgs; [
     xclip # copy-on-select for neovim
     universal-ctags # fallback for vista.vim
+    nodejs # copilot plugn/coc both require this
 
     # language servers
     ccls
     nil
     #texlab # too damn slow
   ]
-  ++ lib.optionals (enableCoc) [ nodejs ]
   ++ lib.optionals (enableNvimLsp) [ pyright rust-analyzer ];
 
   home.file.".editorconfig".text = ''
@@ -274,6 +274,8 @@ in
         cmp-treesitter
         cmp-buffer
         cmp-omni
+        copilot-lua
+        copilot-cmp
         {
           plugin = nvim-lspconfig;
           config = ''
@@ -289,7 +291,20 @@ in
                 }
               end
 
+              require("copilot").setup {
+                suggestions = { enable = false },
+                panel = { enable = false },
+              }
+              require("copilot_cmp").setup()
+
               local cmp = require("cmp")
+
+              local has_words_before = function()
+                if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+                local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+                return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+              end
+
               cmp.setup {
                 mapping = cmp.mapping.preset.insert({
                   ["<C-u>"] = cmp.mapping.scroll_docs(-4), -- Up
@@ -302,14 +317,14 @@ in
                     select = true,
                   },
                   ["<Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
+                    if cmp.visible() and has_words_before() then
                       cmp.select_next_item()
                     else
                       fallback()
                     end
                   end, { "i", "s" }),
                   ["<S-Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
+                    if cmp.visible() and has_words_before() then
                       cmp.select_prev_item()
                     else
                       fallback()
@@ -320,6 +335,7 @@ in
                 sources = {
                   { name = "nvim_lsp" },
                   { name = "treesitter" },
+                  { name = "copilot" },
                   { name = "buffer" },
                   { name = "omni" },
                 },
