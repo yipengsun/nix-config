@@ -27,8 +27,8 @@
       statusbar-bg = "#282a36"; # Background
       statusbar-fg = "#f8f8f2"; # Foreground
 
-      highlight-color = "#ffb86c"; # Orange
-      highlight-active-color = "#ff79c6"; # Pink
+      highlight-color = "rgba(255, 184, 108, 0.5)"; # Orange, #ffb86c
+      highlight-active-color = "rgba(255, 121, 198, 0.5)"; # Pink, #ff79c6
 
       default-bg = "#282a36"; # Background
       default-fg = "#f8f8f2"; # Foreground
