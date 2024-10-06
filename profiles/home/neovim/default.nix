@@ -312,6 +312,36 @@ in
             EOF
           '';
         }
+        {
+          plugin = barbar-nvim;
+          config = ''
+            lua << EOF
+              require("barbar").setup {
+                animation = false,
+                icons = {
+                  buffer_index = false,
+                  buffer_number = false,
+                  button = '',
+                  diagnostics = {
+                    [vim.diagnostic.severity.ERROR] = { enabled = false },
+                    [vim.diagnostic.severity.WARN] = { enabled = false },
+                    [vim.diagnostic.severity.INFO] = { enabled = false },
+                    [vim.diagnostic.severity.HINT] = { enabled = true },
+                  },
+                  gitsigns = {
+                    added = { enabled = false },
+                    changed = { enabled = false },
+                    deleted = { enabled = false },
+                  },
+                  filetype = {
+                    custom_colors = false,
+                    enabled = false,
+                  },
+                },
+              }
+            EOF
+          '';
+        }
       ] ++ lib.optionals (!enableNvimLsp) [
         {
           plugin = vista-vim;
