@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  services.nixseparatedebuginfod.enable = true;
+  services.nixseparatedebuginfod.enable = false;
 
   # allow gdb attaching to arbitrary process
   boot.kernel.sysctl =
