@@ -6,13 +6,17 @@ insert_final_newline = unset
 trim_trailing_whitespace = true
 charset = utf-8
 indent_style = space
-indent_size = 2
-
-[*.{py,vim,lua}]
 indent_size = 4
 
 [*.md]
 max_line_length = unset
+indent_size = unset
+
+[*.nix]
+indent_size = 2
+
+[*.yml]
+indent_size = 2
 
 
 # ignores
@@ -27,4 +31,7 @@ indent_size = unset
 
 # special treatments
 [pylintrc]
+indent_size = unset
+
+[flake.lock]
 indent_size = unset
