@@ -47,7 +47,7 @@ final: prev: {
             owner = "lcpz";
             repo = "lain";
             rev = "88f5a8a";
-            sha256 = "NPXsgKcOGp4yDvbv/vouCpDhrEcmXsM2I1IUkDadgjw=";
+            sha256 = "sha256-MH/aiYfcO3lrcuNbnIu4QHqPq25LwzTprOhEJUJBJ7I=";
           };
 
           # lain requires lua 5.3+
