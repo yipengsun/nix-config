@@ -16,4 +16,9 @@
 
   # linter config
   xdg.configFile."pylintrc".text = builtins.readFile ./pylintrc;
+
+  # cgdb config
+  home.file.".cgdb/cgdbrc".text = ''
+    set wso=vertical
+  '';
 }
