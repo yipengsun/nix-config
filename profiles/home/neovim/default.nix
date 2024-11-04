@@ -126,6 +126,8 @@ in
             au BufRead,BufNewFile *.csv nnoremap \Q :HiColumn!<CR>
           '';
         }
+        wgsl-vim
+        nvim-treesitter-parsers.wgsl
 
         # telescope
         telescope-symbols-nvim
