@@ -1,6 +1,7 @@
 { config, ... }:
 {
-  services.nixseparatedebuginfod.enable = !config.wsl.enable;
+  # disabled for now. too DAMN slow.
+  #services.nixseparatedebuginfod.enable = !config.wsl.enable;
 
   # allow gdb attaching to arbitrary process
   boot.kernel.sysctl =
