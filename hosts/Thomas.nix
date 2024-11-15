@@ -34,7 +34,7 @@ in
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
   # Force use of the thinkpad_acpi driver for backlight control.
-  # This allows the backlight save/load  systemd service to work.
+  # This allows the backlight save/load systemd service to work.
   boot.kernelParams = [ "acpi_backlight=native" "iommu=soft" ];
 
   boot.supportedFilesystems = [ "zfs" ];
