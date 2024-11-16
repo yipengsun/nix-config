@@ -12,6 +12,31 @@ sudo nixos-rebuild switch --flake ".#<hostname>"
 ```
 
 
+## Install on a remote host
+
+First, generate a set of SSH keys for the new host:
+
+```shell
+gen-host-ssh-keys.sh <hostname>
+# output to gen/<hostname>
+```
+
+Then, rekey secrets so the new host can decrypt them:
+
+```shell
+cd secrets
+# then add a pubkey from the new host to secrets.nix
+agenix -r
+```
+
+Finally, use `nixos-anywhere` to build on current machine then configure the
+new remote host:
+
+```shell
+nixos-anywhere --extra-files gen/<hostname> --flake .#<hostname> nixos@<host_ip> --no-substitute-on-destination
+```
+
+
 ## Tricks
 
 ### Install `nix`
