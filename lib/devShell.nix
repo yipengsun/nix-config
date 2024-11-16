@@ -17,6 +17,7 @@
         buildInputs = with pkgs; [
           nix
           agenix
+          nixos-anywhere
         ] ++ config.pre-commit.settings.enabledPackages;
 
         shellHook = ''

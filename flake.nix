@@ -89,6 +89,14 @@
               system = "x86_64-linux";
               suites = [ inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
             };
+
+            Michael = {
+              system = "x86_64-linux";
+              suites = [
+                inputs.disko.nixosModules.disko
+                ./hosts/Michael-support/disko-config.nix
+              ];
+            };
           };
           hostModuleDir = ./hosts;
 
@@ -120,7 +128,7 @@
             services = [ zfs docker ];
 
             # typical use cases
-            workstation = base ++ services ++ [ lang-region pam-automount dev /*maestral-system*/ ];
+            workstation = base ++ services ++ [ lang-region pam-automount dev ];
             server = base ++ services ++ [ lang-region ];
             wsl = base ++ [ lang-region wsl-vscode-remote dev ];
           };
@@ -159,6 +167,9 @@
     # deployment
     #colmena.url = "github:zhaofengli/colmena";
     #colmena.inputs.nixpkgs.follows = "nixpkgs";
+
+    disko.url = "github:nix-community/disko/latest";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
 
     # home-manager, nix-darwin, NixOS-WSL
     home-manager.url = "github:nix-community/home-manager";
