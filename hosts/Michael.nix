@@ -65,13 +65,8 @@ in
   # Custom network interface naming
   services.udev.extraRules = ''
     # Persistent network interface naming
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:2b:67:e7:a5:8a", NAME="net1"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:2b:67:e7:a5:89", NAME="net0"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="34:cf:f6:f5:69:be", NAME="wifi0"
-
-    # Disable USB wakeup
-    SUBSYSTEM=="pci", KERNEL=="0000:07:00.3", ATTR{power/wakeup}="disabled"
-    SUBSYSTEM=="pci", KERNEL=="0000:07:00.4", ATTR{power/wakeup}="disabled"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="08:bf:b8:3b:d2:c7", NAME="net0"
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="60:e3:2b:fe:14:d3", NAME="wifi0"
   '';
 
   # Audio
@@ -79,7 +74,6 @@ in
   services.pipewire = {
     enable = true;
     alsa.enable = true;
-    alsa.support32Bit = true;
     pulse.enable = true;
   };
 
@@ -121,7 +115,7 @@ in
   #################
 
   imports = self.suites.nixos.workstation
-    ++ [ self.profiles.nixos.proxy-localhost ]
+    ++ [ self.profiles.nixos.v2ray-tproxy ]
     ++ (with self.users; [ root syp ]);
 
 
@@ -135,7 +129,6 @@ in
     imports = self.suites.home.workstation
       ++ [
       self.profiles.home.wm-x11
-      self.profiles.home.autorandr
     ];
 
     home.packages = [

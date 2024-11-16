@@ -159,7 +159,7 @@ in
   #################
 
   imports = self.suites.nixos.workstation
-    ++ [ self.profiles.nixos.proxy-localhost ]
+    ++ [ self.profiles.nixos.v2ray-tproxy ]
     ++ (with self.users; [ root syp ]);
 
 
