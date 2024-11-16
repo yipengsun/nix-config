@@ -34,8 +34,9 @@
         rootFsOptions = {
           encryption = "aes-256-gcm";
           keyformat = "passphrase";
-          keylocation = "file:///tmp/secret.key";
+          keylocation = "prompt";
           compression = "zstd";
+          mountpoint = "none";
           "com.sun:auto-snapshot" = "false";
         };
 
