@@ -48,7 +48,8 @@ in
   swapDevices = [ ];
 
   # For zfs
-  networking.hostId = "559e7746";
+  #   generate with `head -c4 /dev/urandom | od -A none -t x4`
+  networking.hostId = "9a2d8f8d";
 
 
   ############
