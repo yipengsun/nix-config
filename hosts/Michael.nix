@@ -147,5 +147,12 @@ in
       theme = ./Thomas-support/awesome-wm/theme;
       wallpaper = ./Thomas-support/awesome-wm/wallpaper.png;
     };
+
+    # Configure dual screen setup
+    xsession.profileExtra = ''
+      LEFT='HDMI-A-0'
+      RIGHT='DisplayPort-0'
+      ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT --output $RIGHT --right-of $LEFT
+    '';
   };
 }
