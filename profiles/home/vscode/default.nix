@@ -5,8 +5,10 @@
     package = pkgs.vscodium;
 
     userSettings = {
-      "workbench.colorTheme" = "Dracula Theme";
+      "workbench.colorTheme" = "Dracula";
       "workbench.startupEditor" = "none";
+
+      "editor.inlayHints.enabled" = "offUnlessPressed";
 
       "cmake.configureOnOpen" = false;
       "C_Cpp.intelliSenseEngine" = "disabled";
