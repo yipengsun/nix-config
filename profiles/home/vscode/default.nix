@@ -6,8 +6,9 @@
 
     userSettings = {
       "window.autoDetectColorScheme" = false;
+      "window.autoDetectHighContrast" = false;
 
-      "workbench.colorTheme" = "Dracula Theme";
+      "workbench.colorTheme" = "Dracula"; # FIXME: changed to 'Dracula Theme' in 2.51+
       "workbench.startupEditor" = "none";
 
       "editor.fontFamily" = "'FiraCode Nerd Font Mono', 'monospace', monospace";
@@ -20,10 +21,22 @@
       "extensions.experimental.affinity" = {
         "asvetliakov.vscode-neovim" = 1;
       };
+
+      "nix.enableLanguageServer" = true;
+      "nix.serverPath" = "nil";
     };
+
+    keybindings = [
+      {
+        key = "ctrl+c";
+        command = "-vscode-neovim.escape";
+        when = "editorTextFocus && neovim.ctrlKeysInsert.c && neovim.init && neovim.mode != 'normal' && editorLangId not in 'neovim.editorLangIdExclusions'";
+      }
+    ];
 
     enableUpdateCheck = false;
     enableExtensionUpdateCheck = false;
+    mutableExtensionsDir = false;
 
     extensions = with pkgs.vscode-extensions; [
       # ui and interactivity
@@ -49,6 +62,8 @@
 
       ms-python.debugpy
       ms-python.python
+
+      jnoortheen.nix-ide
     ];
   };
 }
