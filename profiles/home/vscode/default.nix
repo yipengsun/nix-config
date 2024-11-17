@@ -5,9 +5,13 @@
     package = pkgs.vscodium;
 
     userSettings = {
-      "workbench.colorTheme" = "Dracula";
+      "window.autoDetectColorScheme" = false;
+
+      "workbench.colorTheme" = "Dracula Theme";
       "workbench.startupEditor" = "none";
 
+      "editor.fontFamily" = "'FiraCode Nerd Font Mono', 'monospace', monospace";
+      "editor.fontLigatures" = true;
       "editor.inlayHints.enabled" = "offUnlessPressed";
 
       "cmake.configureOnOpen" = false;
