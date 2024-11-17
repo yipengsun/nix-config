@@ -19,7 +19,7 @@ let
   ];
 in
 {
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 
 
   ########
@@ -36,9 +36,14 @@ in
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.requestEncryptionCredentials = true;
 
-  # Use the systemd-boot EFI boot loader.
+  # Use the systemd-boot EFI boot loader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Don't use NixOS stage-1
+  # to workaround the following issue:
+  #   https://github.com/NixOS/nixpkgs/issues/342082
+  boot.initrd.systemd.enable = true;
 
 
   ##############
