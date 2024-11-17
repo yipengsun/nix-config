@@ -136,9 +136,9 @@ in
     ];
 
     awesome-wm-config = {
-      taskbars = ./Thomas-support/awesome-wm/taskbars.lua;
-      theme = ./Thomas-support/awesome-wm/theme;
-      wallpaper = ./Thomas-support/awesome-wm/wallpaper.png;
+      taskbars = ./Michael-support/awesome-wm/taskbars.lua;
+      theme = ./Michael-support/awesome-wm/theme;
+      wallpaper = ./Michael-support/awesome-wm/wallpaper.png;
     };
 
     # Configure dual screen setup
