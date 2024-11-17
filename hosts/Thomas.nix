@@ -29,6 +29,8 @@ in
   boot.initrd.availableKernelModules = [ "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
 
+  boot.initrd.systemd.enable = true;
+
   boot.kernelPackages = latestZfsCompatLinuxPackages;
   boot.kernelModules = [ "kvm-amd" "acpi_call" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
