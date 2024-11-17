@@ -69,13 +69,13 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 --     function ()
 --         local clients = awful.client.visible(s)
 --         local layout  = awful.layout.getname(awful.layout.get(s))
-
---         if #clients > 0 then -- Fine grained borders and floaters control
---             for _, c in pairs(clients) do -- Floaters always have borders
+--
+--         if #clients > 0 then -- fine grained borders and floaters control
+--             for _, c in pairs(clients) do -- floaters always have borders
 --                 if awful.client.floating.get(c) or layout == "floating" then
 --                     c.border_width = beautiful.border_width
-
---                     -- No borders with only one visible client
+--
+--                     -- no borders with only one visible client
 --                 elseif #clients == 1 or layout == "max" then
 --                     c.border_width = 0
 --                 else

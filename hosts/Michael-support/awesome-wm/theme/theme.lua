@@ -70,6 +70,10 @@ theme.layout_fullscreen = theme_path.."layouts/fullscreen.png"
 theme.layout_magnifier  = theme_path.."layouts/magnifier.png"
 theme.layout_floating   = theme_path.."layouts/floating.png"
 
+-- Gaps
+theme.gap_single_client = true
+theme.useless_gap = 6
+
 --}}}
 
 return theme
