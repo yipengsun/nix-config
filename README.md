@@ -66,7 +66,7 @@ sudo zfs set com.sun:auto-snapshot=true <pool>/<fs>
 ```
 
 
-## Configure `maestral`
+### Configure `maestral`
 
 ```shell
 maestral auth link  # follow instruction
