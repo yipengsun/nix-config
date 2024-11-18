@@ -187,9 +187,9 @@ in
         acpilight # to make adj. brightness w/ hotkey work
       ];
 
-      taskbars = ./Thomas-support/awesome-wm/taskbars.lua;
-      theme = ./Thomas-support/awesome-wm/theme;
-      wallpaper = ./Thomas-support/awesome-wm/wallpaper.png;
+      taskbars = ./awesome-wm/taskbars.lua;
+      theme = ./awesome-wm/theme;
+      wallpaper = ./awesome-wm/wallpaper.png;
     };
   };
 }
