@@ -1,10 +1,4 @@
 { pkgs, ... }:
-let
-  # probably no longer needed after git-annex 10.20240430
-  rclone-git-annex = pkgs.writeShellScriptBin "git-annex-remote-rclone-builtin" ''
-    ${pkgs.rclone}/bin/rclone "$@"
-  '';
-in
 {
   home.packages = with pkgs; [
     git-annex
@@ -19,6 +13,8 @@ in
     gh # github cli tool
 
     root # for c++ dev
+
+    strace
   ];
 
   # linter config
