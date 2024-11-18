@@ -125,7 +125,8 @@ in
 
   imports = self.suites.nixos.workstation
     ++ [ self.profiles.nixos.v2ray-tproxy ]
-    ++ (with self.users; [ root syp ]);
+    ++ (with self.users; [ root syp ])
+    ++ [ ./disko-config.nix ];
 
 
   ###############
@@ -145,9 +146,9 @@ in
     ];
 
     awesome-wm-config = {
-      taskbars = ./Michael-support/awesome-wm/taskbars.lua;
-      theme = ./Michael-support/awesome-wm/theme;
-      wallpaper = ./Michael-support/awesome-wm/wallpaper.png;
+      taskbars = ./awesome-wm/taskbars.lua;
+      theme = ./awesome-wm/theme;
+      wallpaper = ./awesome-wm/wallpaper.png;
     };
 
     # Configure dual screen setup

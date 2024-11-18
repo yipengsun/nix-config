@@ -71,6 +71,7 @@
         };
 
         systemBuilder = {
+          hostModuleDir = ./hosts;
           hosts = {
             Henri = {
               system = "x86_64-linux";
@@ -92,13 +93,8 @@
 
             Michael = {
               system = "x86_64-linux";
-              suites = [
-                inputs.disko.nixosModules.disko
-                ./hosts/Michael-support/disko-config.nix
-              ];
             };
           };
-          hostModuleDir = ./hosts;
 
           # modules applied to all* hosts
           nixosModules = loadStrippedAsList ./modules/nixos
@@ -106,6 +102,7 @@
             [
               inputs.agenix.nixosModules.default
               inputs.nixos-wsl.nixosModules.default
+              inputs.disko.nixosModules.disko
             ];
           homeModules = loadStrippedAsList ./modules/home
             ++

@@ -120,7 +120,10 @@ let
     withSystem hostConfig.system ({ pkgs, ... }:
       let
         hostPlatform = pkgs.stdenv.hostPlatform;
-        hostModule = "${cfg.hostModuleDir}/${hostName}.nix";
+        hostModule =
+          if builtins.pathExists "${cfg.hostModuleDir}/${hostName}"
+          then "${cfg.hostModuleDir}/${hostName}/default.nix"
+          else "${cfg.hostModuleDir}/${hostName}.nix";
 
         systemModules =
           if hostPlatform.isLinux then cfg.nixosModules
