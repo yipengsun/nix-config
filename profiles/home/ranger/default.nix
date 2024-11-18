@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 {
   programs.ranger = {
     enable = true;
@@ -14,13 +13,7 @@
 
       # image preview
       preview_images = true;
-
-      # need to set TERM=xterm-kitty, might not be possible
-      #preview_images_method = "kitty"; # doesn't work inside WSL due to lack of TERMINFO
-
-      preview_images_method = "ueberzug";
+      preview_images_method = "iterm2";
     };
-
-    extraPackages = [ pkgs.ueberzugpp ];
   };
 }
