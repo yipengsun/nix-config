@@ -1,3 +1,10 @@
+{ osConfig, ... }:
+let
+  enableImagePreview =
+    if osConfig ? "wsl"
+    then !osConfig.wsl.enable
+    else true;
+in
 {
   programs.ranger = {
     enable = true;
@@ -12,7 +19,7 @@
       draw_borders = true;
 
       # image preview
-      preview_images = true;
+      preview_images = enableImagePreview;
       preview_images_method = "iterm2";
     };
   };
