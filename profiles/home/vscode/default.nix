@@ -42,6 +42,7 @@
       # ui and interactivity
       vscodevim.vim
       #asvetliakov.vscode-neovim
+      editorconfig.editorconfig
 
       github.copilot # copilot-chat is deprecated, don't use it
       dracula-theme.theme-dracula
