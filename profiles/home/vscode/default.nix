@@ -40,7 +40,9 @@
 
     extensions = with pkgs.vscode-extensions; [
       # ui and interactivity
-      asvetliakov.vscode-neovim
+      vscodevim.vim
+      #asvetliakov.vscode-neovim
+
       github.copilot # copilot-chat is deprecated, don't use it
       dracula-theme.theme-dracula
 
