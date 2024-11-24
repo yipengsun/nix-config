@@ -141,9 +141,9 @@ in
       self.profiles.home.wm-x11
     ];
 
-    home.packages = [
-      pkgs.nur.repos.xddxdd.wine-wechat
-    ];
+    # home.packages = [
+    #   pkgs.nur.repos.xddxdd.wine-wechat
+    # ];
 
     awesome-wm-config = {
       taskbars = ./awesome-wm/taskbars.lua;

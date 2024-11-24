@@ -178,10 +178,6 @@ in
       self.profiles.home.autorandr
     ];
 
-    home.packages = [
-      pkgs.nur.repos.xddxdd.wine-wechat
-    ];
-
     awesome-wm-config = {
       extraPackages = with pkgs; [
         acpilight # to make adj. brightness w/ hotkey work
