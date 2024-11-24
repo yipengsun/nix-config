@@ -8,7 +8,7 @@
       "window.autoDetectColorScheme" = false;
       "window.autoDetectHighContrast" = false;
 
-      "workbench.colorTheme" = "Dracula"; # FIXME: changed to 'Dracula Theme' in 2.51+
+      "workbench.colorTheme" = "Dracula"; # FIXME: changed to 'Dracula Theme' in 2.25+
       "workbench.startupEditor" = "none";
 
       "editor.fontFamily" = "'FiraCode Nerd Font Mono', 'monospace', monospace";
