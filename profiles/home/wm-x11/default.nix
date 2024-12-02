@@ -14,13 +14,9 @@
     shadowExclude = [
       "_GTK_FRAME_EXTENTS@:c"
       "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
-      "class_g = 'Polybar'"
-      "override_redirect"
+      "window_type *= 'menu' && name ~= 'Firefox$'"
+      "window_type *= 'utility' && name ~= 'Firefox$'"
     ];
-
-    # settings = {
-    #   shadow-ignore-shaped = true;
-    # };
 
     wintypes = {
       dock = { shadow = false; };
