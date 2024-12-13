@@ -53,12 +53,8 @@
     packages = with pkgs; [
       dejavu_fonts
       wqy_microhei
-      (nerdfonts.override {
-        fonts = [
-          "FiraCode"
-          "DejaVuSansMono"
-        ];
-      })
+      nerd-fonts.fira-code
+      nerd-fonts.dejavu-sans-mono
     ];
 
     fontconfig.defaultFonts = {
