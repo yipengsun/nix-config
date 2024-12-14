@@ -1,7 +1,4 @@
-{ config
-, pkgs
-, ...
-}:
+{ config, pkgs, lib, ... }:
 let
   preferredTerm = elems:
     with builtins;
@@ -17,6 +14,8 @@ let
   vim-terminal = pkgs.writeScriptBin "vim-terminal" ''
     ${defaultTerm} -e nvim $1
   '';
+
+  isLinux = pkgs.stdenv.isLinux;
 in
 {
   # firefox tridactyl-related
@@ -75,6 +74,7 @@ in
 
   programs.firefox = {
     enable = true;
+    package = if isLinux then pkgs.firefox else pkgs.firefox-bin;
 
     nativeMessagingHosts = [ pkgs.tridactyl-native ];
 
@@ -107,8 +107,12 @@ in
     };
   };
 
+  home.sessionVariables = {
+    MOZ_LEGACY_PROFILES = "1";
+  };
+
   programs.chromium = {
-    enable = true;
+    enable = isLinux;
     extensions = [
       { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock-origin
       { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # vimium

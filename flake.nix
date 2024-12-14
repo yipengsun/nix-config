@@ -68,6 +68,7 @@
             inputs.agenix.overlays.default
             inputs.nur.overlays.default
             inputs.nix-darwin.overlays.default
+            inputs.nixpkgs-firefox-darwin.overlay
           ] ++ [ flake.overlays.default ];
         };
 
@@ -156,11 +157,11 @@
 
             # typical use cases
             workstation = base ++ coding ++ linux-config-cli ++ linux-config-gui ++
-              [ apps zathura dev-secrets vscode ] ++ [ apps-extra www term ledger mpv ];
+              [ apps zathura dev-secrets ] ++ [ apps-extra www term ledger mpv vscode ];
             server = base ++ coding ++ linux-config-cli;
             wsl = base ++ coding ++ linux-config-cli ++
               [ apps zathura dev-secrets ];
-            darwin = base ++ coding ++ [ term mpv dev-secrets ];
+            darwin = base ++ coding ++ [ dev-secrets ] ++ [ www term mpv ];
           };
       };
     });
@@ -202,5 +203,8 @@
     # additional packages/modules
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:nixos/nixos-hardware";
+
+    nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
+    nixpkgs-firefox-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 }
