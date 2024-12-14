@@ -187,7 +187,10 @@ config.mouse_bindings = {
 --------
 
 -- font
-config.font = wezterm.font 'monospace'
+config.font = wezterm.font_with_fallback {
+    'FiraCode Nerd Font Mono',
+    'monospace'
+}
 config.font_size = 10
 
 
