@@ -7,12 +7,17 @@ let
     ];
     shell = pkgs.fish;
   };
+
+  isLinux = pkgs.stdenv.isLinux;
+  isDarwin = pkgs.stdenv.isDarwin;
 in
 {
-  age.secrets.passwd_syp.file = "${self}/secrets/passwd_syp.age";
+  age.secrets = lib.mkIf isLinux ({
+    passwd_syp.file = "${self}/secrets/passwd_syp.age";
+  });
 
   users.users.syp = configSypCommon //
-    (if pkgs.stdenv.isLinux then {
+    (if isLinux then {
       hashedPasswordFile = "/run/agenix/passwd_syp";
       isNormalUser = true;
       extraGroups = [ "wheel" "networkmanager" "video" "audio" "docker" "adbusers" ];
@@ -23,7 +28,7 @@ in
     );
 
   home-manager.users.syp = { config, ... }: {
-    home.homeDirectory = lib.mkIf pkgs.stdenv.isDarwin (lib.mkForce "/Users/syp");
+    home.homeDirectory = lib.mkIf isDarwin (lib.mkForce "/Users/syp");
 
     # for decrypting files on user login
     age.identityPaths = [
