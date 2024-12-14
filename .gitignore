@@ -5,3 +5,7 @@ gen
 
 # config
 .pre-commit-config.yaml
+
+
+# misc
+.DS_Store

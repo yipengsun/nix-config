@@ -54,7 +54,7 @@
 
       config = rec {
         debug = true;
-        systems = [ "x86_64-linux" "x86_64-darwin" ];
+        systems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
         flake.overlays = {
           default = import ./overlays/default;
@@ -67,6 +67,7 @@
           overlays = [
             inputs.agenix.overlays.default
             inputs.nur.overlay
+            inputs.nix-darwin.overlays.default
           ] ++ [ flake.overlays.default ];
         };
 
@@ -93,6 +94,10 @@
 
             Michael = {
               system = "x86_64-linux";
+            };
+
+            Leonardo = {
+              system = "aarch64-darwin";
             };
           };
 
@@ -144,6 +149,7 @@
             server = base ++ coding ++ linux-config-cli;
             wsl = base ++ coding ++ linux-config-cli ++
               [ apps zathura dev-secrets ];
+            darwin = base ++ coding;
           };
       };
     });

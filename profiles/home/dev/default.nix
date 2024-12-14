@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   home.packages = with pkgs; [
     git-annex
@@ -13,7 +13,7 @@
     gh # github cli tool
 
     root # for c++ dev
-
+  ] ++ lib.optionals pkgs.stdenv.isLinux [
     strace
   ];
 

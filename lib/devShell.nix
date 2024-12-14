@@ -1,4 +1,4 @@
-{ ... }: {
+{ lib, ... }: {
   perSystem =
     { pkgs, config, ... }: {
       pre-commit = {
@@ -18,7 +18,13 @@
           nix
           agenix
           nixos-anywhere
-        ] ++ config.pre-commit.settings.enabledPackages;
+        ] ++ config.pre-commit.settings.enabledPackages
+        ++ lib.optionals pkgs.stdenv.isDarwin [
+          git
+          darwin-rebuild
+          darwin-option
+          darwin-version
+        ];
 
         shellHook = ''
           ${config.pre-commit.installationScript}
