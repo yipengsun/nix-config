@@ -2,8 +2,6 @@
 {
   nix.settings = {
     system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-    allowed-users = [ "@wheel" ];
-    trusted-users = [ "root" "@wheel" ];
   };
 
   security.sudo.enable = true;
