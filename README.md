@@ -37,6 +37,16 @@ nixos-anywhere --extra-files gen/<hostname> --flake .#<hostname> nixos@<host_ip>
 ```
 
 
+## Bootstrap on macOS
+
+1. Install `nix` with the Determinate installer
+2. `xcode-select --install` to make `git` available
+3. Bootstrap SSH credentials
+4. Clone this repo and enter its devShell
+5. `darwin-rebuild switch --flake .#<hostname>`
+6. `chsh -s /run/current-system/sw/bin/fish`
+
+
 ## Tricks
 
 ### Install `nix`
