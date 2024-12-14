@@ -140,6 +140,10 @@ let
           inherit self inputs hostPlatform;
         };
 
+        computerNameModule =
+          if hostPlatform.isDarwin then { networking.computerName = hostName; }
+          else { };
+
         modules = [
           hostModule
           {
@@ -147,6 +151,7 @@ let
             nixpkgs.pkgs = pkgs;
             networking.hostName = hostName;
           }
+          computerNameModule
         ]
         ++ systemModules ++ hostConfig.suites
         ++

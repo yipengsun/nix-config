@@ -1,4 +1,4 @@
-{ self, lib, ... }:
+{ self, lib, pkgs, ... }:
 {
   system.stateVersion = 5;
 
@@ -20,6 +20,17 @@
 
     screensaver.askForPasswordDelay = 10;
   };
+
+  system.startup.chime = false;
+
+  environment.shells = [ pkgs.fish ];
+
+  power = {
+    sleep.computer = "never";
+    sleep.display = 20; # in minutes
+  };
+
+  security.pam.enableSudoTouchIdAuth = true;
 
 
   #################
