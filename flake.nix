@@ -66,7 +66,7 @@
           };
           overlays = [
             inputs.agenix.overlays.default
-            inputs.nur.overlay
+            inputs.nur.overlays.default
             inputs.nix-darwin.overlays.default
           ] ++ [ flake.overlays.default ];
         };
@@ -120,13 +120,12 @@
         flake.profiles = loadStripped ./profiles;
 
         flake.suites.common = {
-          base = with flake.profiles.nixos; [ cachix core ];
+          common-base = with flake.profiles.shared; [ cachix core ];
         };
 
         flake.suites.nixos =
           with flake.profiles.nixos; rec {
-            inherit (flake.suites.common) base;
-
+            base = flake.suites.common.common-base ++ [ core-linux ];
             services = [ zfs docker ];
 
             # typical use cases
@@ -134,6 +133,10 @@
             server = base ++ services ++ [ lang-region ];
             wsl = base ++ [ lang-region wsl-vscode-remote dev ];
           };
+
+        flake.suites.darwin = {
+          base = flake.suites.common.common-base;
+        };
 
         flake.suites.home =
           with flake.profiles.home; rec {
