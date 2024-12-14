@@ -129,7 +129,7 @@
 
         flake.suites.nixos =
           with flake.profiles.nixos; rec {
-            base = flake.suites.common.common-base ++ [ core-linux ];
+            base = flake.suites.common.common-base ++ [ core-nixos ];
             services = [ zfs docker ];
 
             # typical use cases
