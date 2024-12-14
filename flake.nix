@@ -138,9 +138,13 @@
             wsl = base ++ [ lang-region wsl-vscode-remote dev ];
           };
 
-        flake.suites.darwin = {
-          base = flake.suites.common.common-base;
-        };
+        flake.suites.darwin =
+          with flake.profiles.darwin; rec {
+            base = flake.suites.common.common-base ++ [ core-darwin ];
+
+            # typical use cases
+            workstation = base;
+          };
 
         flake.suites.home =
           with flake.profiles.home; rec {
@@ -156,7 +160,7 @@
             server = base ++ coding ++ linux-config-cli;
             wsl = base ++ coding ++ linux-config-cli ++
               [ apps zathura dev-secrets ];
-            darwin = base ++ coding ++ [ term mpv ];
+            darwin = base ++ coding ++ [ term mpv dev-secrets ];
           };
       };
     });
