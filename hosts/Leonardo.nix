@@ -26,7 +26,7 @@
   # System config #
   #################
 
-  imports = with self.users; [ syp ];
+  imports = self.suites.darwin.base ++ (with self.users; [ syp ]);
 
   users.users.syp = {
     name = "syp";
@@ -39,7 +39,6 @@
 
   home-manager.users.syp = { pkgs, ... }: {
     home = {
-      #username = lib.mkForce ("syp");
       homeDirectory = lib.mkForce "/Users/syp";
     };
 

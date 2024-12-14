@@ -19,7 +19,6 @@ let
 
     # Network utilities
     curl
-    iputils # ping, traceroute, etc.
     dnsutils # nslookup, etc.
     nmap # for host discovery, etc
 
@@ -38,8 +37,7 @@ let
 in
 {
   nix.settings = {
-    auto-optimise-store = true;
-    sandbox = true;
+    sandbox = pkgs.stdenv.isLinux;
     experimental-features = [ "nix-command" "flakes" ];
   };
 
@@ -51,9 +49,10 @@ in
 
   nix.gc = {
     automatic = true;
-    dates = "weekly";
     options = "--delete-older-than 49d";
   };
+
+  nix.optimise.automatic = true;
 
   environment.systemPackages = commonPkgs;
   fonts.packages = commonFonts;

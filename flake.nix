@@ -109,6 +109,10 @@
               inputs.nixos-wsl.nixosModules.default
               inputs.disko.nixosModules.disko
             ];
+          darwinModules = [ ]
+            ++ [
+            inputs.agenix.darwinModules.default
+          ];
           homeModules = loadStrippedAsList ./modules/home
             ++
             [

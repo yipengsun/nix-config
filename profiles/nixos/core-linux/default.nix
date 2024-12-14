@@ -18,6 +18,7 @@
       usbutils
       utillinux
       openssl
+      iputils
 
       # Disk utilities
       dosfstools
