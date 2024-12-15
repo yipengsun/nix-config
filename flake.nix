@@ -164,7 +164,7 @@
             server = base ++ coding ++ linux-config-cli;
             wsl = base ++ coding ++ linux-config-cli ++
               [ apps zathura dev-secrets ];
-            darwin = base ++ coding ++ [ dev-secrets ] ++ [ www term mpv ];
+            darwin = base ++ coding ++ [ dev-secrets ] ++ [ www term mpv vscode ];
           };
       };
     });

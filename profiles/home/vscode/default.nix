@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   programs.vscode = {
     enable = true;
@@ -63,12 +63,12 @@
       # language support
       yzhang.markdown-all-in-one
 
-      ms-vscode.cpptools # for C++ debugging
-
       ms-python.debugpy
       ms-python.python
 
       jnoortheen.nix-ide
-    ];
+    ] ++ lib.optionals pkgs.stdenv.isLinux (with pkgs.vscode-extensions; [
+      ms-vscode.cpptools # for C++ debugging
+    ]);
   };
 }
