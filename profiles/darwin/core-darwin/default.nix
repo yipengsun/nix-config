@@ -12,6 +12,11 @@
     screencapture.location = "~/Pictures/screenshots";
 
     screensaver.askForPasswordDelay = 10;
+
+    # always use metric units!! FUCK imperial units!!
+    NSGlobalDomain.AppleMetricUnits = 1;
+
+    NSGlobalDomain.AppleICUForce24HourTime = true;
   };
 
   system.startup.chime = false;
