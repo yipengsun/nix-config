@@ -1,5 +1,5 @@
 let
-  modkey = "cmd";
+  modkey = "alt";
 in
 {
   services.aerospace = {
