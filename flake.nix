@@ -102,7 +102,7 @@
             };
           };
 
-          # modules applied to all* hosts
+          # modules applied to all hosts
           nixosModules = loadStrippedAsList ./modules/nixos
             ++
             [
@@ -111,13 +111,16 @@
               inputs.disko.nixosModules.disko
             ];
           darwinModules = [ ]
-            ++ [
-            inputs.agenix.darwinModules.default
-          ];
+            ++
+            [
+              inputs.agenix.darwinModules.default
+              inputs.mac-app-util.darwinModules.default
+            ];
           homeModules = loadStrippedAsList ./modules/home
             ++
             [
               inputs.agenix.homeManagerModules.default
+              inputs.mac-app-util.homeManagerModules.default
             ];
         };
 
@@ -206,5 +209,8 @@
 
     nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     nixpkgs-firefox-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
   };
 }
