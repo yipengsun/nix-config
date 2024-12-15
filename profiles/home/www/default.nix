@@ -76,7 +76,7 @@ in
     enable = true;
     package = if isLinux then pkgs.firefox else pkgs.firefox-bin;
 
-    nativeMessagingHosts = [ pkgs.tridactyl-native ];
+    nativeMessagingHosts = if isLinux then [ pkgs.tridactyl-native ] else [ ];
 
     profiles."syp" = {
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
