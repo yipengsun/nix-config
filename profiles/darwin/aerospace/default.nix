@@ -25,21 +25,9 @@ in
       automatically-unhide-macos-hidden-apps = true;
 
       mode.main.binding = {
+        # global keys
         "${modkey}-slash" = "layout tiles horizontal vertical";
         "${modkey}-backslash" = "layout accordion horizontal vertical";
-
-        "${modkey}-h" = "focus left";
-        "${modkey}-j" = "focus down";
-        "${modkey}-k" = "focus up";
-        "${modkey}-l" = "focus right";
-
-        "${modkey}-shift-h" = "move left";
-        "${modkey}-shift-j" = "move down";
-        "${modkey}-shift-k" = "move up";
-        "${modkey}-shift-l" = "move right";
-
-        "${modkey}-minus" = "resize smart -50";
-        "${modkey}-equal" = "resize smart +50";
 
         "alt-tab" = "workspace-back-and-forth";
         "alt-shift-tab" = "move-workspace-to-monitor --wrap-around next";
@@ -52,6 +40,26 @@ in
 
         "${modkey}-left" = "workspace --wrap-around prev";
         "${modkey}-right" = "workspace --wrap-around next";
+
+
+        # app launchers
+        "${modkey}-f1" = ''exec-and-forget open -n "/Users/syp/Applications/Home Manager Apps/WezTerm.app"'';
+        "${modkey}-f2" = ''exec-and-forget open -n "/Users/syp/Applications/Home Manager Apps/Firefox.app"'';
+
+
+        # local client keys
+        "${modkey}-h" = "focus left";
+        "${modkey}-j" = "focus down";
+        "${modkey}-k" = "focus up";
+        "${modkey}-l" = "focus right";
+
+        "${modkey}-shift-h" = "move left";
+        "${modkey}-shift-j" = "move down";
+        "${modkey}-shift-k" = "move up";
+        "${modkey}-shift-l" = "move right";
+
+        "${modkey}-minus" = "resize smart -50";
+        "${modkey}-equal" = "resize smart +50";
 
 
         # workspaces
