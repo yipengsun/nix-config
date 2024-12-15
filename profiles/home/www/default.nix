@@ -19,7 +19,7 @@ let
 in
 {
   # firefox tridactyl-related
-  home.packages = [ vim-terminal ];
+  home.packages = if isLinux then [ vim-terminal ] else [ ];
 
   home.file.".tridactylrc".text = ''
     """""""""""
