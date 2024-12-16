@@ -38,37 +38,43 @@
     enableExtensionUpdateCheck = false;
     mutableExtensionsDir = false;
 
-    extensions = with pkgs.vscode-extensions; [
-      # ui and interactivity
-      vscodevim.vim
-      #asvetliakov.vscode-neovim
-      editorconfig.editorconfig
+    extensions =
+      let
+        isLinux = pkgs.stdenv.hostPlatform.isLinux;
 
-      github.copilot
-      github.copilot-chat
+        cppDebugging = (with pkgs.vscode-extensions; if isLinux then ms-vscode.cpptools else vadimcn.vscode-lldb);
+      in
+      with pkgs.vscode-extensions; [
+        # ui and interactivity
+        vscodevim.vim
+        #asvetliakov.vscode-neovim
+        editorconfig.editorconfig
 
-      dracula-theme.theme-dracula
+        github.copilot
+        github.copilot-chat
 
-      # build
-      twxs.cmake
-      ms-vscode.cmake-tools
+        dracula-theme.theme-dracula
 
-      # formatters
-      ms-python.black-formatter
+        # build
+        twxs.cmake
+        ms-vscode.cmake-tools
 
-      # language servers
-      llvm-vs-code-extensions.vscode-clangd
-      rust-lang.rust-analyzer
+        # formatters
+        ms-python.black-formatter
 
-      # language support
-      yzhang.markdown-all-in-one
+        # language servers
+        llvm-vs-code-extensions.vscode-clangd
+        rust-lang.rust-analyzer
 
-      ms-python.debugpy
-      ms-python.python
+        # language support
+        yzhang.markdown-all-in-one
 
-      jnoortheen.nix-ide
-    ] ++ lib.optionals pkgs.stdenv.isLinux (with pkgs.vscode-extensions; [
-      ms-vscode.cpptools # for C++ debugging
-    ]);
+        ms-python.debugpy
+        ms-python.python
+
+        jnoortheen.nix-ide
+
+        cppDebugging
+      ];
   };
 }
