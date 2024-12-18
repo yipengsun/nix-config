@@ -17,6 +17,10 @@
     NSGlobalDomain.AppleMetricUnits = 1;
 
     NSGlobalDomain.AppleICUForce24HourTime = true;
+
+    # so that when holding 'j', no accented versions of j would show up
+    # and vs code scrolls down multiple lines
+    NSGlobalDomain.ApplePressAndHoldEnabled = false;
   };
 
   system.startup.chime = false;

@@ -46,8 +46,8 @@
       in
       with pkgs.vscode-extensions; [
         # ui and interactivity
-        vscodevim.vim
-        #asvetliakov.vscode-neovim
+        #vscodevim.vim
+        asvetliakov.vscode-neovim
         editorconfig.editorconfig
 
         github.copilot
