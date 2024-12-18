@@ -147,7 +147,7 @@
             base = flake.suites.common.common-base ++ [ core-darwin ];
 
             # typical use cases
-            workstation = base ++ [ aerospace ];
+            workstation = base ++ [ aerospace dev ];
           };
 
         flake.suites.home =
