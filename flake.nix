@@ -48,7 +48,7 @@
         ./lib/devShell.nix
 
         # local modules
-        ./lib/localNixpkgs.nix
+        ./lib/configNixpkgs.nix
         ./lib/systemBuilder.nix
       ];
 
@@ -60,7 +60,7 @@
           default = import ./overlays/default;
         };
 
-        localNixpkgs = {
+        configNixpkgs = {
           config = {
             allowUnfree = true;
           };

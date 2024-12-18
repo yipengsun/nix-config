@@ -15,7 +15,7 @@ let
     ;
 
 
-  cfg = toplevel.config.localNixpkgs; # shortcut to user config
+  cfg = toplevel.config.configNixpkgs; # shortcut to user config
 
 
   # types in config
@@ -67,7 +67,7 @@ let
 in
 {
   options = {
-    localNixpkgs = mkOption {
+    configNixpkgs = mkOption {
       type = typeLocalNixpkgsOptions;
       default = { };
       description = ''
@@ -80,7 +80,7 @@ in
   config = {
     perSystem =
       { system
-      , localNixpkgs
+      , configNixpkgs
       , ...
       }: {
         _file = ./.;
@@ -94,7 +94,7 @@ in
             };
           in
           {
-            _module.args.localNixpkgs = lib.mkOptionDefault configuredNixpkgs;
+            _module.args.configNixpkgs = lib.mkOptionDefault configuredNixpkgs;
             _module.args.pkgs = configuredNixpkgs;
           };
       };

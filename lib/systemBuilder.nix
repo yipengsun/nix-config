@@ -25,7 +25,7 @@ let
     ;
 
 
-  cfgSupport = toplevel.config.localNixpkgs; # external config options
+  cfgSupport = toplevel.config.configNixpkgs; # external config options
   cfg = toplevel.config.systemBuilder; # shortcut to user config
 
 
