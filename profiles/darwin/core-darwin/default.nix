@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+let
+  isDarwinAarch64 = pkgs.stdenv.hostPlatform.system == "aarch64-darwin";
+in
 {
   system.defaults = {
     dock.autohide = true;
@@ -26,6 +29,10 @@
   system.startup.chime = false;
 
   environment.shells = [ pkgs.fish ];
+
+  environment.systemPackages = lib.optionals isDarwinAarch64 [
+    pkgs.macmon
+  ];
 
   power = {
     sleep.computer = "never";

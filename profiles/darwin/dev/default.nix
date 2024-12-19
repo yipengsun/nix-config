@@ -7,7 +7,9 @@ let
   debugServerPath = "${xcode}/Contents/SharedFrameworks/LLDB.framework/Versions/A/Resources/debugserver";
 in
 {
-  environment.systemPackages = [ xcode ];
+  environment.systemPackages = [
+    xcode
+  ];
 
   environment.variables = {
     LLDB_DEBUGSERVER_PATH = debugServerPath;
