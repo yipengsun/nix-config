@@ -115,6 +115,7 @@
             [
               inputs.agenix.darwinModules.default
               inputs.mac-app-util.darwinModules.default
+              inputs.nix-homebrew.darwinModules.nix-homebrew
             ];
           homeModules = loadStrippedAsList ./modules/home
             ++
@@ -147,7 +148,7 @@
             base = flake.suites.common.common-base ++ [ core-darwin ];
 
             # typical use cases
-            workstation = base ++ [ aerospace dev ];
+            workstation = base ++ [ aerospace dev homebrew ];
           };
 
         flake.suites.home =
@@ -176,6 +177,8 @@
 
     # libs
     flake-parts.follows = "nixpkgs-pointer/flake-parts";
+    flake-utils.follows = "nixpkgs-pointer/flake-utils";
+
     haumea.url = "github:nix-community/haumea";
     haumea.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -212,5 +215,23 @@
 
     mac-app-util.url = "github:hraban/mac-app-util";
     mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
+    nix-homebrew.inputs.nix-darwin.follows = "nix-darwin";
+    nix-homebrew.inputs.flake-utils.follows = "flake-utils";
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
+    };
   };
 }

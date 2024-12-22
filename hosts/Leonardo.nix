@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, pkgs, ... }:
 {
   system.stateVersion = 5;
 
@@ -26,6 +26,13 @@
 
   imports = self.suites.darwin.workstation ++ (with self.users; [ syp ]);
 
+  homebrew = {
+    casks = [
+      "playcover-community"
+      "baidunetdisk"
+    ];
+  };
+
 
   ###############
   # User config #
@@ -33,5 +40,9 @@
 
   home-manager.users.syp = {
     imports = self.suites.home.darwin;
+
+    #home.packages = with pkgs; [
+    #  keka
+    #];
   };
 }
