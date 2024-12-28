@@ -116,14 +116,14 @@ in
         "4" = "built-in";
         "5" = "built-in";
 
-        "6" = [ "secondary" "built-in" ];
-        "7" = [ "secondary" "built-in" ];
-        "8" = [ "secondary" "built-in" ];
-        "9" = [ "secondary" "built-in" ];
+        "6" = [ "vx3276" "secondary" "built-in" ];
+        "7" = [ "vx3276" "secondary" "built-in" ];
+        "8" = [ "vx3276" "secondary" "built-in" ];
+        "9" = [ "vx3276" "secondary" "built-in" ];
 
-        "I" = [ "secondary" "built-in" ];
-        "O" = [ "secondary" "built-in" ];
-        "P" = [ "secondary" "built-in" ];
+        "I" = [ "sidecar" "secondary" "built-in" ];
+        "O" = [ "sidecar" "secondary" "built-in" ];
+        "P" = [ "sidecar" "secondary" "built-in" ];
       };
     };
   };
