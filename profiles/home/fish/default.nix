@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   programs.fish = {
     enable = true;
@@ -53,6 +53,11 @@
       set --universal pure_enable_nixdevshell false  # true -> 1 residual char at line start
       set --universal pure_show_prefix_root_prompt true
       set --universal pure_symbol_prefix_root_prompt "root"
+      set --universal pure_enable_git_async true
+      set --universal pure_enable_single_line_prompt true
+
+      # disable fish greeting
+      set --universal fish_greeting
     '';
 
     plugins = with pkgs.fishPlugins; [
