@@ -54,7 +54,7 @@
       set --universal pure_show_prefix_root_prompt true
       set --universal pure_symbol_prefix_root_prompt "root"
       set --universal pure_enable_git_async true
-      set --universal pure_enable_single_line_prompt true
+      set --universal pure_enable_single_line_prompt false
 
       # disable fish greeting
       set --universal fish_greeting
