@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e  # exit on error
+
 echo "Updating nixpkgs input..."
 echo ""
 nix flake update \
