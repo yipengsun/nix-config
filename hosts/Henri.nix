@@ -10,8 +10,6 @@
     enable = true;
 
     defaultUser = "syp";
-
-    nativeSystemd = true;
     useWindowsDriver = true;
 
     wslConf = {
