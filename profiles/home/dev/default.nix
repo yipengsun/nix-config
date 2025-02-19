@@ -11,10 +11,9 @@
     nix-tree # view dependency as a tree
 
     gh # github cli tool
-
-    root # for c++ dev
   ] ++ lib.optionals pkgs.stdenv.isLinux [
     strace
+    root # for c++ dev, broken on darwin due to isa-l being broken
   ];
 
   # linter config
