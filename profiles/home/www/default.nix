@@ -79,7 +79,7 @@ in
     nativeMessagingHosts = if isLinux then [ pkgs.tridactyl-native ] else [ ];
 
     profiles."syp" = {
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         tridactyl
         ublock-origin
         darkreader # dark theme for all websites
