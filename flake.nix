@@ -219,7 +219,6 @@
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.inputs.nix-darwin.follows = "nix-darwin";
-    nix-homebrew.inputs.flake-utils.follows = "flake-utils";
 
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
