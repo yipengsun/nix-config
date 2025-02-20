@@ -1,23 +1,4 @@
-{ pkgs
-, config
-, self
-, lib
-, ...
-}:
-let
-  latestZfsCompatLinuxPackages = lib.pipe pkgs.linuxKernel.packages [
-    builtins.attrValues
-    (builtins.filter (
-      kPkgs:
-      (builtins.tryEval kPkgs).success
-      && kPkgs ? kernel
-      && kPkgs.kernel.pname == "linux"
-      && !kPkgs.zfs.meta.broken
-    ))
-    (builtins.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)))
-    lib.last
-  ];
-in
+{ config, self, ... }:
 {
   system.stateVersion = "24.11";
 
@@ -31,7 +12,6 @@ in
 
   boot.initrd.systemd.enable = true;
 
-  boot.kernelPackages = latestZfsCompatLinuxPackages;
   boot.kernelModules = [ "kvm-amd" "acpi_call" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
