@@ -1,4 +1,4 @@
-{ config, self, ... }:
+{ config, self, pkgs, ... }:
 {
   system.stateVersion = "24.11";
 
@@ -108,6 +108,11 @@
     ++ (with self.users; [ root syp ])
     ++ [ ./disko-config.nix ];
 
+  environment.systemPackages = with pkgs; [
+    rocmPackages.rocm-smi
+    rocmPackages.rocminfo
+  ];
+
 
   ###############
   # User config #
@@ -120,10 +125,6 @@
       ++ [
       self.profiles.home.wm-x11
     ];
-
-    # home.packages = [
-    #   pkgs.nur.repos.xddxdd.wine-wechat
-    # ];
 
     awesome-wm-config = {
       taskbars = ./awesome-wm/taskbars.lua;
