@@ -177,7 +177,6 @@
 
     # libs
     flake-parts.follows = "nixpkgs-pointer/flake-parts";
-    flake-utils.follows = "nixpkgs-pointer/flake-utils";
 
     haumea.url = "github:nix-community/haumea";
     haumea.inputs.nixpkgs.follows = "nixpkgs";

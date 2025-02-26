@@ -583,10 +583,6 @@
           "nixpkgs-pointer",
           "flake-parts"
         ],
-        "flake-utils": [
-          "nixpkgs-pointer",
-          "flake-utils"
-        ],
         "git-hooks": "git-hooks",
         "haumea": "haumea",
         "home-manager": "home-manager_2",
