@@ -112,7 +112,9 @@ in
   };
 
   programs.chromium = {
-    enable = isLinux;
+    enable = true;
+    package = if isLinux then pkgs.chromium else pkgs.google-chrome;
+
     extensions = [
       { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock-origin
       { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # vimium
