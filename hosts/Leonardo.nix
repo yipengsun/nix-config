@@ -33,6 +33,8 @@
     ];
   };
 
+  services.tailscale.enable = true;
+
 
   ###############
   # User config #
