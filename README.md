@@ -45,6 +45,7 @@ nixos-anywhere --extra-files gen/<hostname> --flake .#<hostname> nixos@<host_ip>
 4. Clone this repo and enter its devShell
 5. `darwin-rebuild switch --flake .#<hostname>`
 6. `chsh -s /run/current-system/sw/bin/fish`
+7. (optional) `softwareupdate --install-rosetta --agree-to-license`
 
 
 ## Tricks
