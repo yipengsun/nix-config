@@ -30,6 +30,7 @@
     casks = [
       "playcover-community"
       "baidunetdisk"
+      "microsoft-teams"
     ];
   };
 
