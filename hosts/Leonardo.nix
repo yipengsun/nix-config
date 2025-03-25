@@ -31,6 +31,7 @@
       "playcover-community"
       "baidunetdisk"
       "microsoft-teams"
+      "feishu"
     ];
   };
 
