@@ -113,8 +113,6 @@
   services.logind.lidSwitchExternalPower = "ignore";
   services.logind.lidSwitchDocked = "ignore";
 
-  services.openssh.settings.PermitRootLogin = "no";
-
   # X11
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];

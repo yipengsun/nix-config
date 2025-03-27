@@ -76,7 +76,7 @@
 
   nix.settings.cores = 12; # don't use up all my cores
 
-  services.openssh.settings.PermitRootLogin = "no";
+  services.openssh.openFirewall = true;
 
   # X11
   services.xserver.enable = true;
