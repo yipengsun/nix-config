@@ -30,8 +30,8 @@
     casks = [
       "playcover-community"
       "baidunetdisk"
-      "microsoft-teams"
       "feishu"
+      "tencent-meeting"
     ];
   };
 
