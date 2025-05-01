@@ -1,10 +1,15 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium;
 
-    userSettings = {
+    mutableExtensionsDir = false;
+
+    profiles.default.enableUpdateCheck = false;
+    profiles.default.enableExtensionUpdateCheck = false;
+
+    profiles.default.userSettings = {
       "window.autoDetectColorScheme" = false;
       "window.autoDetectHighContrast" = false;
 
@@ -26,7 +31,7 @@
       "nix.serverPath" = "nil";
     };
 
-    keybindings = [
+    profiles.default.keybindings = [
       {
         key = "ctrl+c";
         command = "-vscode-neovim.escape";
@@ -34,11 +39,7 @@
       }
     ];
 
-    enableUpdateCheck = false;
-    enableExtensionUpdateCheck = false;
-    mutableExtensionsDir = false;
-
-    extensions =
+    profiles.default.extensions =
       let
         isLinux = pkgs.stdenv.hostPlatform.isLinux;
 
