@@ -27,7 +27,6 @@ endif
 " Filecodings settings
 set enc=utf-8
 set fencs=utf-8,cp936,ucs-bom,gb18030,gbk,gb2312
-let &termencoding=&encoding
 
 " Backup settings
 set nobackup
