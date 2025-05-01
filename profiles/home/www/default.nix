@@ -74,9 +74,9 @@ in
 
   programs.firefox = {
     enable = true;
-    package = if isLinux then pkgs.firefox else pkgs.firefox-bin;
+    package = pkgs.firefox;
 
-    nativeMessagingHosts = if isLinux then [ pkgs.tridactyl-native ] else [ ];
+    nativeMessagingHosts = [ pkgs.tridactyl-native ];
 
     profiles."syp" = {
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
@@ -85,7 +85,7 @@ in
         darkreader # dark theme for all websites
         copy-selection-as-markdown
         i-dont-care-about-cookies
-        lastpass-password-manager
+        onepassword-password-manager
         no-pdf-download # open pdf directly instead of asking for download
         offline-qr-code-generator
         private-relay # email aliases by firefox
@@ -116,8 +116,8 @@ in
     package = if isLinux then pkgs.chromium else pkgs.google-chrome;
 
     extensions = [
-      { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock-origin
       { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # vimium
+      { id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa"; } # 1password
     ];
   };
 }
