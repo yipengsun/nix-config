@@ -68,7 +68,6 @@
             inputs.agenix.overlays.default
             inputs.nur.overlays.default
             inputs.nix-darwin.overlays.default
-            inputs.nixpkgs-firefox-darwin.overlay
           ] ++ [ flake.overlays.default ];
         };
 
@@ -208,9 +207,6 @@
     # additional packages/modules
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:nixos/nixos-hardware";
-
-    nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
-    nixpkgs-firefox-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     mac-app-util.url = "github:hraban/mac-app-util";
     mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
