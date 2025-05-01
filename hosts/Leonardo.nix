@@ -7,7 +7,7 @@
   # Darwin config #
   #################
 
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # Use F1, F2, etc. keys as standard function keys
   system.defaults.NSGlobalDomain."com.apple.keyboard.fnState" = true;
