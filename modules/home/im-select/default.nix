@@ -6,7 +6,7 @@
 with lib; let
   cfg = config.im-select;
 
-  hasFcitx = config.i18n.inputMethod.enabled == "fcitx5";
+  hasFcitx = config.i18n.inputMethod.enable && config.i18n.inputMethod.type == "fcitx5";
 
   im-select-nvim = pkgs.vimUtils.buildVimPlugin {
     pname = "im-select-nvim";

@@ -73,7 +73,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    i18n.inputMethod.enabled = "fcitx5";
+    i18n.inputMethod.enable = true;
+    i18n.inputMethod.type = "fcitx5";
     i18n.inputMethod.fcitx5.addons = cfg.addons;
 
     home.activation.copyFcitxConfig = hm.dag.entryAfter [ "writeBoundary" ] ''
