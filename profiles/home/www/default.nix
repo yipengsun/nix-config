@@ -85,7 +85,7 @@ in
         darkreader # dark theme for all websites
         copy-selection-as-markdown
         i-dont-care-about-cookies
-        onepassword-password-manager
+        bitwarden
         no-pdf-download # open pdf directly instead of asking for download
         offline-qr-code-generator
         private-relay # email aliases by firefox
@@ -117,7 +117,8 @@ in
 
     extensions = [
       { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # vimium
-      { id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa"; } # 1password
+      #{ id = "aeblfdkhhhdcdjpifhhbdiojplfjncoa"; } # 1password
+      { id = "nngceckbapebfimnlniiiahkandclblb"; } # bitwarden
     ];
   };
 }

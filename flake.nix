@@ -137,7 +137,7 @@
             services = [ zfs docker ];
 
             # typical use cases
-            workstation = base ++ services ++ [ lang-region pam-automount dev lockscreen ];
+            workstation = base ++ services ++ [ lang-region pam-automount dev lockscreen keyring ];
             server = base ++ services ++ [ lang-region ];
             wsl = base ++ [ lang-region wsl-vscode-remote dev ];
           };
@@ -160,7 +160,7 @@
 
             # typical use cases
             workstation = base ++ coding ++ linux-config-cli ++ linux-config-gui ++
-              [ apps zathura dev-secrets ] ++ [ apps-extra www term ledger mpv vscode ];
+              [ apps zathura dev-secrets passwd-mgr ] ++ [ apps-extra www term ledger mpv vscode ];
             server = base ++ coding ++ linux-config-cli;
             wsl = base ++ coding ++ linux-config-cli ++
               [ apps zathura dev-secrets ];
