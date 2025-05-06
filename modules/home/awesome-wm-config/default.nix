@@ -22,7 +22,6 @@ with lib; let
   requiredPackages = with pkgs; [
     awesomesearch
     awesome-volume-control
-    i3lock
     scrot
   ];
 in
