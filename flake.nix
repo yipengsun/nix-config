@@ -137,7 +137,7 @@
             services = [ zfs docker ];
 
             # typical use cases
-            workstation = base ++ services ++ [ lang-region pam-automount dev ];
+            workstation = base ++ services ++ [ lang-region pam-automount dev lockscreen ];
             server = base ++ services ++ [ lang-region ];
             wsl = base ++ [ lang-region wsl-vscode-remote dev ];
           };
