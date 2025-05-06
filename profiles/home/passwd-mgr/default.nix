@@ -7,7 +7,7 @@ in
 
   programs.rbw.settings = {
     email = "ypsun92@gmail.com";
-    lock_timeout = 20160; # should be 2 weeks?
+    lock_timeout = 360; # should be 15 days?
     pinentry = pinentryProgram;
   };
 }
