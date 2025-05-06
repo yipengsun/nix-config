@@ -160,7 +160,7 @@
 
             # typical use cases
             workstation = base ++ coding ++ linux-config-cli ++ linux-config-gui ++
-              [ apps zathura dev-secrets passwd-mgr ] ++ [ apps-extra www term ledger mpv vscode ];
+              [ apps zathura dev-secrets ] ++ [ apps-extra www term ledger mpv vscode passwd-mgr ];
             server = base ++ coding ++ linux-config-cli;
             wsl = base ++ coding ++ linux-config-cli ++
               [ apps zathura dev-secrets ];
