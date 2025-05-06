@@ -2,7 +2,7 @@
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscodium;
+    package = pkgs.vscode; # MS prevents unofficial VS code builds from using cpptools :-(
 
     mutableExtensionsDir = false;
 
@@ -75,6 +75,7 @@
 
         ms-python.debugpy
         ms-python.python
+        ms-python.vscode-pylance
 
         jnoortheen.nix-ide
 
