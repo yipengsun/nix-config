@@ -14,6 +14,6 @@ jobs:
       contents: "read"
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@v18
+      - uses: DeterminateSystems/nix-installer-action@v19
       - run: ./tools/test-bumping-flake-inputs.sh
 
