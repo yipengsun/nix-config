@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 let
   # this version can't be found on github anymore
   # forgot how I found it in the first place
@@ -88,6 +88,7 @@ in
               cmd = "StartupTime",
               before = function()
                 vim.g.startuptime_tries = 10
+                vim.g.startuptime_exe_path = "${config.home.homeDirectory}/.nix-profile/bin/nvim"
               end,
             }
           '';
