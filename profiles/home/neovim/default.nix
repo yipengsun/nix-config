@@ -80,6 +80,8 @@ in
         ################
         {
           plugin = vim-startuptime;
+          type = "lua";
+          optional = true;
           config = ''
             require("lz.n").load {
               "vim-startuptime",
@@ -89,8 +91,6 @@ in
               end,
             }
           '';
-          type = "lua";
-          optional = true;
         }
 
         #################
@@ -100,24 +100,6 @@ in
 
         # misc
         vim-fugitive
-        tabular
-        {
-          plugin = vimwiki;
-          config = ''
-            let g:vimwiki_global_ext = 0
-            let g:vimwiki_hl_headers = 1
-            let g:vimwiki_camel_case = 0
-            let g:vimwiki_hl_cb_checked = 1
-            let g:vimwiki_CJK_length = 1
-
-            if isdirectory($HOME.'/data')
-                let g:vimwiki_list = [{
-                            \ 'path': '~/data/wiki',
-                            \ 'path_html': '~/data/wiki/html',
-                            \ }]
-            endif
-          '';
-        }
         {
           plugin = direnv-vim;
           config = ''
@@ -183,7 +165,6 @@ in
         # ide
         (nvim-treesitter.withPlugins (p: pkgs.tree-sitter.allGrammars))
 
-        vim-python-pep8-indent
         {
           plugin = nerdcommenter;
           config = ''
@@ -194,17 +175,11 @@ in
         }
         {
           plugin = vimtex;
+          type = "lua";
           config = ''
-            let g:vimtex_fold_enabled = 1
-            let g:tex_conceal = ""
-            let g:tex_flavor = "latex"
-            let g:vimtex_quickfix_ignore_filters = [
-              \ "Loading 'csquotes' recommended",
-              \ "Package microtype Warning",
-              \ "Overfull",
-              \ "Package hyperref Warning: Token not allowed",
-              \ "contains only floats",
-            \]
+            vim.g.vimtex_view_method = "zathura"
+            vim.g.vimtex_fold_enabled = true
+            vim.g.tex_conceal = ""
           '';
         }
         {
