@@ -19,12 +19,7 @@ let
     };
   };
 
-  enableCoc = false;
   enableNvimLsp = true;
-  enableBarbar = false;
-
-  vistaDefaultExe = if enableCoc then "coc" else "ctags";
-  # ^relevant options: coc, nvim_lsp, ctags
 in
 {
   home.sessionVariables = {
@@ -80,6 +75,29 @@ in
 
     plugins = with pkgs.vimPlugins;
       [
+        ################
+        # lazy loading #
+        ################
+        {
+          plugin = vim-startuptime;
+          config = ''
+            require("lz.n").load {
+              "vim-startuptime",
+              cmd = "StartupTime",
+              before = function()
+                vim.g.startuptime_tries = 10
+              end,
+            }
+          '';
+          type = "lua";
+          optional = true;
+        }
+
+        #################
+        # eager loading #
+        #################
+        lz-n
+
         # misc
         vim-fugitive
         tabular
@@ -110,7 +128,6 @@ in
         lastchange
 
         # syntax
-        vim-nix
         vim-ledger-stable
         vim-pandoc-syntax
         {
@@ -315,42 +332,6 @@ in
             EOF
           '';
         }
-      ] ++ lib.optionals (!enableNvimLsp) [
-        {
-          plugin = vista-vim;
-          config = ''
-            nnoremap <silent><F3> :Vista!!<CR>
-            let g:vista_default_executive = '${vistaDefaultExe}'
-          '';
-        }
-      ] ++ lib.optionals (enableCoc) [
-        {
-          plugin = telescope-coc-nvim;
-          config = ''
-            lua << EOF
-              require("telescope").setup {
-                extensions = {
-                  coc = {
-                      theme = 'ivy',
-                      prefer_locations = true,
-                      push_cursor_on_edit = true,
-                      timeout = 3000,
-                  }
-                },
-              }
-
-              require("telescope").load_extension("coc")
-            EOF
-          '';
-        }
-        coc-pyright # sadly based on JS
-        coc-pairs # yet another autopairs
-        coc-diagnostic # for pylint
-        coc-vimtex
-        coc-vimlsp
-        coc-yaml
-        coc-lua
-        coc-rust-analyzer
       ] ++ lib.optionals (enableNvimLsp) [
         nvim-cmp
         cmp-nvim-lsp
@@ -506,37 +487,6 @@ in
             EOF
           '';
         }
-      ] ++ lib.optionals (enableBarbar) [
-        {
-          plugin = barbar-nvim;
-          config = ''
-            lua << EOF
-              require("barbar").setup {
-                animation = false,
-                icons = {
-                  buffer_index = false,
-                  buffer_number = false,
-                  button = '',
-                  diagnostics = {
-                    [vim.diagnostic.severity.ERROR] = { enabled = false },
-                    [vim.diagnostic.severity.WARN] = { enabled = false },
-                    [vim.diagnostic.severity.INFO] = { enabled = false },
-                    [vim.diagnostic.severity.HINT] = { enabled = true },
-                  },
-                  gitsigns = {
-                    added = { enabled = false },
-                    changed = { enabled = false },
-                    deleted = { enabled = false },
-                  },
-                  filetype = {
-                    custom_colors = false,
-                    enabled = false,
-                  },
-                },
-              }
-            EOF
-          '';
-        }
       ];
 
     extraConfig = builtins.readFile ./init.vim;
@@ -546,68 +496,5 @@ in
         pynvim
         pylint
       ];
-
-    coc.enable = enableCoc;
-    coc.pluginConfig = builtins.readFile ./coc-nvim.vim;
-    coc.settings = {
-      suggest.defaultSortMethod = "none";
-
-      diagnostic-languageserver.filetypes.python = "pylint";
-      diagnostic-languageserver.linters = {
-        pylint = {
-          sourceName = "pylint";
-          command = "pylint";
-          debounce = 100;
-          args = [
-            "--output-format"
-            "text"
-            "--score"
-            "no"
-            "--msg-template"
-            "'{line}:{column}:{category}:{msg} ({msg_id}:{symbol})'"
-            "%file"
-          ];
-          formatPattern = [
-            "^(\\d+?):(\\d+?):([a-z]+?):(.*)$"
-            {
-              line = 1;
-              column = 2;
-              endColumn = 2;
-              security = 3;
-              message = 4;
-            }
-          ];
-          rootPatterns = [ "pyproject.toml" "setup.py" ".git" ];
-          securities = {
-            informational = "hint";
-            refactor = "info";
-            convention = "info";
-            warning = "warning";
-            error = "error";
-            fatal = "error";
-          };
-          offsetColumn = 1;
-          offsetColumnEnd = 1;
-          formatLines = 1;
-        };
-      };
-
-      languageserver = {
-        ccls = {
-          command = "ccls";
-          filetypes = [ "c" "cpp" "objc" "objcpp" "cuda" ];
-          rootPatterns = [ ".ccls" "compile_commands.json" ];
-          initializationOptions = {
-            cache = { directory = "/tmp/ccls"; };
-            highlight = { lsRanges = true; };
-          };
-        };
-        nix = {
-          command = "nil";
-          filetypes = [ "nix" ];
-          rootPatterns = [ "flake.nix" ];
-        };
-      };
-    };
   };
 }
