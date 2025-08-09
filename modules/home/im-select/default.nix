@@ -10,12 +10,12 @@ with lib; let
 
   im-select-nvim = pkgs.vimUtils.buildVimPlugin {
     pname = "im-select-nvim";
-    version = "20240928";
+    version = "20250810";
     src = pkgs.fetchFromGitHub {
       owner = "keaising";
       repo = "im-select.nvim";
-      rev = "6425bea7bbacbdde71538b6d9580c1f7b0a5a010";
-      sha256 = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
+      rev = "113a6905a1c95d2990269f96abcbad9718209557";
+      sha256 = "sha256-rtbqJjih9yy2svMIro7FbdH9DqGTumAmfcRICfqT8tQ=";
     };
   };
 in
@@ -32,13 +32,12 @@ in
     programs.neovim.plugins = [
       {
         plugin = im-select-nvim;
+        type = "lua";
         config = ''
-          lua << EOF
-            require('im_select').setup{
-              set_default_events = { "InsertLeave" },
-              set_previous_events = { "InsertEnter" }
-            }
-          EOF
+          require('im_select').setup{
+            set_default_events = { "InsertLeave" },
+            set_previous_events = { "InsertEnter" }
+          }
         '';
       }
     ];
