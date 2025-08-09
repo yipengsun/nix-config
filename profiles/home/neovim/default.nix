@@ -133,33 +133,45 @@ in
         telescope-symbols-nvim
         {
           plugin = telescope-nvim;
+          type = "lua";
+          optional = true;
           config = ''
-            lua << EOF
-              require("telescope").setup {
-                pickers = {
-                  git_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
-                  find_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
-                  live_grep = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
-                  lsp_dynamic_workspace_symbols = {
-                    mappings = { i = { ["<CR>"] = "file_vsplit" } }
+            require("lz.n").load {
+              "telescope.nvim",
+              keys = {
+                { "<C-p>", "<CMD>Telescope<CR>" },
+                { "<C-t>", "<CMD>Telescope lsp_dynamic_workspace_symbols<CR>" },
+                { "<C-f>", "<CMD>Telescope git_files<CR>" },
+              },
+              after = function()
+                require("telescope").setup {
+                  pickers = {
+                    git_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
+                    find_files = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
+                    live_grep = { mappings = { i = { ["<CR>"] = "file_vsplit" } } },
+                    lsp_dynamic_workspace_symbols = {
+                      mappings = { i = { ["<CR>"] = "file_vsplit" } }
+                    },
                   },
-                },
-              }
-            EOF
-
-            nnoremap <silent><C-p> :Telescope<CR>
-            nnoremap <silent><C-t> :Telescope lsp_dynamic_workspace_symbols<CR>
-            nnoremap <silent><C-f> :Telescope git_files<CR>
+                }
+              end,
+            }
           '';
         }
         {
           plugin = telescope-file-browser-nvim;
+          type = "lua";
+          optional = true;
           config = ''
-            lua << EOF
-              require("telescope").load_extension "file_browser"
-            EOF
-
-            nnoremap <silent><C-e> :Telescope file_browser<CR>
+            require("lz.n").load {
+              "telescope-file-browser.nvim",
+              keys = {
+                { "<C-e>", "<CMD>Telescope file_browser<CR>" },
+              },
+              after = function()
+                require("telescope").load_extension "file_browser"
+              end,
+            }
           '';
         }
 
@@ -257,21 +269,20 @@ in
         }
         {
           plugin = lualine-nvim;
+          type = "lua";
           config = ''
-            lua << EOF
-              require("lualine").setup {
-                options = {
-                  theme = "dracula",
-                  globalstatus = false,
-                  disabled_filetypes = {
-                    statusline = {
-                      "trouble",
-                      "vista",
-                    },
+            require("lualine").setup {
+              options = {
+                theme = "dracula",
+                globalstatus = false,
+                disabled_filetypes = {
+                  statusline = {
+                    "trouble",
+                    "vista",
                   },
-                }
+                },
               }
-            EOF
+            }
           '';
         }
         {
