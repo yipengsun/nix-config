@@ -82,7 +82,7 @@
               extraConfig = {
                 home-manager.users.syp = { self, ... }: {
                   imports = self.suites.home.wsl;
-                  im-select.enable = true;
+                  im-select.enable = false;
                 };
               };
             };
