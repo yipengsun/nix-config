@@ -156,6 +156,20 @@ in
             }
           '';
         }
+        {
+          plugin = nvim-autopairs;
+          type = "lua";
+          optional = true;
+          config = ''
+            require("lz.n").load {
+              "nvim-autopairs",
+              event = "InsertEnter",
+              after = function()
+                require("nvim-autopairs").setup()
+              end,
+            }
+          '';
+        }
 
         # filetypes
         {
@@ -239,7 +253,6 @@ in
             let g:direnv_silent_load = 1
           '';
         }
-        #delimitMate
 
         # syntax
         vim-ledger-stable
