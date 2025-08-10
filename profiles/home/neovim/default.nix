@@ -115,6 +115,70 @@ in
             }
           '';
         }
+        {
+          plugin = FTerm-nvim;
+          type = "lua";
+          optional = true;
+          config = ''
+            require("lz.n").load {
+              "FTerm.nvim",
+              keys = {
+                { "<F9>", function() require("FTerm").toggle() end, mode = { "n", "t" }, },
+              },
+              after = function()
+                require("FTerm").setup({
+                  border = "double",
+                  dimensions = {
+                    height = 0.8,
+                    width = 0.9,
+                  },
+                })
+              end,
+            }
+          '';
+        }
+        {
+          plugin = goto-preview;
+          type = "lua";
+          optional = true;
+          config = ''
+            require("lz.n").load {
+              "goto-preview",
+              keys = {
+                { "<F12>", function() require("goto-preview").goto_preview_definition() end, },
+              },
+              after = function()
+                require("goto-preview").setup({
+                  width = 120,
+                  height = 24,
+                })
+              end,
+            }
+          '';
+        }
+
+        # filetypes
+        {
+          plugin = csvview-nvim;
+          type = "lua";
+          optional = true;
+          config = ''
+            require("lz.n").load {
+              "csvview.nvim",
+              cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+              after = function()
+                require("csvview").setup({
+                  keymaps = {
+                    jump_next_field_end = { "<Tab>", mode = { "n", "v" } },
+                    jump_prev_field_end = { "<S-Tab>", mode = { "n", "v" } },
+                    jump_next_row = { "<Enter>", mode = { "n", "v" } },
+                    jump_prev_row = { "<S-Enter>", mode = { "n", "v" } },
+                  },
+                })
+              end,
+            }
+          '';
+        }
 
         # telescope
         {
@@ -124,6 +188,7 @@ in
           config = ''
             require("lz.n").load {
               "telescope.nvim",
+              cmd = "Telescope",
               keys = {
                 { "<C-p>", "<CMD>Telescope<CR>" },
                 { "<C-t>", "<CMD>Telescope lsp_dynamic_workspace_symbols<CR>" },
@@ -183,16 +248,6 @@ in
           plugin = vim-pandoc;
           config = "let g:pandoc#syntax#conceal#use = 0";
         }
-        {
-          plugin = csv-vim;
-          config = ''
-            au BufRead,BufNewFile *.csv set ft=csv
-            au BufRead,BufNewFile *.csv nnoremap \e :WhatColumn<CR>
-            au BufRead,BufNewFile *.csv nnoremap \q :HiColumn<CR>
-            au BufRead,BufNewFile *.csv nnoremap \Q :HiColumn!<CR>
-          '';
-        }
-        wgsl-vim
 
         # ide
         nvim-treesitter.withAllGrammars
@@ -301,42 +356,17 @@ in
             }
           '';
         }
-        /*
-        {
-          plugin = vim-floaterm;
-          config = ''
-            nnoremap <silent> <F9> :FloatermToggle<CR>
-            tnoremap <silent> <F9> <C-\><C-n>:FloatermToggle<CR>
-          '';
-        }
         {
           plugin = indent-blankline-nvim;
+          type = "lua";
           config = ''
-            lua << EOF
-              vim.opt.list = true
-              vim.opt.listchars:append("space:⋅")
-              vim.opt.listchars:append("eol:↴")
+            vim.opt.list = true
+            vim.opt.listchars:append("space:⋅")
+            vim.opt.listchars:append("eol:↴")
 
-              require("ibl").setup()
-            EOF
+            require("ibl").setup()
           '';
         }
-        {
-          plugin = goto-preview;
-          config = ''
-            lua << EOF
-              require("goto-preview").setup {
-                width = 120,
-                height = 24,
-              }
-
-              vim.keymap.set("n", "<F12>",
-                            "<cmd>lua require('goto-preview').goto_preview_definition()<CR>",
-                            { noremap = true, silent = true })
-            EOF
-          '';
-        }
-        */
       ] ++ lib.optionals (false) [
         nvim-cmp
         cmp-nvim-lsp
