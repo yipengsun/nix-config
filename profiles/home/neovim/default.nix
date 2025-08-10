@@ -1,12 +1,5 @@
 { pkgs, lib, config, ... }:
 let
-  # this version can't be found on github anymore
-  # forgot how I found it in the first place
-  lastchange = pkgs.vimUtils.buildVimPlugin {
-    name = "lastchange";
-    src = ./lastchange;
-  };
-
   # newer vim-ledger has problems regarding auto completion
   vim-ledger-stable = pkgs.vimUtils.buildVimPlugin rec {
     pname = "vim-ledger-stable";
@@ -36,8 +29,9 @@ in
     ccls
     nil
     #texlab # too damn slow
-  ]
-  ++ lib.optionals (enableNvimLsp) [ pyright rust-analyzer ];
+    pyright
+    rust-analyzer
+  ];
 
   home.file.".editorconfig".text = ''
     root = true
@@ -78,6 +72,7 @@ in
         ################
         # lazy loading #
         ################
+        # misc
         {
           plugin = vim-startuptime;
           type = "lua";
@@ -93,44 +88,35 @@ in
             }
           '';
         }
-
-        #################
-        # eager loading #
-        #################
-        lz-n
-
-        # misc
-        vim-fugitive
         {
-          plugin = direnv-vim;
+          plugin = conform-nvim;
+          type = "lua";
+          optional = true;
           config = ''
-            let g:direnv_silent_load = 1
+            require("lz.n").load {
+              "conform.nvim",
+              keys = {
+                { "<LEADER>f", function() require("conform").format({ async = true }) end, },
+              },
+              after = function()
+                require("conform").setup({
+                  formatters_by_ft = {
+                    python = { "black" },
+                    c = { "clang_format" },
+                    cpp = { "clang_format" },
+                  },
+                  formatters = {
+                    clang_format = {
+                      prepend_args = { "--style=file", "--fallback-style=LLVM" },
+                    },
+                  }
+                })
+              end,
+            }
           '';
         }
-        delimitMate
-        lastchange
-
-        # syntax
-        vim-ledger-stable
-        vim-pandoc-syntax
-        {
-          plugin = vim-pandoc;
-          config = "let g:pandoc#syntax#conceal#use = 0";
-        }
-        {
-          plugin = csv-vim;
-          config = ''
-            au BufRead,BufNewFile *.csv set ft=csv
-            au BufRead,BufNewFile *.csv nnoremap \e :WhatColumn<CR>
-            au BufRead,BufNewFile *.csv nnoremap \q :HiColumn<CR>
-            au BufRead,BufNewFile *.csv nnoremap \Q :HiColumn!<CR>
-          '';
-        }
-        wgsl-vim
-        nvim-treesitter-parsers.wgsl
 
         # telescope
-        telescope-symbols-nvim
         {
           plugin = telescope-nvim;
           type = "lua";
@@ -175,15 +161,46 @@ in
           '';
         }
 
-        # ide
-        (nvim-treesitter.withPlugins (p: pkgs.tree-sitter.allGrammars))
+        #################
+        # eager loading #
+        #################
+        lz-n
 
+        # misc
+        vim-fugitive
         {
-          plugin = nerdcommenter;
+          plugin = direnv-vim;
           config = ''
-            let g:NERDCreateDefaultMappings = 1
-            let g:NERDSpaceDelims = 1
-            let g:NERDDefaultAlign = 'left'
+            let g:direnv_silent_load = 1
+          '';
+        }
+        #delimitMate
+
+        # syntax
+        vim-ledger-stable
+        vim-pandoc-syntax
+        {
+          plugin = vim-pandoc;
+          config = "let g:pandoc#syntax#conceal#use = 0";
+        }
+        {
+          plugin = csv-vim;
+          config = ''
+            au BufRead,BufNewFile *.csv set ft=csv
+            au BufRead,BufNewFile *.csv nnoremap \e :WhatColumn<CR>
+            au BufRead,BufNewFile *.csv nnoremap \q :HiColumn<CR>
+            au BufRead,BufNewFile *.csv nnoremap \Q :HiColumn!<CR>
+          '';
+        }
+        wgsl-vim
+
+        # ide
+        nvim-treesitter.withAllGrammars
+        {
+          plugin = comment-nvim;
+          type = "lua";
+          config = ''
+            require('Comment').setup()
           '';
         }
         {
@@ -195,12 +212,9 @@ in
             vim.g.tex_conceal = ""
           '';
         }
-        {
-          plugin = vim-clang-format;
-          config = "let g:clang_format#detect_style_file = 1";
-        }
 
         # debug
+        /*
         nvim-dap-ui
         {
           plugin = nvim-dap;
@@ -258,13 +272,15 @@ in
             EOF
           '';
         }
+        */
 
         # ui
         {
-          plugin = dracula-vim;
+          plugin = dracula-nvim;
+          type = "lua";
           config = ''
-            colorscheme dracula
-            set termguicolors
+            vim.opt.termguicolors = true
+            vim.cmd.colorscheme("dracula")
           '';
         }
         {
@@ -285,6 +301,7 @@ in
             }
           '';
         }
+        /*
         {
           plugin = vim-floaterm;
           config = ''
@@ -319,7 +336,8 @@ in
             EOF
           '';
         }
-      ] ++ lib.optionals (enableNvimLsp) [
+        */
+      ] ++ lib.optionals (false) [
         nvim-cmp
         cmp-nvim-lsp
         cmp-treesitter
