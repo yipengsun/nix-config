@@ -11,8 +11,6 @@ let
       sha256 = "aWt618LWLwnWAhKN9TTCTn2mJQR7Ntt8JV3L/VDiS84=";
     };
   };
-
-  enableNvimLsp = true;
 in
 {
   home.sessionVariables = {
@@ -240,6 +238,74 @@ in
           '';
         }
 
+        # debug
+        {
+          plugin = nvim-dap-ui;
+          type = "lua";
+          optional = true;
+          config = ''
+            require("lz.n").load {
+              "nvim-dap-ui",
+              keys = {
+                { "<C-u>", function() require('dapui').toggle() end, },
+              },
+              before = function()
+                require("lz.n").trigger_load("nvim-dap")
+              end,
+              after = function()
+                local dap, dapui = require("dap"), require("dapui")
+                dapui.setup()
+
+                dap.listeners.before.attach.dapui_config = function()
+                  dapui.open()
+                end
+
+                dap.listeners.before.launch.dapui_config = function()
+                  dapui.open()
+                end
+
+                dap.listeners.before.event_terminated.dapui_config = function()
+                  dapui.close()
+                end
+
+                dap.listeners.before.event_exited.dapui_config = function()
+                  dapui.close()
+                end
+              end,
+            }
+          '';
+        }
+        {
+          plugin = nvim-dap;
+          type = "lua";
+          optional = true;
+          config = ''
+            require("lz.n").load {
+              "nvim-dap",
+              keys = {
+                { "<F5>", function() require("dap").continue() end, },
+                { "<F10>", function() require("dap").step_over() end, },
+                { "<F11>", function() require("dap").step_into() end, },
+                { "<C-F11>", function() require("dap").step_out() end, },
+                { "<LEADER>b", function() require("dap").toggle_breakpoint() end, },
+              },
+              after = function()
+                vim.fn.sign_define("DapBreakpoint", { text="🔴" })
+                vim.fn.sign_define("DapBreakpointCondition", { text="🟠" })
+                vim.fn.sign_define("DapBreakpointCondition", { text="🔵" })
+                vim.fn.sign_define("DapBreakpointRejected", { text="❌" })
+                vim.fn.sign_define("DapStopped", { text="⟶" })
+
+                require("dap").adapters.gdb = {
+                  type = "executable",
+                  command = "gdb",
+                  args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
+                }
+              end,
+            }
+          '';
+        }
+
         #################
         # eager loading #
         #################
@@ -280,67 +346,6 @@ in
             vim.g.tex_conceal = ""
           '';
         }
-
-        # debug
-        /*
-        nvim-dap-ui
-        {
-          plugin = nvim-dap;
-          config = ''
-            lua << EOF
-              local dap, dapui = require("dap"), require("dapui")
-
-              vim.fn.sign_define("DapBreakpoint", { text="🔴" })
-              vim.fn.sign_define("DapBreakpointCondition", { text="🟠" })
-              vim.fn.sign_define("DapBreakpointCondition", { text="🔵" })
-              vim.fn.sign_define("DapBreakpointRejected", { text="❌" })
-              vim.fn.sign_define("DapStopped", { text="⟶" })
-
-              dap.adapters.gdb = {
-                type = "executable",
-                command = "gdb",
-                args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
-              }
-
-              dapui.setup();
-
-              dap.listeners.before.attach.dapui_config = function()
-                dapui.open()
-              end
-              dap.listeners.before.launch.dapui_config = function()
-                dapui.open()
-              end
-              dap.listeners.before.event_terminated.dapui_config = function()
-                dapui.close()
-              end
-              dap.listeners.before.event_exited.dapui_config = function()
-                dapui.close()
-              end
-
-              vim.keymap.set("n", "<F5>",
-                            "<cmd>lua require('dap').continue()<CR>",
-                            { noremap = true, silent = true })
-              vim.keymap.set("n", "<F10>",
-                            "<cmd>lua require('dap').step_over()<CR>",
-                            { noremap = true, silent = true })
-              vim.keymap.set("n", "<F11>",
-                            "<cmd>lua require('dap').step_into()<CR>",
-                            { noremap = true, silent = true })
-              vim.keymap.set("n", "<C-F11>",
-                            "<cmd>lua require('dap').step_out()<CR>",
-                            { noremap = true, silent = true })
-
-              vim.keymap.set("n", "<C-u>",
-                            "<cmd>lua require('dapui').toggle()<CR>",
-                            { noremap = true, silent = true })
-
-              vim.keymap.set("n", "<leader>b",
-                            "<cmd>lua require('dap').toggle_breakpoint()<CR>",
-                            { noremap = true, silent = true })
-            EOF
-          '';
-        }
-        */
 
         # ui
         {
