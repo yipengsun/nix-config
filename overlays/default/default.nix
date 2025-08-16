@@ -35,6 +35,17 @@ final: prev: {
     ln -s ${prev.llvmPackages.clang-tools}/bin/clangd $out/bin/clangd
   '';
 
+  # FIXME: not needed when fish 4.0.3 is out
+  fish = prev.fish.overrideAttrs (oldAttrs: {
+    patches = (oldAttrs.patches or [ ]) ++ [
+      (final.fetchpatch {
+        name = "make-windows-exe-available-in-wsl-again.patch";
+        url = "https://github.com/fish-shell/fish-shell/commit/25b944e3e62cd7df4f814bfbcd57c1aab24c0b8a.patch";
+        sha256 = "sha256-lR+ms5XI2ipzRLK9a0Odfy+U6OrujeJZ1lrP/Y61Axw=";
+      })
+    ];
+  });
+
   ##################
   # awesome wm aux #
   ##################
@@ -46,7 +57,7 @@ final: prev: {
   lua5_3 = prev.lua5_3.override {
     packageOverrides = luafinal: luaprev: {
       lain = prev.callPackage (
-        { fetchFromGitHub }:
+        { ... }:
         prev.stdenv.mkDerivation {
           pname = "lain";
           version = "unstable-20240925";
