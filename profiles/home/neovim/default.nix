@@ -444,6 +444,12 @@ in
             require("blink.cmp").setup {
               keymap = {
                 preset = "default",
+                ["<C-SPACE>"] = false,
+                ["<TAB>"] = { "select_next", "fallback" },
+                ["<S-TAB>"] = { "select_prev", "fallback" },
+                ["<CR>"] = { "select_and_accept", "fallback" },
+                ["<C-p>"] = { "scroll_documentation_up", "fallback" },
+                ["<C-n>"] = { "scroll_documentation_down", "fallback" },
               },
               completion = {
                 documentation = { auto_show = true },
@@ -461,12 +467,40 @@ in
               vim.lsp.enable(s)
             end
 
-            -- lsp warning signs
-            local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-            for type, icon in ipairs(signs) do
-              local hl = "DiagnosticSign" .. type
-              vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-            end
+            -- define warning signs
+            vim.diagnostic.config({
+              signs = {
+                text = {
+                  [vim.diagnostic.severity.ERROR] = "󰅚 ",
+                  [vim.diagnostic.severity.WARN] = "󰀪 ",
+                  [vim.diagnostic.severity.INFO] = "󰌶 ",
+                  [vim.diagnostic.severity.HINT] = " ",
+                },
+                linehl = {
+                  [vim.diagnostic.severity.ERROR] = "Error",
+                  [vim.diagnostic.severity.WARN] = "Warn",
+                  [vim.diagnostic.severity.INFO] = "Info",
+                  [vim.diagnostic.severity.HINT] = "Hint",
+                },
+              },
+            })
+
+            -- show line diagnostics automatically in hover window
+            vim.o.updatetime = 200
+            vim.api.nvim_create_autocmd("CursorHold", {
+              buffer = bufnr,
+              callback = function()
+                local opts = {
+                  focusable = false,
+                  close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+                  border = "rounded",
+                  source = "always",
+                  prefix = " ",
+                  scope = "cursor",
+                }
+                vim.diagnostic.open_float(nil, opts)
+              end
+            })
 
             -- rename
             local function lsp_rename()
@@ -506,23 +540,6 @@ in
                 panel = { enable = false },
               }
 
-              -- show line diagnostics automatically in hover window
-              vim.o.updatetime = 200
-              vim.api.nvim_create_autocmd("CursorHold", {
-                buffer = bufnr,
-                callback = function()
-                  local opts = {
-                    focusable = false,
-                    close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-                    border = 'rounded',
-                    source = 'always',
-                    prefix = ' ',
-                    scope = 'cursor',
-                  }
-                  vim.diagnostic.open_float(nil, opts)
-                end
-              })
-
               require("copilot_cmp").setup()
 
               local cmp = require("cmp")
@@ -532,42 +549,6 @@ in
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
                 return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
               end
-
-              cmp.setup {
-                mapping = cmp.mapping.preset.insert({
-                  ["<C-u>"] = cmp.mapping.scroll_docs(-4), -- Up
-                  ["<C-d>"] = cmp.mapping.scroll_docs(4), -- Down
-                  -- C-b (back) C-f (forward) for snippet placeholder navigation.
-
-                  ["<C-y>"] = cmp.mapping.complete(),
-                  ["<CR>"] = cmp.mapping.confirm {
-                    behavior = cmp.ConfirmBehavior.Replace,
-                    select = true,
-                  },
-                  ["<Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() and has_words_before() then
-                      cmp.select_next_item()
-                    else
-                      fallback()
-                    end
-                  end, { "i", "s" }),
-                  ["<S-Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() and has_words_before() then
-                      cmp.select_prev_item()
-                    else
-                      fallback()
-                    end
-                  end, { "i", "s" }),
-                }),
-
-                sources = {
-                  { name = "nvim_lsp" },
-                  { name = "treesitter" },
-                  { name = "copilot" },
-                  { name = "buffer" },
-                  { name = "omni" },
-                },
-              }
 
             EOF
           '';
