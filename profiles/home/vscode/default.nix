@@ -43,9 +43,12 @@
       let
         isLinux = pkgs.stdenv.hostPlatform.isLinux;
 
-        cppDebugging = (with pkgs.vscode-extensions; if isLinux then ms-vscode.cpptools else vadimcn.vscode-lldb);
+        cppDebugging = (
+          with pkgs.vscode-extensions; if isLinux then ms-vscode.cpptools else vadimcn.vscode-lldb
+        );
       in
-      with pkgs.vscode-extensions; [
+      with pkgs.vscode-extensions;
+      [
         # ui and interactivity
         vscodevim.vim
 

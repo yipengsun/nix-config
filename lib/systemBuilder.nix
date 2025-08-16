@@ -3,12 +3,13 @@
 #
 # build NixOS/darwin systems
 
-{ self
-, inputs
-, lib
-, withSystem
-, ...
-} @ toplevel:
+{
+  self,
+  inputs,
+  lib,
+  withSystem,
+  ...
+}@toplevel:
 let
   inherit (builtins)
     attrValues
@@ -24,10 +25,8 @@ let
     recursiveUpdateUntil
     ;
 
-
   cfgSupport = toplevel.config.configNixpkgs; # external config options
   cfg = toplevel.config.systemBuilder; # shortcut to user config
-
 
   # types in config
   typeHostConfig = types.submodule {
@@ -37,11 +36,9 @@ let
         description = ''
           The system of the host.
         '';
-        example =
-          literalExpression
-            ''
-              "x86_64-linux"
-            '';
+        example = literalExpression ''
+          "x86_64-linux"
+        '';
       };
 
       suites = mkOption {
@@ -110,39 +107,44 @@ let
     };
   };
 
-
   # helper functions
   errUnsupportedSys = system: throw "System type ${system} not supported.";
 
-
   # the actual builder
-  systemBuilder = hostName: hostConfig:
-    withSystem hostConfig.system ({ pkgs, ... }:
+  systemBuilder =
+    hostName: hostConfig:
+    withSystem hostConfig.system (
+      { pkgs, ... }:
       let
         hostPlatform = pkgs.stdenv.hostPlatform;
         hostModule =
-          if builtins.pathExists "${cfg.hostModuleDir}/${hostName}"
-          then "${cfg.hostModuleDir}/${hostName}/default.nix"
-          else "${cfg.hostModuleDir}/${hostName}.nix";
+          if builtins.pathExists "${cfg.hostModuleDir}/${hostName}" then
+            "${cfg.hostModuleDir}/${hostName}/default.nix"
+          else
+            "${cfg.hostModuleDir}/${hostName}.nix";
 
         systemModules =
-          if hostPlatform.isLinux then cfg.nixosModules
-          else if hostPlatform.isDarwin then cfg.darwinModules
-          else errUnsupportedSys hostPlatform.system;
+          if hostPlatform.isLinux then
+            cfg.nixosModules
+          else if hostPlatform.isDarwin then
+            cfg.darwinModules
+          else
+            errUnsupportedSys hostPlatform.system;
 
         homeManagerFlake = inputs.home-manager;
         homeManagerSystemModule =
-          if hostPlatform.isLinux then homeManagerFlake.nixosModules.default
-          else if hostPlatform.isDarwin then homeManagerFlake.darwinModules.default
-          else errUnsupportedSys hostPlatform.system;
+          if hostPlatform.isLinux then
+            homeManagerFlake.nixosModules.default
+          else if hostPlatform.isDarwin then
+            homeManagerFlake.darwinModules.default
+          else
+            errUnsupportedSys hostPlatform.system;
 
         specialArgs = {
           inherit self inputs hostPlatform;
         };
 
-        computerNameModule =
-          if hostPlatform.isDarwin then { networking.computerName = hostName; }
-          else { };
+        computerNameModule = if hostPlatform.isDarwin then { networking.computerName = hostName; } else { };
 
         modules = [
           hostModule
@@ -153,9 +155,9 @@ let
           }
           computerNameModule
         ]
-        ++ systemModules ++ hostConfig.suites
-        ++
-        [
+        ++ systemModules
+        ++ hostConfig.suites
+        ++ [
           homeManagerSystemModule
           {
             _file = ./.;
@@ -166,26 +168,32 @@ let
             };
           }
         ]
-        ++
-        [ hostConfig.extraConfig ];
+        ++ [ hostConfig.extraConfig ];
 
         # aggregated args
         builderArgs = { inherit specialArgs modules; };
       in
-      if hostPlatform.isLinux
-      then {
-        nixosConfigurations.${hostName} = cfgSupport.nixpkgs.lib.nixosSystem builderArgs;
-      }
-      else if hostPlatform.isDarwin
-      then {
-        # NOTE: hard-coded darwin builder
-        darwinConfigurations.${hostName} = inputs.nix-darwin.lib.darwinSystem builderArgs;
-      }
-      else errUnsupportedSys hostPlatform.system);
+      if hostPlatform.isLinux then
+        {
+          nixosConfigurations.${hostName} = cfgSupport.nixpkgs.lib.nixosSystem builderArgs;
+        }
+      else if hostPlatform.isDarwin then
+        {
+          # NOTE: hard-coded darwin builder
+          darwinConfigurations.${hostName} = inputs.nix-darwin.lib.darwinSystem builderArgs;
+        }
+      else
+        errUnsupportedSys hostPlatform.system
+    );
 
   systemAttrset =
     let
-      mergeSysConfig = a: b: recursiveUpdateUntil (path: _: _: (length path) > 2) a b;
+      mergeSysConfig =
+        a: b:
+        recursiveUpdateUntil (
+          path: _: _:
+          (length path) > 2
+        ) a b;
       sysConfigAttrsets = attrValues (mapAttrs systemBuilder cfg.hosts);
     in
     foldl' mergeSysConfig { } sysConfigAttrsets;

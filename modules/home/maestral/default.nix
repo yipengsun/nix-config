@@ -1,12 +1,14 @@
 # stolen from:
 #   https://github.com/NixOS/nixpkgs/issues/235345#issuecomment-1586233679
 #   https://github.com/NixOS/nixpkgs/issues/235345#issuecomment-1622892967
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.services.maestral;
 in
 {

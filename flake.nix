@@ -1,7 +1,6 @@
 {
   description = "Yipeng Sun's NixOS/nix-darwin config.";
 
-
   nixConfig = {
     extra-experimental-features = "nix-command flakes";
     extra-substituters = [
@@ -12,23 +11,21 @@
     ];
   };
 
-
   outputs =
-    { flake-parts, haumea, ... } @ inputs:
+    { flake-parts, haumea, ... }@inputs:
     let
       # helper functions
-      stripDefault = x:
-        if builtins.isAttrs x
-        then
-          if x ? default
-          then x.default
-          else builtins.mapAttrs (name: value: stripDefault value) x
+      stripDefault =
+        x:
+        if builtins.isAttrs x then
+          if x ? default then x.default else builtins.mapAttrs (name: value: stripDefault value) x
         else
           x;
 
       setToList = set: with builtins; (map (key: getAttr key set) (attrNames set));
 
-      loadStripped = src:
+      loadStripped =
+        src:
         let
           attrs = haumea.lib.load {
             src = src;
@@ -39,136 +36,216 @@
 
       loadStrippedAsList = src: setToList (loadStripped src);
     in
-    flake-parts.lib.mkFlake { inherit inputs; } ({ ... }: {
-      imports = [
-        # third-party libs
-        inputs.git-hooks.flakeModule
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      { ... }:
+      {
+        imports = [
+          # third-party libs
+          inputs.git-hooks.flakeModule
 
-        # devShell
-        ./lib/devShell.nix
+          # devShell
+          ./lib/devShell.nix
 
-        # local modules
-        ./lib/configNixpkgs.nix
-        ./lib/systemBuilder.nix
-      ];
+          # local modules
+          ./lib/configNixpkgs.nix
+          ./lib/systemBuilder.nix
+        ];
 
-      config = rec {
-        debug = true;
-        systems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
+        config = rec {
+          debug = true;
+          systems = [
+            "x86_64-linux"
+            "x86_64-darwin"
+            "aarch64-darwin"
+          ];
 
-        flake.overlays = {
-          default = import ./overlays/default;
-        };
-
-        configNixpkgs = {
-          config = {
-            allowUnfree = true;
+          flake.overlays = {
+            default = import ./overlays/default;
           };
-          overlays = [
-            inputs.agenix.overlays.default
-            inputs.nur.overlays.default
-            inputs.nix-darwin.overlays.default
-          ] ++ [ flake.overlays.default ];
-        };
 
-        systemBuilder = {
-          hostModuleDir = ./hosts;
-          hosts = {
-            Henri = {
-              system = "x86_64-linux";
-              suites = flake.suites.nixos.wsl
-                ++
-                (with flake.users; [ root syp ]);
-              extraConfig = {
-                home-manager.users.syp = { self, ... }: {
-                  imports = self.suites.home.wsl;
-                  im-select.enable = false;
+          configNixpkgs = {
+            config = {
+              allowUnfree = true;
+            };
+            overlays = [
+              inputs.agenix.overlays.default
+              inputs.nur.overlays.default
+              inputs.nix-darwin.overlays.default
+            ]
+            ++ [ flake.overlays.default ];
+          };
+
+          systemBuilder = {
+            hostModuleDir = ./hosts;
+            hosts = {
+              Henri = {
+                system = "x86_64-linux";
+                suites =
+                  flake.suites.nixos.wsl
+                  ++ (with flake.users; [
+                    root
+                    syp
+                  ]);
+                extraConfig = {
+                  home-manager.users.syp =
+                    { self, ... }:
+                    {
+                      imports = self.suites.home.wsl;
+                      im-select.enable = false;
+                    };
                 };
+              };
+
+              Thomas = {
+                system = "x86_64-linux";
+                suites = [ inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
+              };
+
+              Michael = {
+                system = "x86_64-linux";
+              };
+
+              Leonardo = {
+                system = "aarch64-darwin";
               };
             };
 
-            Thomas = {
-              system = "x86_64-linux";
-              suites = [ inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
-            };
-
-            Michael = {
-              system = "x86_64-linux";
-            };
-
-            Leonardo = {
-              system = "aarch64-darwin";
-            };
-          };
-
-          # modules applied to all hosts
-          nixosModules = loadStrippedAsList ./modules/nixos
-            ++
-            [
+            # modules applied to all hosts
+            nixosModules = loadStrippedAsList ./modules/nixos ++ [
               inputs.agenix.nixosModules.default
               inputs.nixos-wsl.nixosModules.default
               inputs.disko.nixosModules.disko
             ];
-          darwinModules = [ ]
-            ++
-            [
+            darwinModules = [ ] ++ [
               inputs.agenix.darwinModules.default
               inputs.mac-app-util.darwinModules.default
               inputs.nix-homebrew.darwinModules.nix-homebrew
             ];
-          homeModules = loadStrippedAsList ./modules/home
-            ++
-            [
+            homeModules = loadStrippedAsList ./modules/home ++ [
               inputs.agenix.homeManagerModules.default
               inputs.mac-app-util.homeManagerModules.default
             ];
-        };
-
-        flake.users = loadStripped ./users;
-        flake.profiles = loadStripped ./profiles;
-
-        flake.suites.common = {
-          common-base = with flake.profiles.shared; [ cachix core ];
-        };
-
-        flake.suites.nixos =
-          with flake.profiles.nixos; rec {
-            base = flake.suites.common.common-base ++ [ core-nixos ];
-            services = [ zfs docker ];
-
-            # typical use cases
-            workstation = base ++ services ++ [ lang-region pam-automount dev lockscreen keyring ];
-            server = base ++ services ++ [ lang-region ];
-            wsl = base ++ [ lang-region wsl-vscode-remote dev ];
           };
 
-        flake.suites.darwin =
-          with flake.profiles.darwin; rec {
+          flake.users = loadStripped ./users;
+          flake.profiles = loadStripped ./profiles;
+
+          flake.suites.common = {
+            common-base = with flake.profiles.shared; [
+              cachix
+              core
+            ];
+          };
+
+          flake.suites.nixos = with flake.profiles.nixos; rec {
+            base = flake.suites.common.common-base ++ [ core-nixos ];
+            services = [
+              zfs
+              docker
+            ];
+
+            # typical use cases
+            workstation =
+              base
+              ++ services
+              ++ [
+                lang-region
+                pam-automount
+                dev
+                lockscreen
+                keyring
+              ];
+            server = base ++ services ++ [ lang-region ];
+            wsl = base ++ [
+              lang-region
+              wsl-vscode-remote
+              dev
+            ];
+          };
+
+          flake.suites.darwin = with flake.profiles.darwin; rec {
             base = flake.suites.common.common-base ++ [ core-darwin ];
 
             # typical use cases
-            workstation = base ++ [ aerospace dev homebrew ];
+            workstation = base ++ [
+              aerospace
+              dev
+              homebrew
+            ];
           };
 
-        flake.suites.home =
-          with flake.profiles.home; rec {
-            base = [ hm-state-version git fish fzf bat neovim tmux ranger ];
-            coding = [ dev direnv python ];
+          flake.suites.home = with flake.profiles.home; rec {
+            base = [
+              hm-state-version
+              git
+              fish
+              fzf
+              bat
+              neovim
+              tmux
+              ranger
+            ];
+            coding = [
+              dev
+              direnv
+              python
+            ];
 
-            linux-config-cli = [ xdg-user-dirs dircolors ];
-            linux-config-gui = [ xdg-mime-apps fontconfig gui ];
+            linux-config-cli = [
+              xdg-user-dirs
+              dircolors
+            ];
+            linux-config-gui = [
+              xdg-mime-apps
+              fontconfig
+              gui
+            ];
 
             # typical use cases
-            workstation = base ++ coding ++ linux-config-cli ++ linux-config-gui ++
-              [ apps zathura dev-secrets ] ++ [ apps-extra www term ledger mpv vscode passwd-mgr ];
+            workstation =
+              base
+              ++ coding
+              ++ linux-config-cli
+              ++ linux-config-gui
+              ++ [
+                apps
+                zathura
+                dev-secrets
+              ]
+              ++ [
+                apps-extra
+                www
+                term
+                ledger
+                mpv
+                vscode
+                passwd-mgr
+              ];
             server = base ++ coding ++ linux-config-cli;
-            wsl = base ++ coding ++ linux-config-cli ++
-              [ apps zathura dev-secrets ];
-            darwin = base ++ coding ++ [ dev-secrets ] ++ [ www term mpv vscode passwd-mgr ];
+            wsl =
+              base
+              ++ coding
+              ++ linux-config-cli
+              ++ [
+                apps
+                zathura
+                dev-secrets
+              ];
+            darwin =
+              base
+              ++ coding
+              ++ [ dev-secrets ]
+              ++ [
+                www
+                term
+                mpv
+                vscode
+                passwd-mgr
+              ];
           };
-      };
-    });
-
+        };
+      }
+    );
 
   inputs = {
     nixpkgs-pointer.url = "github:yipengsun/nixpkgs-pointer";

@@ -1,6 +1,7 @@
-{ writeScriptBin
-, symlinkJoin
-, makeWrapper
+{
+  writeScriptBin,
+  symlinkJoin,
+  makeWrapper,
 }:
 let
   scriptName = "awesomesearch";

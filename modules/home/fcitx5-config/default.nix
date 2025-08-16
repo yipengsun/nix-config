@@ -1,9 +1,11 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.fcitx5-config;
 
   fcitxDraculaTheme = pkgs.stdenvNoCC.mkDerivation rec {

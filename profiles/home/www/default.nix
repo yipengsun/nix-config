@@ -1,14 +1,29 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
-  preferredTerm = elems:
+  preferredTerm =
+    elems:
     with builtins;
-    if elems == [ ] then "xterm"
-    else if (head elems).pred then (head elems).value
-    else preferredTerm (tail elems);
+    if elems == [ ] then
+      "xterm"
+    else if (head elems).pred then
+      (head elems).value
+    else
+      preferredTerm (tail elems);
 
   defaultTerm = preferredTerm [
-    { pred = config.programs.wezterm.enable; value = "wezterm"; }
-    { pred = config.programs.alacritty.enable; value = "alacritty"; }
+    {
+      pred = config.programs.wezterm.enable;
+      value = "wezterm";
+    }
+    {
+      pred = config.programs.alacritty.enable;
+      value = "alacritty";
+    }
   ];
 
   vim-terminal = pkgs.writeScriptBin "vim-terminal" ''

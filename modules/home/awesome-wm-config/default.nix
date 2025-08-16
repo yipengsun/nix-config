@@ -1,20 +1,32 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.awesome-wm-config;
 
-  preferredTerm = elems:
+  preferredTerm =
+    elems:
     with builtins;
-    if elems == [ ] then "xterm"
-    else if (head elems).pred then (head elems).value
-    else preferredTerm (tail elems);
+    if elems == [ ] then
+      "xterm"
+    else if (head elems).pred then
+      (head elems).value
+    else
+      preferredTerm (tail elems);
 
   defaultTerm = preferredTerm [
-    { pred = config.programs.wezterm.enable; value = "wezterm"; }
-    { pred = config.programs.alacritty.enable; value = "alacritty"; }
+    {
+      pred = config.programs.wezterm.enable;
+      value = "wezterm";
+    }
+    {
+      pred = config.programs.alacritty.enable;
+      value = "alacritty";
+    }
   ];
 
   customLuaPackages = pkgs.lua53Packages;
@@ -99,12 +111,22 @@ in
     };
 
     tagNames = mkOption {
-      default = [ "MISC" "WWW" "COM" "CODE" ];
+      default = [
+        "MISC"
+        "WWW"
+        "COM"
+        "CODE"
+      ];
       type = types.listOf types.str;
     };
 
     tagLayouts = mkOption {
-      default = [ 2 1 3 2 ];
+      default = [
+        2
+        1
+        3
+        2
+      ];
       type = types.listOf types.int;
     };
 
@@ -214,7 +236,9 @@ in
       --weather_api_key = read_key(cfg_path.."/weather_api_key")
 
       -- Global variables
-      ${concatStringsSep "\n" (mapAttrsToList (key: val: key + " = " + ''"'' + val + ''"'') cfg.globalVariables)}
+      ${concatStringsSep "\n" (
+        mapAttrsToList (key: val: key + " = " + ''"'' + val + ''"'') cfg.globalVariables
+      )}
 
       layouts = {
         ${concatStringsSep ",\n" cfg.layouts}

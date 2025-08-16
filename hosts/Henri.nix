@@ -1,6 +1,6 @@
-{ modulesPath, ... }: {
+{ modulesPath, ... }:
+{
   system.stateVersion = "24.11";
-
 
   ##############
   # WSL config #
@@ -20,16 +20,13 @@
     # docker-desktop.enable = true;
   };
 
-
   #################
   # System config #
   #################
 
-  imports =
-    [
-      "${modulesPath}/profiles/minimal.nix"
-    ];
-
+  imports = [
+    "${modulesPath}/profiles/minimal.nix"
+  ];
 
   ############
   # Services #

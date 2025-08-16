@@ -1,9 +1,11 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.im-select;
 
   hasFcitx = config.i18n.inputMethod.enable && config.i18n.inputMethod.type == "fcitx5";

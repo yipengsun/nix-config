@@ -1,4 +1,5 @@
-{ config, ... }: {
+{ config, ... }:
+{
   services.mpd = {
     enable = true;
     musicDirectory = /home/syp/misc/audios;

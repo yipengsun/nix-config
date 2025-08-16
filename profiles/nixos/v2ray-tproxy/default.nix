@@ -1,8 +1,10 @@
-{ self
-, pkgs
-, config
-, ...
-}: {
+{
+  self,
+  pkgs,
+  config,
+  ...
+}:
+{
   # additional tooling for debugging
   environment.systemPackages = with pkgs; [
     traceroute

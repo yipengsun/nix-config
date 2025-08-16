@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   services.gnome.gnome-keyring.enable = true;
 
   services.dbus.packages = [ pkgs.gcr ]; # pin entry from GNOME

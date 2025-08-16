@@ -1,4 +1,9 @@
-{ self, pkgs, lib, ... }:
+{
+  self,
+  pkgs,
+  lib,
+  ...
+}:
 let
   configSypCommon = {
     description = "Yipeng Sun";
@@ -16,23 +21,37 @@ in
     passwd_syp.file = "${self}/secrets/passwd_syp.age";
   });
 
-  users.users.syp = configSypCommon //
-    (if isLinux then {
-      hashedPasswordFile = "/run/agenix/passwd_syp";
-      isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "video" "audio" "docker" "adbusers" ];
-      uid = 1000;
-    } else {
-      name = "syp";
-    }
+  users.users.syp =
+    configSypCommon
+    // (
+      if isLinux then
+        {
+          hashedPasswordFile = "/run/agenix/passwd_syp";
+          isNormalUser = true;
+          extraGroups = [
+            "wheel"
+            "networkmanager"
+            "video"
+            "audio"
+            "docker"
+            "adbusers"
+          ];
+          uid = 1000;
+        }
+      else
+        {
+          name = "syp";
+        }
     );
 
-  home-manager.users.syp = { config, ... }: {
-    home.homeDirectory = lib.mkIf isDarwin (lib.mkForce "/Users/syp");
+  home-manager.users.syp =
+    { config, ... }:
+    {
+      home.homeDirectory = lib.mkIf isDarwin (lib.mkForce "/Users/syp");
 
-    # for decrypting files on user login
-    age.identityPaths = [
-      "${config.home.homeDirectory}/.ssh/id_rsa"
-    ];
-  };
+      # for decrypting files on user login
+      age.identityPaths = [
+        "${config.home.homeDirectory}/.ssh/id_rsa"
+      ];
+    };
 }

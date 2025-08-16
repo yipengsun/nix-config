@@ -1,16 +1,30 @@
-{ config, self, pkgs, ... }:
+{
+  config,
+  self,
+  pkgs,
+  ...
+}:
 {
   system.stateVersion = "24.11";
-
 
   ########
   # Boot #
   ########
 
-  boot.initrd.availableKernelModules = [ "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "ehci_pci"
+    "xhci_pci"
+    "usb_storage"
+    "sd_mod"
+    "rtsx_pci_sdmmc"
+  ];
   boot.initrd.kernelModules = [ ];
 
-  boot.kernelModules = [ "kvm-amd" "acpi_call" ];
+  boot.kernelModules = [
+    "kvm-amd"
+    "acpi_call"
+  ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
   boot.supportedFilesystems = [ "zfs" ];
@@ -29,7 +43,6 @@
   #   https://blog.decent.id/post/nixos-systemd-initrd/
   boot.initrd.systemd.enable = true;
 
-
   ##############
   # Filesystem #
   ##############
@@ -39,7 +52,6 @@
   # For zfs
   #   generate with `head -c4 /dev/urandom | od -A none -t x4`
   networking.hostId = "9a2d8f8d";
-
 
   ############
   # Hardware #
@@ -69,7 +81,6 @@
   #hardware.bluetooth.enable = true;
   #services.blueman.enable = true;
 
-
   ############
   # Services #
   ############
@@ -98,14 +109,17 @@
 
   networking.networkmanager.enable = true;
 
-
   #################
   # System config #
   #################
 
-  imports = self.suites.nixos.workstation
+  imports =
+    self.suites.nixos.workstation
     ++ [ self.profiles.nixos.v2ray-tproxy ]
-    ++ (with self.users; [ root syp ])
+    ++ (with self.users; [
+      root
+      syp
+    ])
     ++ [ ./disko-config.nix ];
 
   environment.systemPackages = with pkgs; [
@@ -113,30 +127,30 @@
     rocmPackages.rocminfo
   ];
 
-
   ###############
   # User config #
   ###############
 
   programs.dconf.enable = true;
 
-  home-manager.users.syp = { pkgs, ... }: {
-    imports = self.suites.home.workstation
-      ++ [
-      self.profiles.home.wm-x11
-    ];
+  home-manager.users.syp =
+    { pkgs, ... }:
+    {
+      imports = self.suites.home.workstation ++ [
+        self.profiles.home.wm-x11
+      ];
 
-    awesome-wm-config = {
-      taskbars = ./awesome-wm/taskbars.lua;
-      theme = ./awesome-wm/theme;
-      wallpaper = ./awesome-wm/wallpaper.png;
+      awesome-wm-config = {
+        taskbars = ./awesome-wm/taskbars.lua;
+        theme = ./awesome-wm/theme;
+        wallpaper = ./awesome-wm/wallpaper.png;
+      };
+
+      # Configure dual screen setup
+      xsession.profileExtra = ''
+        LEFT='HDMI-A-0'
+        RIGHT='DisplayPort-0'
+        ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT --output $RIGHT --right-of $LEFT
+      '';
     };
-
-    # Configure dual screen setup
-    xsession.profileExtra = ''
-      LEFT='HDMI-A-0'
-      RIGHT='DisplayPort-0'
-      ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT --output $RIGHT --right-of $LEFT
-    '';
-  };
 }

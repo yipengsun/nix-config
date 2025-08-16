@@ -41,11 +41,11 @@ in
         "${modkey}-left" = "workspace --wrap-around prev";
         "${modkey}-right" = "workspace --wrap-around next";
 
-
         # app launchers
-        "${modkey}-f1" = ''exec-and-forget open -n "/Users/syp/Applications/Home Manager Apps/WezTerm.app"'';
-        "${modkey}-f2" = ''exec-and-forget open -n "/Users/syp/Applications/Home Manager Apps/Firefox.app"'';
-
+        "${modkey}-f1" =
+          ''exec-and-forget open -n "/Users/syp/Applications/Home Manager Apps/WezTerm.app"'';
+        "${modkey}-f2" =
+          ''exec-and-forget open -n "/Users/syp/Applications/Home Manager Apps/Firefox.app"'';
 
         # local client keys
         "${modkey}-h" = "focus left";
@@ -60,7 +60,6 @@ in
 
         "${modkey}-minus" = "resize smart -50";
         "${modkey}-equal" = "resize smart +50";
-
 
         # workspaces
         "${modkey}-1" = "workspace 1";
@@ -91,22 +90,45 @@ in
         "${modkey}-shift-o" = "move-node-to-workspace O";
         "${modkey}-shift-p" = "move-node-to-workspace P";
 
-
         # another mode
         "${modkey}-shift-semicolon" = "mode service";
       };
 
       mode.service.binding = {
-        esc = [ "reload-config" "mode main" ];
+        esc = [
+          "reload-config"
+          "mode main"
+        ];
 
-        r = [ "flatten-workspace-tree" "mode main" ]; # reset layout
-        f = [ "layout floating tiling" "mode main" ]; # toggle between floating and tiling layout
-        backspace = [ "close-all-windows-but-current" "mode main" ];
+        r = [
+          "flatten-workspace-tree"
+          "mode main"
+        ]; # reset layout
+        f = [
+          "layout floating tiling"
+          "mode main"
+        ]; # toggle between floating and tiling layout
+        backspace = [
+          "close-all-windows-but-current"
+          "mode main"
+        ];
 
-        "${modkey}-shift-h" = [ "join-with left" "mode main" ];
-        "${modkey}-shift-j" = [ "join-with down" "mode main" ];
-        "${modkey}-shift-k" = [ "join-with up" "mode main" ];
-        "${modkey}-shift-l" = [ "join-with right" "mode main" ];
+        "${modkey}-shift-h" = [
+          "join-with left"
+          "mode main"
+        ];
+        "${modkey}-shift-j" = [
+          "join-with down"
+          "mode main"
+        ];
+        "${modkey}-shift-k" = [
+          "join-with up"
+          "mode main"
+        ];
+        "${modkey}-shift-l" = [
+          "join-with right"
+          "mode main"
+        ];
       };
 
       workspace-to-monitor-force-assignment = {
@@ -116,14 +138,42 @@ in
         "4" = "built-in";
         "5" = "built-in";
 
-        "6" = [ "vx3276" "secondary" "built-in" ];
-        "7" = [ "vx3276" "secondary" "built-in" ];
-        "8" = [ "vx3276" "secondary" "built-in" ];
-        "9" = [ "vx3276" "secondary" "built-in" ];
+        "6" = [
+          "vx3276"
+          "secondary"
+          "built-in"
+        ];
+        "7" = [
+          "vx3276"
+          "secondary"
+          "built-in"
+        ];
+        "8" = [
+          "vx3276"
+          "secondary"
+          "built-in"
+        ];
+        "9" = [
+          "vx3276"
+          "secondary"
+          "built-in"
+        ];
 
-        "I" = [ "sidecar" "secondary" "built-in" ];
-        "O" = [ "sidecar" "secondary" "built-in" ];
-        "P" = [ "sidecar" "secondary" "built-in" ];
+        "I" = [
+          "sidecar"
+          "secondary"
+          "built-in"
+        ];
+        "O" = [
+          "sidecar"
+          "secondary"
+          "built-in"
+        ];
+        "P" = [
+          "sidecar"
+          "secondary"
+          "built-in"
+        ];
       };
     };
   };

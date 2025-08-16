@@ -2,12 +2,14 @@
 #   https://github.com/NixOS/nixpkgs/issues/235345#issuecomment-1586233679
 #   https://github.com/NixOS/nixpkgs/issues/235345#issuecomment-1622892967
 # this needs to be a system-level service, because 'network-online.target' is unavailable to user!
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.services.maestral;
 
   userHome = config.users.users.${cfg.user}.home;

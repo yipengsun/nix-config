@@ -61,10 +61,22 @@
     '';
 
     plugins = with pkgs.fishPlugins; [
-      { name = "pure"; src = pure.src; }
-      { name = "z"; src = z.src; }
-      { name = "fzf.fish"; src = fzf-fish.src; }
-      { name = "async-prompt"; src = async-prompt.src; }
+      {
+        name = "pure";
+        src = pure.src;
+      }
+      {
+        name = "z";
+        src = z.src;
+      }
+      {
+        name = "fzf.fish";
+        src = fzf-fish.src;
+      }
+      {
+        name = "async-prompt";
+        src = async-prompt.src;
+      }
     ];
   };
 }

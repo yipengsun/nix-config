@@ -19,7 +19,9 @@
     ];
 
     wintypes = {
-      dock = { shadow = false; };
+      dock = {
+        shadow = false;
+      };
     };
   };
 }

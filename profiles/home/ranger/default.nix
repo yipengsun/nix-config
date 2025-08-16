@@ -1,9 +1,6 @@
 { osConfig, ... }:
 let
-  enableImagePreview =
-    if osConfig ? "wsl"
-    then !osConfig.wsl.enable
-    else true;
+  enableImagePreview = if osConfig ? "wsl" then !osConfig.wsl.enable else true;
 in
 {
   programs.ranger = {

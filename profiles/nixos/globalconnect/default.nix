@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # GlobalConnect VPN for UMD
   services.globalprotect = {
     enable = true;

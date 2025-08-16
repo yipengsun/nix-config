@@ -2,22 +2,34 @@
 {
   system.stateVersion = "24.11";
 
-
   ########
   # Boot #
   ########
 
-  boot.initrd.availableKernelModules = [ "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "ehci_pci"
+    "xhci_pci"
+    "usb_storage"
+    "sd_mod"
+    "rtsx_pci_sdmmc"
+  ];
   boot.initrd.kernelModules = [ ];
 
   boot.initrd.systemd.enable = true;
 
-  boot.kernelModules = [ "kvm-amd" "acpi_call" ];
+  boot.kernelModules = [
+    "kvm-amd"
+    "acpi_call"
+  ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
   # Force use of the thinkpad_acpi driver for backlight control.
   # This allows the backlight save/load systemd service to work.
-  boot.kernelParams = [ "acpi_backlight=native" "iommu=soft" ];
+  boot.kernelParams = [
+    "acpi_backlight=native"
+    "iommu=soft"
+  ];
 
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.requestEncryptionCredentials = true;
@@ -25,7 +37,6 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
 
   ##############
   # Filesystem #
@@ -60,7 +71,6 @@
 
   # For zfs
   networking.hostId = "559e7746";
-
 
   ############
   # Hardware #
@@ -102,7 +112,6 @@
   #hardware.trackpoint.speed = 15;
   #hardware.trackpoint.sensitivity = 15;
 
-
   ############
   # Services #
   ############
@@ -133,15 +142,17 @@
 
   networking.networkmanager.enable = true;
 
-
   #################
   # System config #
   #################
 
-  imports = self.suites.nixos.workstation
+  imports =
+    self.suites.nixos.workstation
     ++ [ self.profiles.nixos.v2ray-tproxy ]
-    ++ (with self.users; [ root syp ]);
-
+    ++ (with self.users; [
+      root
+      syp
+    ]);
 
   ###############
   # User config #
@@ -149,21 +160,22 @@
 
   programs.dconf.enable = true;
 
-  home-manager.users.syp = { pkgs, ... }: {
-    imports = self.suites.home.workstation
-      ++ [
-      self.profiles.home.wm-x11
-      self.profiles.home.autorandr
-    ];
-
-    awesome-wm-config = {
-      extraPackages = with pkgs; [
-        acpilight # to make adj. brightness w/ hotkey work
+  home-manager.users.syp =
+    { pkgs, ... }:
+    {
+      imports = self.suites.home.workstation ++ [
+        self.profiles.home.wm-x11
+        self.profiles.home.autorandr
       ];
 
-      taskbars = ./awesome-wm/taskbars.lua;
-      theme = ./awesome-wm/theme;
-      wallpaper = ./awesome-wm/wallpaper.png;
+      awesome-wm-config = {
+        extraPackages = with pkgs; [
+          acpilight # to make adj. brightness w/ hotkey work
+        ];
+
+        taskbars = ./awesome-wm/taskbars.lua;
+        theme = ./awesome-wm/theme;
+        wallpaper = ./awesome-wm/wallpaper.png;
+      };
     };
-  };
 }

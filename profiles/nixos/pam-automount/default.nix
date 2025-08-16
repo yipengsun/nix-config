@@ -22,7 +22,11 @@ in
   # automount via pam_mount on login
   security.pam.mount.enable = true;
   #security.pam.mount.additionalSearchPaths = [ cryptor ];
-  security.pam.mount.fuseMountOptions = [ "nodev" "nosuid" "quiet" ];
+  security.pam.mount.fuseMountOptions = [
+    "nodev"
+    "nosuid"
+    "quiet"
+  ];
 
   security.pam.mount.extraVolumes = [
     # FIXME: this is a workaround for gocryptfs! see

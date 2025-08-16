@@ -2,7 +2,6 @@
 {
   system.stateVersion = 5;
 
-
   #################
   # Darwin config #
   #################
@@ -19,7 +18,6 @@
 
   system.defaults.universalaccess.mouseDriverCursorSize = 1.5;
 
-
   #################
   # System config #
   #################
@@ -35,7 +33,6 @@
   };
 
   services.tailscale.enable = true;
-
 
   ###############
   # User config #

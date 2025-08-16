@@ -3,10 +3,11 @@
 #
 # provide a configured nixpkgs (config, overlay, etc) to use in the whole flake
 
-{ inputs
-, lib
-, ...
-} @ toplevel:
+{
+  inputs,
+  lib,
+  ...
+}@toplevel:
 let
   inherit (lib)
     mkOption
@@ -14,9 +15,7 @@ let
     literalExpression
     ;
 
-
   cfg = toplevel.config.configNixpkgs; # shortcut to user config
-
 
   # types in config
   typeOverlay = with types; uniq (functionTo (functionTo (lazyAttrsOf unspecified)));
@@ -41,11 +40,9 @@ let
         description = ''
           The configuration of the Nix Packages collection.
         '';
-        example =
-          literalExpression
-            ''
-              { allowUnfree = true; }
-            '';
+        example = literalExpression ''
+          { allowUnfree = true; }
+        '';
       };
 
       overlays = mkOption {
@@ -54,13 +51,11 @@ let
         description = ''
           List of overlays to use with the Nix Packages collection.
         '';
-        example =
-          literalExpression
-            ''
-              [
-                inputs.fenix.overlays.default
-              ]
-            '';
+        example = literalExpression ''
+          [
+            inputs.fenix.overlays.default
+          ]
+        '';
       };
     };
   };
@@ -76,13 +71,14 @@ in
     };
   };
 
-
   config = {
     perSystem =
-      { system
-      , configNixpkgs
-      , ...
-      }: {
+      {
+        system,
+        configNixpkgs,
+        ...
+      }:
+      {
         _file = ./.;
         config =
           let

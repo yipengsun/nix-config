@@ -35,13 +35,15 @@ let
     nerd-fonts.dejavu-sans-mono
   ];
 
-
   isLinux = pkgs.stdenv.isLinux;
 in
 {
   nix.settings = {
     sandbox = isLinux;
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     trusted-users = [ "root" ] ++ (if isLinux then [ "@wheel" ] else [ "@admin" ]);
   };
 

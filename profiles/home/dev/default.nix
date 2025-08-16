@@ -1,20 +1,23 @@
 { pkgs, lib, ... }:
 {
-  home.packages = with pkgs; [
-    git-annex
-    rclone # special dropbox remote for git-annex
+  home.packages =
+    with pkgs;
+    [
+      git-annex
+      rclone # special dropbox remote for git-annex
 
-    cachix
+      cachix
 
-    nixpkgs-review # for reviewing nixpkgs pr
-    nixpkgs-fmt # code formatter
-    nix-tree # view dependency as a tree
+      nixpkgs-review # for reviewing nixpkgs pr
+      nixpkgs-fmt # code formatter
+      nix-tree # view dependency as a tree
 
-    gh # github cli tool
-  ] ++ lib.optionals pkgs.stdenv.isLinux [
-    strace
-    root # for c++ dev, broken on darwin due to isa-l being broken
-  ];
+      gh # github cli tool
+    ]
+    ++ lib.optionals pkgs.stdenv.isLinux [
+      strace
+      root # for c++ dev, broken on darwin due to isa-l being broken
+    ];
 
   # linter config
   xdg.configFile."pylintrc".text = builtins.readFile ./pylintrc;

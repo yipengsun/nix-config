@@ -1,7 +1,12 @@
 { pkgs, lib, ... }:
 {
   nix.settings = {
-    system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    system-features = [
+      "nixos-test"
+      "benchmark"
+      "big-parallel"
+      "kvm"
+    ];
   };
 
   security.sudo.enable = true;

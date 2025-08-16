@@ -1,8 +1,9 @@
-{ writeScriptBin
-, symlinkJoin
-, makeWrapper
-, atool
-, zip
+{
+  writeScriptBin,
+  symlinkJoin,
+  makeWrapper,
+  atool,
+  zip,
 }:
 let
   scriptName = "receipt-archive";
@@ -10,7 +11,11 @@ let
 in
 symlinkJoin {
   name = scriptName;
-  paths = [ scriptUnwrapped zip atool ];
+  paths = [
+    scriptUnwrapped
+    zip
+    atool
+  ];
   buildInputs = [ makeWrapper ];
   postBuild = "wrapProgram $out/bin/${scriptName} --prefix PATH : $out/bin";
 }

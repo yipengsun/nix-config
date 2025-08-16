@@ -10,7 +10,9 @@ final: prev: {
     done
   '';
 
-  git-author-rewrite = prev.writeScriptBin "git-author-rewrite" (builtins.readFile ./git-author-rewrite/git-author-rewrite);
+  git-author-rewrite = prev.writeScriptBin "git-author-rewrite" (
+    builtins.readFile ./git-author-rewrite/git-author-rewrite
+  );
 
   colortest = prev.writeScriptBin "colortest" ''
     ${prev.gawk}/bin/awk -v term_cols="''${width:-''$(tput cols || echo 80)}" 'BEGIN{
@@ -43,8 +45,9 @@ final: prev: {
 
   lua5_3 = prev.lua5_3.override {
     packageOverrides = luafinal: luaprev: {
-      lain = prev.callPackage
-        ({ fetchFromGitHub }: prev.stdenv.mkDerivation {
+      lain = prev.callPackage (
+        { fetchFromGitHub }:
+        prev.stdenv.mkDerivation {
           pname = "lain";
           version = "unstable-20240925";
 
@@ -63,8 +66,8 @@ final: prev: {
             cp -r . $out/lib/lua/${luaprev.lua.luaversion}/lain/
             printf "package.path = '$out/lib/lua/${luaprev.lua.luaversion}/?/init.lua;' ..  package.path\nreturn require((...) .. '.init')\n" > $out/lib/lua/${luaprev.lua.luaversion}/lain.lua
           '';
-        })
-        { };
+        }
+      ) { };
     };
   };
   lua53Packages = final.lua5_3.pkgs;
