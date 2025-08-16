@@ -1,5 +1,5 @@
 """""""""""
-" Generic "
+" General "
 """""""""""
 
 " Disable vi compatible mode
@@ -11,10 +11,6 @@ set autoread
 " Restore cursor position
 set viminfo='10,\"100,:20,%,n~/.viminfo
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
-
-" Persistence undo
-"set udf
-"set ul=500
 
 " Aggregate all .swp files in a single directory
 set directory=$HOME/.tmp/vim
@@ -106,9 +102,9 @@ set spelllang+=cjk
 """""""""""""
 
 " Disable page-scolling with CTRL-F, CTRL-B, CTRL-U, etc
-"nnoremap <C-f> <NOP>
+"nnoremap <C-f> <NOP>  " taken bytelescope
 nnoremap <C-b> <NOP>
-"nnoremap <C-u> <NOP>
+"nnoremap <C-u> <NOP>  " taken by nvim-dap
 
 
 """"""""""
@@ -197,7 +193,7 @@ func! ToggleNuMode()
         set rnu
     endif
 endfunc
-nnoremap <C-l> :call ToggleNuMode()<CR>
+nnoremap <silent><C-l> :call ToggleNuMode()<CR>
 
 " Toggle spell check
 func! ToggleSpellCheck()
@@ -219,20 +215,8 @@ nnoremap <silent><F4> :call ToggleSpellCheck()<CR>
 " Filetypes "
 """""""""""""
 
-au FileType gitcommit set colorcolumn=121
-au FileType gitcommit set formatoptions-=t formatoptions-=l " don't automatically break lines
-
 au FileType gitcommit,tex,markdown set spell
 
 au FileType make set noexpandtab " need hard tab for Makefile
-
-func! SetTW80Options()
-    set tw=80
-    set fo+=mtB
-    set wm=0
-    set colorcolumn=81
-    set formatoptions-=t
-endfunc
-au Filetype tex,python,cpp,c call SetTW80Options()
 
 au FileType yaml set noautoindent
