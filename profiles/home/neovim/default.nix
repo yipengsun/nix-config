@@ -26,9 +26,9 @@ in
     # language servers
     ccls
     nil
-    #texlab # too damn slow
     pyright
     rust-analyzer
+    #texlab # too damn slow
   ];
 
   home.file.".editorconfig".text = ''
@@ -165,6 +165,55 @@ in
               after = function()
                 require("nvim-autopairs").setup()
               end,
+            }
+          '';
+        }
+        {
+          plugin = trouble-nvim;
+          type = "lua";
+          optional = true;
+          config = ''
+            require("lz.n").load {
+              "trouble.nvim",
+              keys = {
+                {
+                  "<LEADER>xx",
+                  "<CMD>Trouble diagnostics toggle<CR>",
+                  desc = "Diagnostics (Trouble)",
+                },
+                {
+                  "<LEADER>xX",
+                  "<CMD>Trouble diagnostics toggle filter.buf=0<CR>",
+                  desc = "Buffer Diagnostics (Trouble)",
+                },
+                {
+                  "<LEADER>cs",
+                  "<CMD>Trouble symbols toggle focus=false<CR>",
+                  desc = "Symbols (Trouble)",
+                },
+                {
+                  "<LEADER>cl",
+                  "<CMD>Trouble lsp toggle focus=false win.position=right<CR>",
+                  desc = "LSP Definitions / references / ... (Trouble)",
+                },
+                {
+                  "<LEADER>xL",
+                  "<CMD>Trouble loclist toggle<CR>",
+                  desc = "Location List (Trouble)",
+                },
+                {
+                  "<LEADER>xQ",
+                  "<CMD>Trouble qflist toggle<CR>",
+                  desc = "Quickfix List (Trouble)",
+                },
+              },
+              after = function()
+                require("trouble").setup {
+                  modes = {
+                    diagnostics = { auto_open = false },
+                  }
+                }
+              end
             }
           '';
         }
@@ -313,12 +362,12 @@ in
 
         # misc
         vim-fugitive
-        {
-          plugin = direnv-vim;
-          config = ''
-            let g:direnv_silent_load = 1
-          '';
-        }
+        # {
+        #   plugin = direnv-vim;
+        #   config = ''
+        #     let g:direnv_silent_load = 1
+        #   '';
+        # }
 
         # syntax
         vim-ledger-stable
@@ -346,6 +395,7 @@ in
             vim.g.tex_conceal = ""
           '';
         }
+
 
         # ui
         {
@@ -385,12 +435,65 @@ in
             require("ibl").setup()
           '';
         }
+
+        # auto complete
+        {
+          plugin = blink-cmp;
+          type = "lua";
+          config = ''
+            require("blink.cmp").setup {
+              keymap = {
+                preset = "default",
+              },
+              completion = {
+                documentation = { auto_show = true },
+              },
+            }
+          '';
+        }
+        {
+          plugin = nvim-lspconfig;
+          type = "lua";
+          config = ''
+            -- register language servers
+            local servers = { "ccls", "rust_analyzer", "pyright", "nil_ls" }
+            for _, s in ipairs(servers) do
+              vim.lsp.enable(s)
+            end
+
+            -- lsp warning signs
+            local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+            for type, icon in ipairs(signs) do
+              local hl = "DiagnosticSign" .. type
+              vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+            end
+
+            -- rename
+            local function lsp_rename()
+              vim.ui.input({
+                prompt = "Rename to: ",
+                default = vim.fn.expand('<cword>'),
+              }, function(new_name)
+                -- this function is called when the user presses enter
+                -- if the user cancels (e.g., with <esc>), new_name will be nil
+                if not new_name or new_name == "" then
+                  print("Rename cancelled.")
+                  return
+                end
+
+                -- call the lsp rename function with the new name
+                vim.lsp.buf.rename(new_name)
+              end)
+            end
+
+            vim.keymap.set("n", "<F2>", lsp_rename, {
+              noremap = true,
+              silent = true,
+              desc = "LSP Rename symbol under cursor",
+            })
+          '';
+        }
       ] ++ lib.optionals (false) [
-        nvim-cmp
-        cmp-nvim-lsp
-        cmp-treesitter
-        cmp-buffer
-        cmp-omni
         copilot-lua
         copilot-cmp
         {
@@ -402,13 +505,6 @@ in
                 suggestions = { enable = false },
                 panel = { enable = false },
               }
-
-              -- lsp warning signs
-              local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-              for type, icon in pairs(signs) do
-                local hl = "DiagnosticSign" .. type
-                vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-              end
 
               -- show line diagnostics automatically in hover window
               vim.o.updatetime = 200
@@ -426,18 +522,6 @@ in
                   vim.diagnostic.open_float(nil, opts)
                 end
               })
-
-              -- auto completion
-              local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-              local lspconfig = require("lspconfig")
-
-              local servers = { "ccls", "rust_analyzer", "pyright", "nil_ls" }
-              for _, lsp in ipairs(servers) do
-                lspconfig[lsp].setup {
-                  capabilities = default_capabilities
-                }
-              end
 
               require("copilot_cmp").setup()
 
@@ -485,58 +569,6 @@ in
                 },
               }
 
-              -- rename
-              local function dorename(win)
-                local new_name = vim.trim(vim.fn.getline('.'))
-                vim.api.nvim_win_close(win, true)
-                vim.lsp.buf.rename(new_name)
-              end
-
-              local function rename()
-                local opts = {
-                  relative = 'cursor',
-                  row = 0,
-                  col = 0,
-                  width = 30,
-                  height = 1,
-                  style = 'minimal',
-                  border = 'single'
-                }
-                local cword = vim.fn.expand('<cword>')
-                local buf = vim.api.nvim_create_buf(false, true)
-                local win = vim.api.nvim_open_win(buf, true, opts)
-                local fmt =  '<cmd>lua Rename.dorename(%d)<CR>'
-
-                vim.api.nvim_buf_set_lines(buf, 0, -1, false, {cword})
-                vim.api.nvim_buf_set_keymap(buf, 'i', '<CR>', string.format(fmt, win), {silent=true})
-              end
-
-              _G.Rename = {
-                rename = rename,
-                dorename = dorename
-              }
-
-              vim.api.nvim_set_keymap("n", "<F2>", "<cmd>lua Rename.rename()<CR>",
-                { noremap = true, silent = true })
-            EOF
-          '';
-        }
-        {
-          plugin = trouble-nvim;
-          config = ''
-            lua << EOF
-              require("trouble").setup {
-                modes = {
-                  diagnostics = { auto_open = false },
-                }
-              }
-
-              vim.keymap.set("n", "<F3>",
-                            "<cmd>Trouble symbols toggle focus=false<CR>",
-                            { noremap = true, silent = true })
-              vim.keymap.set("n", "<C-m>",
-                            "<cmd>Trouble diagnostics toggle filter.buf=0<CR>",
-                            { noremap = true, silent = true })
             EOF
           '';
         }
