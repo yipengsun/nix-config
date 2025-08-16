@@ -3,6 +3,8 @@ let
   isDarwinAarch64 = pkgs.stdenv.hostPlatform.system == "aarch64-darwin";
 in
 {
+  system.primaryUser = "syp";
+
   system.defaults = {
     dock.autohide = true;
     dock.mru-spaces = false;
