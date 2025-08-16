@@ -355,6 +355,26 @@ in
           '';
         }
 
+        # auto complete
+        {
+          plugin = copilot-lua;
+          type = "lua";
+          optional = true;
+          config = ''
+            require("lz.n").load {
+              "copilot.lua",
+              event = "InsertEnter",
+              cmd = "Copilot",
+              after = function()
+                require("copilot").setup {
+                  suggestions = { enable = false },
+                  panel = { enable = false },
+                }
+              end
+            }
+          '';
+        }
+
         #################
         # eager loading #
         #################
@@ -454,9 +474,21 @@ in
               completion = {
                 documentation = { auto_show = true },
               },
+              sources = {
+                default = { "lsp", "path", "snippets", "buffer", "copilot" },
+                  providers = {
+                    copilot = {
+                      name = "copilot",
+                        module = "blink-cmp-copilot",
+                        score_offset = 100,
+                        async = true,
+                    },
+                  },
+              },
             }
           '';
         }
+        blink-cmp-copilot
         {
           plugin = nvim-lspconfig;
           type = "lua";
@@ -525,32 +557,6 @@ in
               silent = true,
               desc = "LSP Rename symbol under cursor",
             })
-          '';
-        }
-      ] ++ lib.optionals (false) [
-        copilot-lua
-        copilot-cmp
-        {
-          plugin = nvim-lspconfig;
-          config = ''
-            lua << EOF
-              -- Github Copilot
-              require("copilot").setup {
-                suggestions = { enable = false },
-                panel = { enable = false },
-              }
-
-              require("copilot_cmp").setup()
-
-              local cmp = require("cmp")
-
-              local has_words_before = function()
-                if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
-                local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-                return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
-              end
-
-            EOF
           '';
         }
       ];
