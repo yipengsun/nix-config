@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, config, ... }:
 let
   # newer vim-ledger has problems regarding auto completion
   vim-ledger-stable = pkgs.vimUtils.buildVimPlugin rec {
@@ -24,8 +24,8 @@ in
     nodejs # copilot/coc both require this
 
     # language servers
-    ccls
-    nil
+    clangd
+    nixd
     pyright
     rust-analyzer
     #texlab # too damn slow
@@ -473,6 +473,7 @@ in
               },
               completion = {
                 documentation = { auto_show = true },
+                ghost_text = { enabled = true },
               },
               sources = {
                 default = { "lsp", "path", "snippets", "buffer", "copilot" },
@@ -494,7 +495,7 @@ in
           type = "lua";
           config = ''
             -- register language servers
-            local servers = { "ccls", "rust_analyzer", "pyright", "nil_ls" }
+            local servers = { "clangd", "rust_analyzer", "pyright", "nixd" }
             for _, s in ipairs(servers) do
               vim.lsp.enable(s)
             end

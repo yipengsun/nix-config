@@ -28,6 +28,11 @@ final: prev: {
     }'
   '';
 
+  clangd = prev.runCommand "clangd-wrapper" { } ''
+    mkdir -p $out/bin
+    ln -s ${prev.llvmPackages.clang-tools}/bin/clangd $out/bin/clangd
+  '';
+
   ##################
   # awesome wm aux #
   ##################
