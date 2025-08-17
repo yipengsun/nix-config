@@ -34,7 +34,7 @@ let
 in
 {
   # firefox tridactyl-related
-  home.packages = if isLinux then [ vim-terminal ] else [ ];
+  home.packages = [ vim-terminal ];
 
   home.file.".tridactylrc".text = ''
     """""""""""
@@ -112,6 +112,8 @@ in
         "browser.startup.homepage" = "https://google.com";
         "browser.bookmarks.showMobileBookmarks" = true;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true; # to load userChrome.css, etc.
+        "extensions.update.enabled" = false;
+        "services.sync.prefs.sync.extensions.update.enabled" = false; # don't sync extension update setting
       };
       userChrome = ''
         * {
