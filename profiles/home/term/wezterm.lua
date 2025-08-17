@@ -191,7 +191,7 @@ config.font = wezterm.font_with_fallback {
     'FiraCode Nerd Font Mono',
     'monospace'
 }
-config.font_size = 10
+config.font_size = 12
 
 
 -- color theme
