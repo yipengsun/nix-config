@@ -59,6 +59,15 @@
             "aarch64-darwin"
           ];
 
+          perSystem =
+            { pkgs, ... }:
+            {
+              # to test pakcages defined in local overlays
+              packages = {
+                awesome-volume-control = pkgs.awesome-volume-control;
+              };
+            };
+
           flake.overlays = {
             default = import ./overlays/default;
           };

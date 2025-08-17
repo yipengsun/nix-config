@@ -1,30 +1,19 @@
 {
-  stdenv,
-  python3,
+  python3Packages,
   pamixer,
-  symlinkJoin,
-  makeWrapper,
 }:
-let
-  pkgName = "awesome-volume-control";
+python3Packages.buildPythonApplication {
+  pname = "awesome-volume-control";
+  version = "1.0.0";
 
-  scriptUnwrapped = stdenv.mkDerivation {
-    name = pkgName + "-unwrapped";
-    src = ./.;
+  propagatedBuildInputs = [ pamixer ];
 
-    dontUnpack = true;
-    installPhase = ''
-      mkdir -p $out/bin
-      cp ${./volume-control.py} $out/bin/volume-control.py
-      chmod +x $out/bin/volume-control.py
-    '';
-  };
+  src = ./.;
 
-  scriptBuildInputs = [ pamixer ];
-in
-symlinkJoin {
-  name = pkgName;
-  paths = [ scriptUnwrapped ] ++ scriptBuildInputs;
-  buildInputs = [ makeWrapper ];
-  postBuild = "wrapProgram $out/bin/volume-control.py --prefix PATH : $out/bin";
+  format = "other";
+  dontBuild = true;
+
+  installPhase = ''
+    install -Dm755 ./volume-control.py $out/bin/volume-control.py
+  '';
 }
