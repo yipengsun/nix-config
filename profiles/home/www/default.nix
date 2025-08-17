@@ -91,7 +91,11 @@ in
     enable = true;
     package = pkgs.firefox;
 
-    nativeMessagingHosts = lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [ pkgs.tridactyl-native ];
+    nativeMessagingHosts =
+      if (pkgs.stdenv.hostPlatform.isDarwin) then
+        [ pkgs.tridactyl-native-python ]
+      else
+        [ pkgs.tridactyl-native ];
 
     profiles."syp" = {
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [

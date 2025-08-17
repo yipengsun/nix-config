@@ -13,6 +13,8 @@ final: prev: {
     };
   });
 
+  tridactyl-native-python = prev.callPackage ./tridactyl-native-python { };
+
   ###########
   # general #
   ###########
