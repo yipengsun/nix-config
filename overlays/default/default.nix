@@ -1,4 +1,17 @@
 final: prev: {
+  #########
+  # fixes #
+  #########
+
+  tridactyl-native = prev.tridactyl-native.overrideAttrs (oldAttrs: {
+    version = "0.5.0";
+    src = final.fetchFromGitHub {
+      owner = "tridactyl";
+      repo = "native_messenger";
+      rev = "a5066041c50781e7aae077fac1dc3c600e33b692";
+      hash = "sha256-lOBiWLQp28jIxrmYDYnNfxfFXmSgneKU4ZrHpoHZ9ik=";
+    };
+  });
 
   ###########
   # general #
