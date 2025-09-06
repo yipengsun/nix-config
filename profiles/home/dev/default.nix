@@ -9,7 +9,7 @@
       cachix
 
       nixpkgs-review # for reviewing nixpkgs pr
-      nixpkgs-fmt # code formatter
+      nixfmt-tree # code formatter
       nix-tree # view dependency as a tree
 
       gh # github cli tool
