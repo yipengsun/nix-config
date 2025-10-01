@@ -485,6 +485,9 @@ in
                 },
             },
           }
+
+          -- disable lsp log by default, otherwise ~/.local/share/nvim/lsp.log gets spammed
+          vim.lsp.set_log_level("off")
         '';
       }
       blink-cmp-copilot
