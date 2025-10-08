@@ -26,4 +26,11 @@
   home.file.".cgdb/cgdbrc".text = ''
     set wso=vertical
   '';
+
+  # LLM agents
+  programs.gemini-cli.enable = true;
+  #programs.gemini-cli.settings = {
+  #  "general.disableAutoUpdate" = true;
+  #  "general.disableUpdateNag" = true;
+  #};
 }
