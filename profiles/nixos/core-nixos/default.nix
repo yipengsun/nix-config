@@ -19,7 +19,7 @@
 
       # Utilities
       usbutils
-      utillinux
+      util-linux
       openssl
       iputils
 
