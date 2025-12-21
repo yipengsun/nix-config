@@ -3,7 +3,7 @@ final: prev: {
   # fixes #
   #########
 
-  tridactyl-native = prev.tridactyl-native.overrideAttrs (oldAttrs: {
+  tridactyl-native = prev.tridactyl-native.overrideAttrs (old: {
     version = "0.5.0";
     src = final.fetchFromGitHub {
       owner = "tridactyl";
