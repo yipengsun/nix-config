@@ -9,7 +9,7 @@
         settings.src = ./.;
         settings.hooks = {
           editorconfig-checker.enable = true;
-          nixfmt-rfc-style.enable = true;
+          nixfmt.enable = true;
         };
       };
 

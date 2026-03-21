@@ -295,7 +295,7 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
     mac-app-util.url = "github:hraban/mac-app-util";
-    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
+    # mac-app-util.inputs.nixpkgs.follows = "nixpkgs"; # FIXME: can't build with latest nixpkgs
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
