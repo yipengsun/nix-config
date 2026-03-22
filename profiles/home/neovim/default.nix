@@ -241,6 +241,7 @@ in
       }
 
       # telescope
+      plenary-nvim
       {
         plugin = telescope-nvim;
         type = "lua";
