@@ -397,7 +397,29 @@ in
       }
 
       # ide
-      nvim-treesitter.withAllGrammars
+      {
+        plugin = nvim-treesitter.withAllGrammars;
+        type = "lua";
+        config = ''
+          vim.api.nvim_create_autocmd("FileType", {
+            pattern = "*",
+            callback = function()
+              local ft = vim.bo.filetype
+
+              local blacklist = { "NvimTree", "TelescopePrompt", "lazy", "mason", "notify" }
+              for _, name in ipairs(blacklist) do
+                if ft == name then return end
+              end
+
+              local has_parser = pcall(vim.treesitter.get_parser, 0)
+
+              if has_parser then
+                vim.treesitter.start()
+              end
+            end,
+          })
+        '';
+      }
       {
         plugin = comment-nvim;
         type = "lua";
