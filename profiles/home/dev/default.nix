@@ -16,7 +16,7 @@
       gh # github cli tool
 
       # LLM agents
-      llm-agents.opencode
+      (if stdenv.isLinux then llm-agents.opencode else opencode)
     ]
     ++ lib.optionals pkgs.stdenv.isLinux [
       strace
@@ -30,4 +30,7 @@
   home.file.".cgdb/cgdbrc".text = ''
     set wso=vertical
   '';
+
+  # disable man cache for darwin only
+  programs.man.generateCaches = pkgs.lib.mkIf pkgs.stdenv.isDarwin false;
 }
