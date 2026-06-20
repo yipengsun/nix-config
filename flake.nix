@@ -311,5 +311,7 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
+
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 }
