@@ -80,6 +80,7 @@
               inputs.agenix.overlays.default
               inputs.nur.overlays.default
               inputs.nix-darwin.overlays.default
+              inputs.llm-agents.overlays.default
             ]
             ++ [ flake.overlays.default ];
           };

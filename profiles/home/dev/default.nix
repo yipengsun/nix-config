@@ -6,6 +6,7 @@
       git-annex
       rclone # special dropbox remote for git-annex
 
+      pax-utils
       cachix
 
       nixpkgs-review # for reviewing nixpkgs pr
@@ -13,6 +14,9 @@
       nix-tree # view dependency as a tree
 
       gh # github cli tool
+
+      # LLM agents
+      llm-agents.opencode
     ]
     ++ lib.optionals pkgs.stdenv.isLinux [
       strace
@@ -26,11 +30,4 @@
   home.file.".cgdb/cgdbrc".text = ''
     set wso=vertical
   '';
-
-  # LLM agents
-  programs.gemini-cli.enable = true;
-  #programs.gemini-cli.settings = {
-  #  "general.disableAutoUpdate" = true;
-  #  "general.disableUpdateNag" = true;
-  #};
 }
