@@ -397,7 +397,7 @@ in
       vim-pandoc-syntax
       {
         plugin = vim-pandoc;
-        config = "let g:pandoc#syntax#conceal#use = 0";
+        config = ''vim.g["pandoc#syntax#conceal#use"] = 0'';
       }
 
       # ide
@@ -407,18 +407,22 @@ in
         config = ''
           vim.api.nvim_create_autocmd("FileType", {
             pattern = "*",
-            callback = function()
-              local ft = vim.bo.filetype
+            callback = function(args)
+              local ft = vim.bo[args.buf].filetype
 
-              local blacklist = { "NvimTree", "TelescopePrompt", "lazy", "mason", "notify" }
+              -- Skip common UI and plugin buffers where TS highlighting isn't needed
+              local blacklist = { "NvimTree", "TelescopePrompt", "lazy", "mason", "notify", "gitcommit" }
               for _, name in ipairs(blacklist) do
                 if ft == name then return end
               end
 
-              local has_parser = pcall(vim.treesitter.get_parser, 0)
+              -- Get the treesitter language name for the current filetype
+              local lang = vim.treesitter.language.get_lang(ft) or ft
 
-              if has_parser then
-                vim.treesitter.start()
+              -- Check if the parser is actually available/installed
+              if vim.treesitter.language.add(lang) then
+                -- Correct pcall usage: pass the function name, then the arguments
+                pcall(vim.treesitter.start, args.buf, lang)
               end
             end,
           })
@@ -513,7 +517,7 @@ in
           }
 
           -- disable lsp log by default, otherwise ~/.local/share/nvim/lsp.log gets spammed
-          vim.lsp.set_log_level("off")
+          vim.lsp.log.set_level("off")
         '';
       }
       blink-cmp-copilot
