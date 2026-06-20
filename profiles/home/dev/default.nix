@@ -16,7 +16,7 @@
       gh # github cli tool
 
       # LLM agents
-      (if stdenv.isLinux then llm-agents.opencode else opencode)
+      llm-agents.opencode
     ]
     ++ lib.optionals pkgs.stdenv.isLinux [
       strace
