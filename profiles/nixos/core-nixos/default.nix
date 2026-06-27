@@ -56,7 +56,11 @@
   services.openssh = {
     enable = true;
     openFirewall = lib.mkDefault false;
-    settings.PermitRootLogin = "no";
+
+    settings = {
+      X11Forwarding = true;
+      PermitRootLogin = "no";
+    };
   };
 
   programs.command-not-found.enable = false;
