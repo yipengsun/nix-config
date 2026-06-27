@@ -40,4 +40,12 @@ in
     sleep.computer = "never";
     sleep.display = 20; # in minutes
   };
+
+  programs.ssh = {
+    extraConfig = ''
+      Host *
+        ForwardX11 yes
+        ForwardX11Trusted yes
+    '';
+  };
 }

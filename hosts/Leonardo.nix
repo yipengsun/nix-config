@@ -41,8 +41,8 @@
   home-manager.users.syp = {
     imports = self.suites.home.darwin;
 
-    #home.packages = with pkgs; [
-    #  keka
-    #];
+    home.packages = with pkgs; [
+      xquartz
+    ];
   };
 }
