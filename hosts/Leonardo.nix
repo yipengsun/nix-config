@@ -1,4 +1,4 @@
-{ self, pkgs, ... }:
+{ self, ... }:
 {
   system.stateVersion = 5;
 
@@ -40,9 +40,5 @@
 
   home-manager.users.syp = {
     imports = self.suites.home.darwin;
-
-    home.packages = with pkgs; [
-      xquartz
-    ];
   };
 }

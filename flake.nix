@@ -251,6 +251,7 @@
                 mpv
                 vscode
                 passwd-mgr
+                xquartz
               ];
           };
         };
