@@ -1,57 +1,62 @@
 #!/usr/bin/env bash
 
-src=~/misc/documents/archives/scanned
-dst=~/misc/documents/archives/receipts
-year="2024"  # initial year
-year_cur=$(date +"%Y")  # current year
-month_cur=$(date +"%-m")  # current month
+set -euo pipefail
 
+src=${RECEIPT_ARCHIVE_SOURCE:-"$HOME/misc/documents/archives/scanned"}
+dst=${RECEIPT_ARCHIVE_DESTINATION:-"$HOME/misc/documents/archives/receipts"}
+start_year=${RECEIPT_ARCHIVE_START_YEAR:-2024}
+current_year=$(date +"%Y")
+current_month=$(date +"%-m")
+temporary_archive=
 
-month_align () {
-    if [ ${#1} -eq 1 ]; then
-        echo "0$1"
-    else
-        echo "$1"
+cleanup() {
+    if [[ -n $temporary_archive ]]; then
+        rm -f -- "$temporary_archive"
     fi
 }
+trap cleanup EXIT
 
-
-while [ $year -lt $year_cur ]; do
-    month="1"
-    cd ${src}
-
-    while [ $month -lt "13" ]; do
-        echo "Working on ${year}, ${month}"
-        M=$(month_align $month)
-
-        filename=${year:2}${M}
-        packname=${year}${M}.zip
-
-        apack ${dst}/${packname} ${filename}*.pdf
-        rm ${src}/${filename}*
-
-        let "month++"
-    done
-
-    let "year++"
-done
-
-if [ $year -eq $year_cur ]; then
-    month="1"
-    cd ${src}
-
-    while [ $month -lt $month_cur ]; do
-        echo "Working on ${year}, ${month}"
-        M=$(month_align $month)
-
-        filename=${year:2}${M}
-        packname=${year}${M}.zip
-
-        apack ${dst}/${packname} ${filename}*.pdf
-        rm ${src}/${filename}*
-
-        let "month++"
-    done
-
-    let "year++"
+if [[ ! -d $src ]]; then
+    printf 'Receipt source directory does not exist: %s\n' "$src" >&2
+    exit 1
 fi
+mkdir -p -- "$dst"
+
+shopt -s nullglob
+for ((year = start_year; year <= current_year; year++)); do
+    last_month=12
+    if ((year == current_year)); then
+        last_month=$((current_month - 1))
+    fi
+
+    for ((month = 1; month <= last_month; month++)); do
+        printf -v month_padded '%02d' "$month"
+        filename_prefix="${year:2}${month_padded}"
+        archive_name="${year}${month_padded}.zip"
+        source_files=("$src"/"$filename_prefix"*.pdf)
+
+        if ((${#source_files[@]} == 0)); then
+            continue
+        fi
+
+        printf 'Archiving %d receipt(s) for %d-%s\n' "${#source_files[@]}" "$year" "$month_padded"
+
+        archive="$dst/$archive_name"
+        temporary_archive=$(mktemp --tmpdir="$dst" ".${archive_name}.XXXXXX.zip")
+        rm -- "$temporary_archive"
+
+        if [[ -f $archive ]]; then
+            cp -- "$archive" "$temporary_archive"
+        fi
+
+        (
+            cd "$src"
+            apack "$temporary_archive" "${source_files[@]##*/}"
+        )
+        zip -T "$temporary_archive" >/dev/null
+        mv -f -- "$temporary_archive" "$archive"
+        temporary_archive=
+
+        rm -- "${source_files[@]}"
+    done
+done

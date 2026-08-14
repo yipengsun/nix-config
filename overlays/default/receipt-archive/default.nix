@@ -1,21 +1,15 @@
 {
-  writeScriptBin,
-  symlinkJoin,
-  makeWrapper,
+  writeShellApplication,
   atool,
+  coreutils,
   zip,
 }:
-let
-  scriptName = "receipt-archive";
-  scriptUnwrapped = writeScriptBin scriptName (builtins.readFile ./receipt-archive);
-in
-symlinkJoin {
-  name = scriptName;
-  paths = [
-    scriptUnwrapped
-    zip
+writeShellApplication {
+  name = "receipt-archive";
+  runtimeInputs = [
     atool
+    coreutils
+    zip
   ];
-  buildInputs = [ makeWrapper ];
-  postBuild = "wrapProgram $out/bin/${scriptName} --prefix PATH : $out/bin";
+  text = builtins.readFile ./receipt-archive;
 }
