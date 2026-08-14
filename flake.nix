@@ -18,7 +18,7 @@
       stripDefault =
         x:
         if builtins.isAttrs x then
-          if x ? default then x.default else builtins.mapAttrs (name: value: stripDefault value) x
+          if x ? default then x.default else builtins.mapAttrs (_: value: stripDefault value) x
         else
           x;
 

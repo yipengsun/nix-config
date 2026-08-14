@@ -3,7 +3,7 @@ final: prev: {
   # fixes #
   #########
 
-  tridactyl-native = prev.tridactyl-native.overrideAttrs (old: {
+  tridactyl-native = prev.tridactyl-native.overrideAttrs (_: {
     version = "0.5.0";
     src = final.fetchFromGitHub {
       owner = "tridactyl";
@@ -73,7 +73,7 @@ final: prev: {
   receipt-archive = prev.callPackage ./receipt-archive { };
 
   lua5_3 = prev.lua5_3.override {
-    packageOverrides = luafinal: luaprev: {
+    packageOverrides = _: luaprev: {
       lain = prev.callPackage (
         { ... }:
         prev.stdenv.mkDerivation {

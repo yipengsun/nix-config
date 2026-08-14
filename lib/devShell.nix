@@ -8,6 +8,7 @@
 
         settings.hooks = {
           actionlint.enable = true;
+          deadnix.enable = true;
           editorconfig-checker.enable = true;
           nixfmt.enable = true;
           shellcheck.enable = true;
