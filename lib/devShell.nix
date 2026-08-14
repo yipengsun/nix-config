@@ -6,7 +6,6 @@
       pre-commit = {
         check.enable = true;
 
-        settings.src = ./.;
         settings.hooks = {
           editorconfig-checker.enable = true;
           nixfmt.enable = true;
@@ -32,7 +31,7 @@
           ];
 
         shellHook = ''
-          ${config.pre-commit.installationScript}
+          ${config.pre-commit.shellHook}
           export PATH=$(pwd)/tools:$PATH
         '';
       };

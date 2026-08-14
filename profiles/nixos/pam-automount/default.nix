@@ -32,7 +32,7 @@ in
     # FIXME: this is a workaround for gocryptfs! see
     #   https://github.com/NixOS/nixpkgs/issues/201368
     # for more details
-    ''<path>${pkgs.util-linux}/bin:/run/wrappers/bin:${cryptor}/bin</path>''
+    "<path>${pkgs.util-linux}/bin:/run/wrappers/bin:${cryptor}/bin</path>"
 
     # the actual volume
     ''<volume user="${user}" fstype="fuse" path="${fuseProgram}#${encryptedDir}" mountpoint="${mountDir}" />''
