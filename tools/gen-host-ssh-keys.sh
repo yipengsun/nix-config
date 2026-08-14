@@ -1,34 +1,55 @@
 #!/usr/bin/env bash
 
-# input parameters
-HOSTNAME=$1
+set -euo pipefail
 
+if (($# != 1)); then
+    printf 'Usage: %s <hostname>\n' "$0" >&2
+    exit 1
+fi
 
-# figure out the directory of this script
-SCRIPT_DIR=$(dirname $0)
-OUTPUT_DIR=$(dirname $SCRIPT_DIR)/gen/$HOSTNAME
+hostname=$1
+if [[ ! $hostname =~ ^[A-Za-z0-9][A-Za-z0-9-]*$ ]]; then
+    printf 'Invalid hostname: %s\n' "$hostname" >&2
+    exit 1
+fi
 
-echo "The output directory is: $OUTPUT_DIR"
-mkdir -p $OUTPUT_DIR
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+repo_root=$(dirname -- "$script_dir")
+output_dir="$repo_root/gen/$hostname"
 
+if [[ -e $output_dir ]]; then
+    printf 'Output already exists: %s\n' "$output_dir" >&2
+    exit 1
+fi
 
-# request confirmation explicitly
-read -p "Do you want to proceed? (y/n): " ANSWER
-if [[ "$ANSWER" == "n" || "$ANSWER" == "N" ]]; then
-    echo "Exiting..."
+printf 'The output directory will be: %s\n' "$output_dir"
+read -r -p "Do you want to proceed? (y/n): " answer
+if [[ ! $answer =~ ^[Yy]$ ]]; then
+    printf 'Exiting...\n'
     exit 0
 fi
 
+umask 077
+temporary_dir=$(mktemp -d "$repo_root/gen/.${hostname}.XXXXXX")
+cleanup() {
+    if [[ -n $temporary_dir ]]; then
+        rm -rf -- "$temporary_dir"
+    fi
+}
+trap cleanup EXIT
 
-# generate ssh keys
-SSH_DIR=$OUTPUT_DIR/etc/ssh
-mkdir -p $SSH_DIR
+ssh_dir="$temporary_dir/etc/ssh"
+mkdir -p -- "$ssh_dir"
 
-ssh-keygen -q -N "" -t rsa -b 4096 -f $SSH_DIR/ssh_host_rsa_key
-ssh-keygen -q -N "" -t ecdsa -f $SSH_DIR/ssh_host_ecdsa_key
-ssh-keygen -q -N "" -t ed25519 -f $SSH_DIR/ssh_host_ed25519_key
+ssh-keygen -q -N "" -t rsa -b 4096 -f "$ssh_dir/ssh_host_rsa_key"
+ssh-keygen -q -N "" -t ecdsa -f "$ssh_dir/ssh_host_ecdsa_key"
+ssh-keygen -q -N "" -t ed25519 -f "$ssh_dir/ssh_host_ed25519_key"
 
-#sudo chown -R root:root $SSH_DIR
-for i in $SSH_DIR/*; do
-    chmod 600 $i
-done
+chmod 600 "$ssh_dir"/ssh_host_*_key
+chmod 644 "$ssh_dir"/ssh_host_*_key.pub
+
+mv -- "$temporary_dir" "$output_dir"
+temporary_dir=
+
+printf 'Generated host keys in %s\n' "$output_dir"
+printf 'ED25519 public key: %s\n' "$(<"$output_dir/etc/ssh/ssh_host_ed25519_key.pub")"

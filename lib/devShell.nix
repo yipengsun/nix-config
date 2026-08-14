@@ -24,6 +24,7 @@
             nix
             agenix
             nixos-anywhere
+            openssh
           ]
           ++ config.pre-commit.settings.enabledPackages
           ++ lib.optionals pkgs.stdenv.isDarwin [
