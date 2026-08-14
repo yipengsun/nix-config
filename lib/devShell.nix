@@ -7,10 +7,13 @@
         check.enable = true;
 
         settings.hooks = {
+          actionlint.enable = true;
           editorconfig-checker.enable = true;
           nixfmt.enable = true;
         };
       };
+
+      formatter = pkgs.nixfmt-tree;
 
       devShells.default = pkgs.mkShellNoCC {
         name = "nix-config";
