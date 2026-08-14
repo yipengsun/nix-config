@@ -150,7 +150,7 @@
       xsession.profileExtra = ''
         LEFT='HDMI-A-0'
         RIGHT='DisplayPort-0'
-        ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT --output $RIGHT --right-of $LEFT
+        ${pkgs.xrandr}/bin/xrandr --output $LEFT --output $RIGHT --right-of $LEFT
       '';
     };
 }

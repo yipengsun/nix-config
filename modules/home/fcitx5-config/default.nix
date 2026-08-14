@@ -65,7 +65,7 @@ in
 
     addons = mkOption {
       default = with pkgs; [
-        fcitx5-chinese-addons
+        qt6Packages.fcitx5-chinese-addons
         nur.repos.ruixi-rebirth.fcitx5-pinyin-moegirl
         nur.repos.ruixi-rebirth.fcitx5-pinyin-zhwiki
         fcitxDraculaTheme

@@ -2,20 +2,20 @@
 {
   home.packages = with pkgs; [
     # utilities
-    neofetch
+    fastfetch
     colortest
     dmidecode # hardware info
 
     # X11 utilities
-    xorg.xrdb
-    xorg.xev
-    xorg.xmodmap
+    xrdb
+    xev
+    xmodmap
     arandr
-    glxinfo
+    mesa-demos # glxinfo
     xcolor # screen color picker
 
     # document
-    krop # crop figures from pdf
+    # krop # disabled because its PyPDF2 dependency is marked insecure
     satty # screenshot annotation
 
     # git utils
