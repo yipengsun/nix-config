@@ -47,6 +47,7 @@
           ./lib/devShell.nix
 
           # local modules
+          ./lib/checks.nix
           ./lib/configNixpkgs.nix
           ./lib/systemBuilder.nix
         ];
