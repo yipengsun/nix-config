@@ -63,9 +63,13 @@
             { pkgs, ... }:
             {
               # to test pakcages defined in local overlays
-              packages = {
-                awesome-volume-control = pkgs.awesome-volume-control;
-              };
+              packages =
+                if pkgs.stdenv.isLinux then
+                  {
+                    awesome-volume-control = pkgs.awesome-volume-control;
+                  }
+                else
+                  { };
             };
 
           flake.overlays = {

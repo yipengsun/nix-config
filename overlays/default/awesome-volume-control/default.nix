@@ -1,4 +1,5 @@
 {
+  lib,
   python3Packages,
   pamixer,
 }:
@@ -16,4 +17,6 @@ python3Packages.buildPythonApplication {
   installPhase = ''
     install -Dm755 ./volume-control.py $out/bin/volume-control.py
   '';
+
+  meta.platforms = lib.platforms.linux;
 }
