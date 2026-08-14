@@ -2,9 +2,16 @@
 # FIXME: this is obsolete
 #        to be replaced by https://github.com/newren/git-filter-repo/
 
-OLD_EMAIL=$1
-CORRECT_NAME=$2
-CORRECT_EMAIL=$3
+set -euo pipefail
+
+if (($# != 3)); then
+    printf 'Usage: %s <old-email> <correct-name> <correct-email>\n' "$0" >&2
+    exit 1
+fi
+
+export OLD_EMAIL=$1
+export CORRECT_NAME=$2
+export CORRECT_EMAIL=$3
 
 git filter-branch -f --env-filter '
 

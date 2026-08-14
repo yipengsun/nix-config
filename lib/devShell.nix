@@ -10,6 +10,7 @@
           actionlint.enable = true;
           editorconfig-checker.enable = true;
           nixfmt.enable = true;
+          shellcheck.enable = true;
         };
       };
 

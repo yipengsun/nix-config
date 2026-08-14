@@ -9,64 +9,37 @@
 #                                                            #
 ##############################################################
 
-# definitions
+set -euo pipefail
+
 browser="firefox"
-google="http://www.google.com/search?q="
-reddit="reddit.com/search?q="
-ebay="www.ebay.ca/sch/items/"
+google="https://www.google.com/search?q="
+reddit="https://reddit.com/search?q="
+ebay="https://www.ebay.ca/sch/items/"
 ddg="https://www.duckduckgo.com/?q="
-wiki="en.wikipedia.org/wiki/"
+wiki="https://en.wikipedia.org/wiki/"
 youtube="https://www.youtube.com/results?search_query="
 
-# search Engine can be one of g, y, d, e, b, w
-# $1 pulls out only the first argument
-searchEngine=$1
-
-# query is the searchEngine letter AND the search terms
-# i.e.   "g sennheiser headphones"
-query=${@}
-
-# searchTerms is the search terms isolated:
-# i.e.  "sennheiser headphones"
-searchTerms=${query:${#searchEngine}}
-
-# stformatted is the search terms with "+" placed in between
-# space; since we all know how browsers hate spaces.
-# i.e. "sennheiser+headphones"
-stformatted=$(echo $searchTerms | sed 's/ /+/g')
-
-if [ ${#searchEngine} == 1 ]; then
-    if [[ "$searchEngine" != "g" && "$searchEngine" != "y" &&
-        "$searchEngine" != "d" && "$searchEngine" != "w" &&
-        "$searchEngine" != "e" && "$searchEngine" != "r" ]];
-    then
-        echo "not a valid defined search engine"
-    else
-        case $searchEngine in
-        "g")
-            $browser "${google}$stformatted"
-            ;;
-        "y")
-            $browser "${youtube}$stformatted"
-            ;;
-        "d")
-            $browser "${ddg}$stformatted"
-            ;;
-        "w")
-            wikistring=$(echo $searchTerms | sed 's/ /_/g')
-            $browser "${wiki}$wikistring"
-            ;;
-        "e")
-            $browser "${ebay}$stformatted"
-            ;;
-        "r")
-            $browser "${reddit}$stformatted"
-            ;;
-        "*")
-            echo "invalid search engine type, please try again"
-            ;;
-        esac
-    fi
-else
-    echo "search engine field parameter either too long, or empty"
+if (($# < 2)); then
+    printf 'Usage: %s <g|y|d|w|e|r> <search terms...>\n' "$0" >&2
+    exit 1
 fi
+
+search_engine=$1
+shift
+search_terms=$*
+formatted_terms=${search_terms// /+}
+
+case $search_engine in
+    g) url="${google}${formatted_terms}" ;;
+    y) url="${youtube}${formatted_terms}" ;;
+    d) url="${ddg}${formatted_terms}" ;;
+    w) url="${wiki}${search_terms// /_}" ;;
+    e) url="${ebay}${formatted_terms}" ;;
+    r) url="${reddit}${formatted_terms}" ;;
+    *)
+        printf 'Invalid search engine: %s\n' "$search_engine" >&2
+        exit 1
+        ;;
+esac
+
+exec "$browser" "$url"
