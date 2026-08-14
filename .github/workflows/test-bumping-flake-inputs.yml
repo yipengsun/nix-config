@@ -1,19 +1,23 @@
-name: "Test bumping flake inputs"
+name: Test nixpkgs-pointer update
 
 on:
   workflow_dispatch:
   schedule:
-    # every Saturday at 13:00 CST
+    # Every Saturday at 21:00 UTC.
     - cron: 0 21 * * 6
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-nixpkgs-pointer-update
+  cancel-in-progress: true
 
 jobs:
   bump-inputs-then-rebuild-hosts:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: "write"
-      contents: "read"
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v7
       - uses: DeterminateSystems/nix-installer-action@v22
       - run: ./tools/test-bumping-flake-inputs.sh
-

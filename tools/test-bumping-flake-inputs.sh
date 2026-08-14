@@ -1,28 +1,23 @@
 #!/usr/bin/env bash
 
-set -e  # exit on error
+set -euo pipefail
 
-echo "Updating nixpkgs input..."
-echo ""
-nix flake update \
-    --override-input nixpkgs "github:nixos/nixpkgs/nixos-unstable"
+printf 'Updating nixpkgs-pointer...\n\n'
+nix flake update nixpkgs-pointer
 
-echo "Building hosts"
-echo ""
-for h in Henri Thomas; do
-    echo ""
-    echo "########"
-    echo "Building $h..."
-    echo "########"
-    echo ""
+printf '\nEvaluating all systems...\n\n'
+nix flake check --all-systems --no-build
 
-    nix build \
-        ".#nixosConfigurations.$h.config.system.build.toplevel" \
-        --override-input nixpkgs "github:nixos/nixpkgs/nixos-unstable"
+hosts=$(nix eval --raw .#nixosConfigurations --apply '
+    configs: builtins.concatStringsSep "\n" (builtins.attrNames configs)
+')
 
-    echo ""
-    echo "########"
-    echo "$h built successfully."
-    echo "########"
-    echo ""
-done
+while IFS= read -r host; do
+    [[ -n $host ]] || continue
+
+    printf '\n########\nBuilding %s...\n########\n\n' "$host"
+    nix build ".#nixosConfigurations.$host.config.system.build.toplevel" \
+        --no-link \
+        --print-build-logs
+    printf '\n%s built successfully.\n' "$host"
+done <<< "$hosts"
