@@ -71,6 +71,7 @@
     device = "/dev/disk/by-uuid/0b41caa1-d45c-473a-a7ed-d6d5f577d439";
     fsType = "ext4";
   };
+  systemd.services.docker.after = [ "var-lib-docker.mount" ];
 
   swapDevices = [ ];
 
