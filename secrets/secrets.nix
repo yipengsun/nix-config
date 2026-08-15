@@ -19,7 +19,6 @@ in
 
   "v2ray_tproxy.age".publicKeys = allKeys;
 
-  "weather_api_key.age".publicKeys = [ userSyp ];
   "netrc_syp.age".publicKeys = [ userSyp ];
   "nix_conf_syp.age".publicKeys = [ userSyp ];
 }
