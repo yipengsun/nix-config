@@ -1,4 +1,5 @@
 {
+  config,
   self,
   pkgs,
   lib,
@@ -26,7 +27,7 @@ in
     // (
       if isLinux then
         {
-          hashedPasswordFile = "/run/agenix/passwd_syp";
+          hashedPasswordFile = config.age.secrets.passwd_syp.path;
           isNormalUser = true;
           extraGroups = [
             "wheel"

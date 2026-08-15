@@ -25,7 +25,7 @@
     })
     (lib.mkIf (!config.nix-config.bootstrap.emptyRootPassword) {
       age.secrets.password_root.file = "${self}/secrets/passwd_root.age";
-      users.users.root.hashedPasswordFile = "/run/agenix/password_root";
+      users.users.root.hashedPasswordFile = config.age.secrets.password_root.path;
     })
   ];
 }
