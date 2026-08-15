@@ -14,7 +14,6 @@ let
   inherit (builtins)
     attrValues
     foldl'
-    length
     ;
 
   inherit (lib)
@@ -22,7 +21,7 @@ let
     mkOption
     types
     literalExpression
-    recursiveUpdateUntil
+    recursiveUpdate
     ;
 
   cfgSupport = toplevel.config.configNixpkgs; # external config options
@@ -211,15 +210,9 @@ let
 
   systemAttrset =
     let
-      mergeSysConfig =
-        a: b:
-        recursiveUpdateUntil (
-          path: _: _:
-          (length path) > 2
-        ) a b;
       sysConfigAttrsets = attrValues (mapAttrs systemBuilder cfg.hosts);
     in
-    foldl' mergeSysConfig { } sysConfigAttrsets;
+    foldl' recursiveUpdate { } sysConfigAttrsets;
 in
 {
   options = {
