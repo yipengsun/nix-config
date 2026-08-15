@@ -5,7 +5,7 @@ python3Packages.buildPythonApplication {
 
   src = ./.;
 
-  format = "other";
+  pyproject = false;
   dontBuild = true;
 
   installPhase = ''
