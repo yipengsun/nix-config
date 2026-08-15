@@ -25,8 +25,8 @@ let
     }
   ];
 
-  vim-terminal = pkgs.writeScriptBin "vim-terminal" ''
-    ${defaultTerm} -e nvim $1
+  vim-terminal = pkgs.writeShellScriptBin "vim-terminal" ''
+    exec ${defaultTerm} -e nvim "$@"
   '';
 in
 {

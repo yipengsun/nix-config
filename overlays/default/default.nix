@@ -33,7 +33,7 @@ final: prev: {
   # general #
   ###########
 
-  adate = prev.writeScriptBin "adate" ''
+  adate = prev.writeShellScriptBin "adate" ''
     for i in Asia/Shanghai US/{Eastern,Pacific} Europe/{London,Paris,Berlin}; do
       printf %-22s "$i:";TZ=$i date +"%m-%d %a %H:%M"
     done
@@ -43,7 +43,7 @@ final: prev: {
     builtins.readFile ./git-author-rewrite/git-author-rewrite
   );
 
-  colortest = prev.writeScriptBin "colortest" ''
+  colortest = prev.writeShellScriptBin "colortest" ''
     ${prev.gawk}/bin/awk -v term_cols="''${width:-''$(tput cols || echo 80)}" 'BEGIN{
         s="/\\";
         for (colnum = 0; colnum<term_cols; colnum++) {

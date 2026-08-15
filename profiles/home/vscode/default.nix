@@ -28,7 +28,7 @@
       };
 
       "nix.enableLanguageServer" = true;
-      "nix.serverPath" = "nil";
+      "nix.serverPath" = "${pkgs.nixd}/bin/nixd";
     };
 
     profiles.default.keybindings = [

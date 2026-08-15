@@ -10,6 +10,8 @@ in
 {
   config = mkIf cfg.enable {
     xdg.configFile."awesome/rc.lua".text = ''
+      local naughty = require("naughty")
+
       -- Check if awesome encountered an error during startup and fall back to
       -- another config (This code will only ever execute for the fallback config)
       if awesome.startup_errors then
@@ -73,14 +75,14 @@ in
       beautiful.init(cfg_path.."/theme/theme.lua")
 
       -- Set default mod key
-      modkey = "${cfg.modKey}"
+      modkey = ${builtins.toJSON cfg.modKey}
 
       -- OpenWeather API key
       --weather_api_key = read_key(cfg_path.."/weather_api_key")
 
       -- Global variables
       ${concatStringsSep "\n" (
-        mapAttrsToList (key: val: key + " = " + ''"'' + val + ''"'') cfg.globalVariables
+        mapAttrsToList (key: val: "_G[${builtins.toJSON key}] = ${builtins.toJSON val}") cfg.globalVariables
       )}
 
       layouts = {
@@ -89,7 +91,7 @@ in
 
       -- Tags
       tags = {
-          names = {${concatMapStringsSep "," (x: ''"${x}"'') cfg.tagNames}},
+          names = {${concatMapStringsSep "," builtins.toJSON cfg.tagNames}},
           layout = {${concatMapStringsSep "," (x: "layouts[${toString x}]") cfg.tagLayouts}}
       }
 
@@ -120,6 +122,17 @@ in
       require("modules.taskbars")
       require("modules.rules-signals")
     '';
+
+    assertions = [
+      {
+        assertion = length cfg.tagNames == length cfg.tagLayouts;
+        message = "awesome-wm-config.tagNames and tagLayouts must have the same length";
+      }
+      {
+        assertion = all (layout: layout >= 1 && layout <= length cfg.layouts) cfg.tagLayouts;
+        message = "awesome-wm-config.tagLayouts entries must reference an existing layout";
+      }
+    ];
 
     xdg.configFile."awesome/modules/keybindings.lua".source = cfg.keybindings;
     xdg.configFile."awesome/modules/rules-signals.lua".source = cfg.rulesSignals;

@@ -344,7 +344,7 @@ in
             after = function()
               vim.fn.sign_define("DapBreakpoint", { text="🔴" })
               vim.fn.sign_define("DapBreakpointCondition", { text="🟠" })
-              vim.fn.sign_define("DapBreakpointCondition", { text="🔵" })
+              vim.fn.sign_define("DapLogPoint", { text="🔵" })
               vim.fn.sign_define("DapBreakpointRejected", { text="❌" })
               vim.fn.sign_define("DapStopped", { text="⟶" })
 
@@ -397,6 +397,7 @@ in
       vim-pandoc-syntax
       {
         plugin = vim-pandoc;
+        type = "lua";
         config = ''vim.g["pandoc#syntax#conceal#use"] = 0'';
       }
 
@@ -552,7 +553,6 @@ in
           -- show line diagnostics automatically in hover window
           vim.o.updatetime = 200
           vim.api.nvim_create_autocmd("CursorHold", {
-            buffer = bufnr,
             callback = function()
               local opts = {
                 focusable = false,
