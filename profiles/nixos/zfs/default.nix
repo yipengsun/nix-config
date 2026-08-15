@@ -5,18 +5,43 @@
   ...
 }:
 let
+  zfsKernelModuleAttribute = config.boot.zfs.package.kernelModuleAttribute;
+
   zfsCompatibleKernelPackages = lib.filterAttrs (
     name: kernelPackages:
-    (builtins.match "linux_[0-9]+_[0-9]+" name) != null
-    && (builtins.tryEval kernelPackages).success
-    && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
+    let
+      evaluation = builtins.tryEval (
+        if
+          !(builtins.hasAttr "kernel" kernelPackages)
+          || !(builtins.hasAttr zfsKernelModuleAttribute kernelPackages)
+        then
+          false
+        else
+          let
+            kernel = kernelPackages.kernel;
+          in
+          if !(builtins.hasAttr "version" kernel) then
+            false
+          else
+            let
+              zfsPackage = kernelPackages.${zfsKernelModuleAttribute};
+              isBroken = zfsPackage.meta.broken or false;
+            in
+            !isBroken && kernel.version != ""
+      );
+    in
+    (builtins.match "linux_[0-9]+_[0-9]+" name) != null && evaluation.success && evaluation.value
   ) pkgs.linuxKernel.packages;
 
-  latestKernelPackage = lib.last (
-    lib.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)) (
-      builtins.attrValues zfsCompatibleKernelPackages
-    )
+  sortedKernelPackages = lib.sort (a: b: lib.versionOlder a.kernel.version b.kernel.version) (
+    builtins.attrValues zfsCompatibleKernelPackages
   );
+
+  latestKernelPackage =
+    if sortedKernelPackages == [ ] then
+      throw "No ZFS-compatible kernel found for module ${zfsKernelModuleAttribute}"
+    else
+      lib.last sortedKernelPackages;
 in
 {
   boot.kernelPackages = latestKernelPackage; # latest zfs-compatible kernel
