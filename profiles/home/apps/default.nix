@@ -4,7 +4,6 @@
     # utilities
     adate
     bashmount # mount disk via a TUI
-    colortest
 
     # document
     pdfgrep
