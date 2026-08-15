@@ -93,21 +93,10 @@
           systemBuilder = {
             hostModuleDir = ./hosts;
             hosts = {
-              Henri = {
-                system = "x86_64-linux";
-              };
-
-              Thomas = {
-                system = "x86_64-linux";
-              };
-
-              Michael = {
-                system = "x86_64-linux";
-              };
-
-              Leonardo = {
-                system = "aarch64-darwin";
-              };
+              Henri.system = "x86_64-linux";
+              Thomas.system = "x86_64-linux";
+              Michael.system = "x86_64-linux";
+              Leonardo.system = "aarch64-darwin";
             };
 
             # modules applied to all hosts
