@@ -80,8 +80,10 @@ in
     i18n.inputMethod.fcitx5.addons = cfg.addons;
 
     home.activation.copyFcitxConfig = hm.dag.entryAfter [ "writeBoundary" ] ''
-      ${concatMapStrings (x: "cp ${builtins.toString x.src} ${x.dst}\n") fcitxConfigFiles}
-      ${concatMapStrings (x: "chmod 644 ${x.dst}\n") fcitxConfigFiles}
+      ${concatMapStrings (x: ''
+        run install -Dm644 $VERBOSE_ARG \
+          ${escapeShellArg (builtins.toString x.src)} ${escapeShellArg x.dst}
+      '') fcitxConfigFiles}
     '';
   };
 }
