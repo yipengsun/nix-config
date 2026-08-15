@@ -99,7 +99,6 @@
 
               Thomas = {
                 system = "x86_64-linux";
-                suites = [ inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
               };
 
               Michael = {

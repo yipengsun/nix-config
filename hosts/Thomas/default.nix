@@ -1,4 +1,9 @@
-{ config, self, ... }:
+{
+  config,
+  inputs,
+  self,
+  ...
+}:
 {
   system.stateVersion = "24.11";
 
@@ -154,7 +159,8 @@
     ++ (with self.users; [
       root
       syp
-    ]);
+    ])
+    ++ [ inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1 ];
 
   ###############
   # User config #
