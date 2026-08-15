@@ -37,6 +37,7 @@
   ];
 
   boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = true;
   boot.zfs.requestEncryptionCredentials = true;
 
   # Use the systemd-boot EFI boot loader.
