@@ -7,12 +7,17 @@ python3Packages.buildPythonApplication {
   pname = "awesome-volume-control";
   version = "1.0.0";
 
-  propagatedBuildInputs = [ pamixer ];
-
   src = ./.;
 
-  format = "other";
+  pyproject = false;
   dontBuild = true;
+
+  makeWrapperArgs = [
+    "--prefix"
+    "PATH"
+    ":"
+    (lib.makeBinPath [ pamixer ])
+  ];
 
   installPhase = ''
     install -Dm755 ./volume-control.py $out/bin/volume-control.py
