@@ -39,9 +39,14 @@ final: prev: {
     done
   '';
 
-  git-author-rewrite = prev.writeScriptBin "git-author-rewrite" (
-    builtins.readFile ./git-author-rewrite/git-author-rewrite
-  );
+  git-author-rewrite = prev.writeShellApplication {
+    name = "git-author-rewrite";
+    runtimeInputs = [
+      prev.git
+      prev.git-filter-repo
+    ];
+    text = builtins.readFile ./git-author-rewrite/git-author-rewrite;
+  };
 
   colortest = prev.writeShellScriptBin "colortest" ''
     ${prev.gawk}/bin/awk -v term_cols="''${width:-''$(tput cols || echo 80)}" 'BEGIN{
