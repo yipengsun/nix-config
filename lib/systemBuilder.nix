@@ -28,36 +28,67 @@ let
   cfgSupport = toplevel.config.configNixpkgs; # external config options
   cfg = toplevel.config.systemBuilder; # shortcut to user config
 
+  resolveHostModule =
+    hostName:
+    let
+      directoryModule = cfg.hostModuleDir + "/${hostName}/default.nix";
+      fileModule = cfg.hostModuleDir + "/${hostName}.nix";
+    in
+    if builtins.pathExists directoryModule then
+      directoryModule
+    else if builtins.pathExists fileModule then
+      fileModule
+    else
+      throw ''
+        No module found for host `${hostName}`.
+        Expected `${toString directoryModule}` or `${toString fileModule}`.
+        Set `systemBuilder.hosts.${hostName}.hostModule` to override this lookup.
+      '';
+
   # types in config
-  typeHostConfig = types.submodule {
-    options = {
-      system = mkOption {
-        type = types.str;
-        description = ''
-          The system of the host.
-        '';
-        example = literalExpression ''
-          "x86_64-linux"
-        '';
-      };
+  typeHostConfig = types.submodule (
+    { name, ... }: {
+      options = {
+        system = mkOption {
+          type = types.enum toplevel.config.systems;
+          description = ''
+            The system of the host.
+          '';
+          example = literalExpression ''
+            "x86_64-linux"
+          '';
+        };
 
-      suites = mkOption {
-        type = types.listOf types.deferredModule;
-        default = [ ];
-        description = ''
-          System suites (NixOS or nix-darwin) to be imported by this host.
-        '';
-      };
+        hostModule = mkOption {
+          type = types.deferredModule;
+          default = resolveHostModule name;
+          defaultText = literalExpression ''
+            <hostModuleDir>/<hostName>/default.nix or <hostModuleDir>/<hostName>.nix
+          '';
+          description = ''
+            Host module to import. By default, this is resolved from
+            {option}`systemBuilder.hostModuleDir` using the host name.
+          '';
+        };
 
-      extraConfig = mkOption {
-        type = types.deferredModule;
-        default = { };
-        description = ''
-          Extra config passed to the host.
-        '';
+        suites = mkOption {
+          type = types.listOf types.deferredModule;
+          default = [ ];
+          description = ''
+            System suites (NixOS or nix-darwin) to be imported by this host.
+          '';
+        };
+
+        extraConfig = mkOption {
+          type = types.deferredModule;
+          default = { };
+          description = ''
+            Extra config passed to the host.
+          '';
+        };
       };
-    };
-  };
+    }
+  );
 
   typeSystemBuilderOptions = types.submodule {
     options = {
@@ -72,12 +103,9 @@ let
       hostModuleDir = mkOption {
         type = types.path;
         description = ''
-          The directory that contains host modules. Module at
-          `''${hostMouduleDir}/''${hostName}.nix` will be imported in
-          the configuration of host `hostName` by default.
-
-          The host module used by a host can be overridden in
-          {option}`lite-config.hosts.<hostName>.hostModule`.
+          Directory containing host modules. For each host, the builder checks
+          `<hostModuleDir>/<hostName>/default.nix` and then
+          `<hostModuleDir>/<hostName>.nix`.
         '';
       };
 
@@ -117,11 +145,6 @@ let
       { pkgs, ... }:
       let
         hostPlatform = pkgs.stdenv.hostPlatform;
-        hostModule =
-          if builtins.pathExists "${cfg.hostModuleDir}/${hostName}" then
-            "${cfg.hostModuleDir}/${hostName}/default.nix"
-          else
-            "${cfg.hostModuleDir}/${hostName}.nix";
 
         systemModules =
           if hostPlatform.isLinux then
@@ -147,7 +170,7 @@ let
         computerNameModule = if hostPlatform.isDarwin then { networking.computerName = hostName; } else { };
 
         modules = [
-          hostModule
+          hostConfig.hostModule
           {
             _file = ./.;
             nixpkgs.pkgs = pkgs;
