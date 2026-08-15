@@ -1,4 +1,8 @@
-{ modulesPath, ... }:
+{
+  modulesPath,
+  self,
+  ...
+}:
 {
   system.stateVersion = "26.11";
 
@@ -26,7 +30,17 @@
 
   imports = [
     "${modulesPath}/profiles/minimal.nix"
-  ];
+  ]
+  ++ self.suites.nixos.wsl
+  ++ (with self.users; [
+    root
+    syp
+  ]);
+
+  home-manager.users.syp = {
+    imports = self.suites.home.wsl;
+    im-select.enable = false;
+  };
 
   ############
   # Services #

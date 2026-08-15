@@ -95,20 +95,6 @@
             hosts = {
               Henri = {
                 system = "x86_64-linux";
-                suites =
-                  flake.suites.nixos.wsl
-                  ++ (with flake.users; [
-                    root
-                    syp
-                  ]);
-                extraConfig = {
-                  home-manager.users.syp =
-                    { self, ... }:
-                    {
-                      imports = self.suites.home.wsl;
-                      im-select.enable = false;
-                    };
-                };
               };
 
               Thomas = {
