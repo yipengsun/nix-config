@@ -19,18 +19,21 @@ let
 
   # types in config
   typeOverlay = with types; uniq (functionTo (functionTo (lazyAttrsOf unspecified)));
+  typeNixpkgsInput = types.addCheck types.attrs (
+    nixpkgs: nixpkgs ? outPath && nixpkgs ? lib && nixpkgs.lib ? nixosSystem
+  );
 
   typeLocalNixpkgsOptions = types.submodule {
     options = {
       nixpkgs = mkOption {
-        type = types.path;
+        type = typeNixpkgsInput;
         default = inputs.nixpkgs;
         defaultText = literalExpression "inputs.nixpkgs";
         description = ''
-          The Nix Packages collection to use.
+          Nixpkgs flake input to use. It must expose `outPath` and
+          `lib.nixosSystem`.
 
-          This option needs to set if the nixpkgs that you want to use is under a different name
-          in flake inputs.
+          Set this when the desired Nixpkgs input has a different name.
         '';
       };
 
