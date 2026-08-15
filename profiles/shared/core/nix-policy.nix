@@ -4,7 +4,7 @@ let
 in
 {
   nix.settings = {
-    sandbox = isLinux;
+    sandbox = true;
     experimental-features = [
       "nix-command"
       "flakes"
