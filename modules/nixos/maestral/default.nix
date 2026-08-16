@@ -12,6 +12,9 @@ with lib;
 let
   cfg = config.services.maestral;
 
+  userExists = builtins.hasAttr cfg.user config.users.users;
+  userHasUid = userExists && config.users.users.${cfg.user}.uid != null;
+
   userHome = config.users.users.${cfg.user}.home;
   userUid = builtins.toString config.users.users.${cfg.user}.uid;
 in
@@ -24,9 +27,22 @@ in
   };
 
   config = mkIf cfg.enable {
-    home-manager.users.${cfg.user}.home.packages = [ pkgs.maestral ];
+    assertions = [
+      {
+        assertion = userExists;
+        message = "services.maestral.user '${cfg.user}' must name a configured NixOS user.";
+      }
+      {
+        assertion = !userExists || userHasUid;
+        message = "services.maestral.user '${cfg.user}' must have an explicit UID.";
+      }
+    ];
 
-    systemd.services."maestral@${cfg.user}" = {
+    home-manager.users.${cfg.user} = mkIf userHasUid {
+      home.packages = [ pkgs.maestral ];
+    };
+
+    systemd.services."maestral@${cfg.user}" = mkIf userHasUid {
       description = "Maestral - a open-source Dropbox client";
       wantedBy = [ "multi-user.target" ];
 
