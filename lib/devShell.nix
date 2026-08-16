@@ -10,6 +10,12 @@
           actionlint.enable = true;
           deadnix.enable = true;
           editorconfig-checker.enable = true;
+          lua-syntax = {
+            enable = true;
+            package = pkgs.lua5_3;
+            entry = "${pkgs.lua5_3}/bin/luac -p";
+            files = "\\.lua$";
+          };
           nixfmt.enable = true;
           python-syntax = {
             enable = true;
