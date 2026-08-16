@@ -1,10 +1,9 @@
+let
+  flakeConfig = (import ../../../flake.nix).nixConfig;
+in
 {
   nix.settings = {
-    substituters = [
-      "https://nix-community.cachix.org"
-    ];
-    trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ];
+    substituters = flakeConfig.extra-substituters;
+    trusted-public-keys = flakeConfig.extra-trusted-public-keys;
   };
 }
