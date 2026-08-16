@@ -8,35 +8,39 @@ with lib;
 let
   cfg = config.im-select;
 
-  hasFcitx = config.i18n.inputMethod.enable && config.i18n.inputMethod.type == "fcitx5";
+  isDarwin = pkgs.stdenv.isDarwin;
+  hasFcitx5 = config.i18n.inputMethod.enable && config.i18n.inputMethod.type == "fcitx5";
+  isSupported = isDarwin || hasFcitx5;
 
-  im-select-nvim = pkgs.vimUtils.buildVimPlugin {
-    pname = "im-select-nvim";
-    version = "20250810";
-    src = pkgs.fetchFromGitHub {
-      owner = "keaising";
-      repo = "im-select.nvim";
-      rev = "113a6905a1c95d2990269f96abcbad9718209557";
-      sha256 = "sha256-rtbqJjih9yy2svMIro7FbdH9DqGTumAmfcRICfqT8tQ=";
-    };
-  };
+  selectorCommand =
+    if isDarwin then getExe pkgs.macism else getExe' config.i18n.inputMethod.package "fcitx5-remote";
 in
 {
   options.im-select = {
     enable = mkOption {
       type = types.bool;
-      default = hasFcitx;
+      default = isSupported;
       description = "Enable im-select support.";
     };
   };
 
-  config = mkIf (cfg.enable) {
-    programs.neovim.plugins = [
+  config = mkIf cfg.enable {
+    assertions = [
       {
-        plugin = im-select-nvim;
+        assertion = isSupported;
+        message = "im-select requires macOS or Fcitx5 on Linux.";
+      }
+    ];
+
+    home.packages = optionals isDarwin [ pkgs.macism ];
+
+    programs.neovim.plugins = optionals isSupported [
+      {
+        plugin = pkgs.vimPlugins.im-select-nvim;
         type = "lua";
         config = ''
           require('im_select').setup{
+            default_command = "${selectorCommand}",
             set_default_events = { "InsertLeave" },
             set_previous_events = { "InsertEnter" }
           }
