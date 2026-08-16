@@ -77,32 +77,34 @@ final: prev: {
   awesome-volume-control = prev.callPackage ./awesome-volume-control { };
   receipt-archive = prev.callPackage ./receipt-archive { };
 
-  lua5_3 = prev.lua5_3.override {
-    packageOverrides = _: luaprev: {
-      lain = prev.callPackage (
-        { ... }:
-        prev.stdenv.mkDerivation {
-          pname = "lain";
-          version = "unstable-20240925";
+  lua5_3 = prev.lua5_3.override (old: {
+    packageOverrides = prev.lib.composeExtensions (old.packageOverrides or (_: _: { })) (
+      _: luaprev: {
+        lain = prev.callPackage (
+          { ... }:
+          prev.stdenv.mkDerivation {
+            pname = "lain";
+            version = "unstable-20240925";
 
-          src = prev.fetchFromGitHub {
-            owner = "lcpz";
-            repo = "lain";
-            rev = "88f5a8a";
-            sha256 = "sha256-MH/aiYfcO3lrcuNbnIu4QHqPq25LwzTprOhEJUJBJ7I=";
-          };
+            src = prev.fetchFromGitHub {
+              owner = "lcpz";
+              repo = "lain";
+              rev = "88f5a8a";
+              sha256 = "sha256-MH/aiYfcO3lrcuNbnIu4QHqPq25LwzTprOhEJUJBJ7I=";
+            };
 
-          # lain requires lua 5.3+
-          buildInputs = [ prev.lua5_3 ];
+            # lain requires lua 5.3+
+            buildInputs = [ prev.lua5_3 ];
 
-          installPhase = ''
-            mkdir -p $out/lib/lua/${luaprev.lua.luaversion}/
-            cp -r . $out/lib/lua/${luaprev.lua.luaversion}/lain/
-            printf "package.path = '$out/lib/lua/${luaprev.lua.luaversion}/?/init.lua;' ..  package.path\nreturn require((...) .. '.init')\n" > $out/lib/lua/${luaprev.lua.luaversion}/lain.lua
-          '';
-        }
-      ) { };
-    };
-  };
+            installPhase = ''
+              mkdir -p $out/lib/lua/${luaprev.lua.luaversion}/
+              cp -r . $out/lib/lua/${luaprev.lua.luaversion}/lain/
+              printf "package.path = '$out/lib/lua/${luaprev.lua.luaversion}/?/init.lua;' ..  package.path\nreturn require((...) .. '.init')\n" > $out/lib/lua/${luaprev.lua.luaversion}/lain.lua
+            '';
+          }
+        ) { };
+      }
+    );
+  });
   lua53Packages = final.lua5_3.pkgs;
 }
