@@ -1,9 +1,9 @@
-{ ... }:
+{ config, ... }:
 {
   services.mpd = {
     enable = true;
-    musicDirectory = /home/syp/misc/audios;
-    playlistDirectory = /home/syp/sync/dropbox/playlists;
+    musicDirectory = "${config.home.homeDirectory}/misc/audios";
+    playlistDirectory = "${config.home.homeDirectory}/sync/dropbox/playlists";
   };
 
   programs.ncmpcpp = {

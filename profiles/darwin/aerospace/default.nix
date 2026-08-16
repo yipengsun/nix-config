@@ -1,4 +1,7 @@
+{ config, ... }:
 let
+  primaryUser = config.system.primaryUser;
+  homeDirectory = config.home-manager.users.${primaryUser}.home.homeDirectory;
   modkey = "alt";
 in
 {
@@ -43,9 +46,9 @@ in
 
         # app launchers
         "${modkey}-f1" =
-          ''exec-and-forget open -n "/Users/syp/Applications/Home Manager Apps/WezTerm.app"'';
+          ''exec-and-forget open -n "${homeDirectory}/Applications/Home Manager Apps/WezTerm.app"'';
         "${modkey}-f2" =
-          ''exec-and-forget open -n "/Users/syp/Applications/Home Manager Apps/Firefox.app"'';
+          ''exec-and-forget open -n "${homeDirectory}/Applications/Home Manager Apps/Firefox.app"'';
 
         # local client keys
         "${modkey}-h" = "focus left";

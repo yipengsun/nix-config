@@ -48,7 +48,7 @@ in
   home-manager.users.syp =
     { config, ... }:
     {
-      home.homeDirectory = lib.mkIf isDarwin (lib.mkForce "/Users/syp");
+      home.homeDirectory = lib.mkIf isDarwin (lib.mkForce "/Users/${config.home.username}");
 
       # for decrypting files on user login
       age.identityPaths = [
