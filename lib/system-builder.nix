@@ -69,22 +69,6 @@ let
             {option}`systemBuilder.hostModuleDir` using the host name.
           '';
         };
-
-        suites = mkOption {
-          type = types.listOf types.deferredModule;
-          default = [ ];
-          description = ''
-            System suites (NixOS or nix-darwin) to be imported by this host.
-          '';
-        };
-
-        extraConfig = mkOption {
-          type = types.deferredModule;
-          default = { };
-          description = ''
-            Extra config passed to the host.
-          '';
-        };
       };
     }
   );
@@ -163,7 +147,7 @@ let
             errUnsupportedSys hostPlatform.system;
 
         specialArgs = {
-          inherit self inputs hostPlatform;
+          inherit self inputs;
         };
 
         computerNameModule = if hostPlatform.isDarwin then { networking.computerName = hostName; } else { };
@@ -178,7 +162,6 @@ let
           computerNameModule
         ]
         ++ systemModules
-        ++ hostConfig.suites
         ++ [
           homeManagerSystemModule
           {
@@ -189,8 +172,7 @@ let
               extraSpecialArgs = specialArgs;
             };
           }
-        ]
-        ++ [ hostConfig.extraConfig ];
+        ];
 
         # aggregated args
         builderArgs = { inherit specialArgs modules; };
