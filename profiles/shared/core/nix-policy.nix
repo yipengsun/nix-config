@@ -9,14 +9,11 @@ in
       "nix-command"
       "flakes"
     ];
+    fallback = true;
+    keep-derivations = true;
+    keep-outputs = true;
     trusted-users = [ "root" ] ++ (if isLinux then [ "@wheel" ] else [ "@admin" ]);
   };
-
-  nix.extraOptions = ''
-    keep-outputs = true
-    keep-derivations = true
-    fallback = true
-  '';
 
   nix.gc = {
     automatic = true;
