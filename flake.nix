@@ -44,12 +44,12 @@
           inputs.git-hooks.flakeModule
 
           # devShell
-          ./lib/devShell.nix
+          ./lib/dev-shell.nix
 
           # local modules
           ./lib/checks.nix
-          ./lib/configNixpkgs.nix
-          ./lib/systemBuilder.nix
+          ./lib/config-nixpkgs.nix
+          ./lib/system-builder.nix
         ];
 
         config = rec {
