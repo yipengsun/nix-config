@@ -19,5 +19,5 @@ jobs:
     timeout-minutes: 180
     steps:
       - uses: actions/checkout@v7
-      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: cachix/install-nix-action@v31
       - run: ./tools/test-bumping-flake-inputs.sh
