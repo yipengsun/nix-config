@@ -11,6 +11,17 @@
           deadnix.enable = true;
           editorconfig-checker.enable = true;
           nixfmt.enable = true;
+          python-syntax = {
+            enable = true;
+            package = pkgs.ruff;
+            entry = "${pkgs.ruff}/bin/ruff check --no-cache --select E9";
+            types = [ "python" ];
+          };
+          ruff = {
+            enable = true;
+            entry = "${pkgs.ruff}/bin/ruff check --no-cache";
+            excludes = [ "^overlays/default/tridactyl-native-python/" ];
+          };
           shellcheck.enable = true;
         };
       };
