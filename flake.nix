@@ -59,16 +59,36 @@
           ];
 
           perSystem =
-            { pkgs, ... }:
+            { lib, pkgs, ... }:
+            let
+              packages = {
+                inherit (pkgs)
+                  adate
+                  awesomesearch
+                  clangd
+                  colortest
+                  git-author-rewrite
+                  receipt-archive
+                  ;
+
+                fish-async-prompt = pkgs.fishPlugins.async-prompt;
+              }
+              // lib.optionalAttrs pkgs.stdenv.isLinux {
+                inherit (pkgs)
+                  awesome-volume-control
+                  tridactyl-native
+                  ;
+
+                lain = pkgs.lua53Packages.lain;
+              }
+              // lib.optionalAttrs pkgs.stdenv.isDarwin {
+                inherit (pkgs) tridactyl-native-python;
+              };
+            in
             {
-              # to test pakcages defined in local overlays
-              packages =
-                if pkgs.stdenv.isLinux then
-                  {
-                    awesome-volume-control = pkgs.awesome-volume-control;
-                  }
-                else
-                  { };
+              inherit packages;
+
+              checks = lib.mapAttrs' (name: package: lib.nameValuePair "package-${name}" package) packages;
             };
 
           flake.overlays = {
