@@ -169,6 +169,8 @@ let
             home-manager = {
               sharedModules = cfg.homeModules;
               useGlobalPkgs = true;
+              # Keep user packages in system generations instead of activation-time nix-env profiles.
+              useUserPackages = true;
               extraSpecialArgs = specialArgs;
             };
           }

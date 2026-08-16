@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 let
   # newer vim-ledger has problems regarding auto completion
   vim-ledger-stable = pkgs.vimUtils.buildVimPlugin rec {
@@ -83,7 +83,7 @@ in
             cmd = "StartupTime",
             before = function()
               vim.g.startuptime_tries = 10
-              vim.g.startuptime_exe_path = "${config.home.homeDirectory}/.nix-profile/bin/nvim"
+              vim.g.startuptime_exe_path = vim.v.progpath
             end,
           }
         '';
