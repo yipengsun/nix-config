@@ -1,4 +1,11 @@
 { profiles }:
+let
+  linuxHomeApps = with profiles.home; [
+    apps
+    zathura
+    dev-secrets
+  ];
+in
 rec {
   common = {
     common-base = with profiles.shared; [
@@ -73,15 +80,9 @@ rec {
 
     # typical use cases
     workstation =
-      base
-      ++ coding
-      ++ linux-config-cli
+      server
       ++ linux-config-gui
-      ++ [
-        apps
-        zathura
-        dev-secrets
-      ]
+      ++ linuxHomeApps
       ++ [
         apps-extra
         www
@@ -92,20 +93,12 @@ rec {
         passwd-mgr
       ];
     server = base ++ coding ++ linux-config-cli;
-    wsl =
-      base
-      ++ coding
-      ++ linux-config-cli
-      ++ [
-        apps
-        zathura
-        dev-secrets
-      ];
+    wsl = server ++ linuxHomeApps;
     darwin =
       base
       ++ coding
-      ++ [ dev-secrets ]
       ++ [
+        dev-secrets
         www
         term
         mpv

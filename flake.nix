@@ -22,8 +22,6 @@
         else
           x;
 
-      setToList = set: with builtins; (map (key: getAttr key set) (attrNames set));
-
       loadStripped =
         src:
         let
@@ -34,7 +32,7 @@
         in
         stripDefault attrs;
 
-      loadStrippedAsList = src: setToList (loadStripped src);
+      loadStrippedAsList = src: builtins.attrValues (loadStripped src);
     in
     flake-parts.lib.mkFlake { inherit inputs; } (
       { ... }:
@@ -104,8 +102,8 @@
               inputs.nur.overlays.default
               inputs.nix-darwin.overlays.default
               inputs.llm-agents.overlays.default
-            ]
-            ++ [ flake.overlays.default ];
+              flake.overlays.default
+            ];
           };
 
           systemBuilder = {
@@ -123,7 +121,7 @@
               inputs.nixos-wsl.nixosModules.default
               inputs.disko.nixosModules.disko
             ];
-            darwinModules = [ ] ++ [
+            darwinModules = [
               inputs.agenix.darwinModules.default
               inputs.mac-app-util.darwinModules.default
               inputs.nix-homebrew.darwinModules.nix-homebrew
