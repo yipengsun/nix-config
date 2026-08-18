@@ -15,8 +15,15 @@ concurrency:
 
 jobs:
   bump-inputs-then-rebuild-hosts:
-    runs-on: ubuntu-latest
+    name: Pointer update (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - ubuntu-latest
+          - macos-15
     steps:
       - uses: actions/checkout@v7
       - uses: cachix/install-nix-action@v31
