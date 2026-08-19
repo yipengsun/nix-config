@@ -40,7 +40,7 @@ nixos-anywhere --extra-files gen/<hostname> --flake .#<hostname> nixos@<host_ip>
 ## Bootstrap on macOS
 
 1. Install `nix` with the Determinate installer
-2. `xcode-select --install` to make `git` available
+2. `xcode-select --install` to install the Command Line Tools and make `git` available
 3. Bootstrap SSH credentials
 4. Clone this repo and enter its devShell
 5. `darwin-rebuild switch --flake .#<hostname>`
@@ -65,6 +65,23 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 nix repl
 # in the resulting nix prompt
 > :lf .
+```
+
+
+### Enable full Xcode
+
+Full Xcode is optional and only needed for C++ LLDB debugging. Ask nixpkgs for
+the download URL and installation instructions for the configured package:
+
+```shell
+nix build ".#darwinConfigurations.<hostname>.config.nix-config.darwin.xcode.package"
+```
+
+Follow the resulting `requireFile` error, then enable Xcode in the Darwin host
+configuration:
+
+```nix
+nix-config.darwin.xcode.enable = true;
 ```
 
 

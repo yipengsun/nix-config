@@ -1,17 +1,28 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  xcode = pkgs.darwin.xcode_16_1;
-  # ^requires manual download, needed for c++ lldb debugging
-  #   https://developer.apple.com/services-account/download?path=/Developer_Tools/Xcode_16.1/Xcode_16.1.xip
+  cfg = config.nix-config.darwin.xcode;
+  xcode = cfg.package;
 
   debugServerPath = "${xcode}/Contents/SharedFrameworks/LLDB.framework/Versions/A/Resources/debugserver";
 in
 {
-  environment.systemPackages = [
-    xcode
-  ];
+  options.nix-config.darwin.xcode = {
+    enable = lib.mkEnableOption "full Xcode for C++ LLDB debugging";
+    package = lib.mkPackageOption pkgs.darwin "xcode_26" { };
+  };
 
-  environment.variables = {
-    LLDB_DEBUGSERVER_PATH = debugServerPath;
+  config = lib.mkIf cfg.enable {
+    environment.systemPackages = [
+      xcode
+    ];
+
+    environment.variables = {
+      LLDB_DEBUGSERVER_PATH = debugServerPath;
+    };
   };
 }
