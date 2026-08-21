@@ -46,7 +46,6 @@ rec {
     # typical use cases
     workstation = base ++ [
       aerospace
-      dev
       homebrew
     ];
   };

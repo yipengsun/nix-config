@@ -68,23 +68,6 @@ nix repl
 ```
 
 
-### Enable full Xcode
-
-Full Xcode is optional and only needed for C++ LLDB debugging. Ask nixpkgs for
-the download URL and installation instructions for the configured package:
-
-```shell
-nix build ".#darwinConfigurations.<hostname>.config.nix-config.darwin.xcode.package"
-```
-
-Follow the resulting `requireFile` error, then enable Xcode in the Darwin host
-configuration:
-
-```nix
-nix-config.darwin.xcode.enable = true;
-```
-
-
 ### zfs auto-snapshot
 
 Enable/disable auto-snapshot with the following command:
