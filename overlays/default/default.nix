@@ -15,6 +15,15 @@ final: prev: {
 
   tridactyl-native-python = prev.callPackage ./tridactyl-native-python { };
 
+  llm-agents =
+    prev.llm-agents
+    // prev.lib.optionalAttrs prev.stdenv.isDarwin {
+      opencode = prev.llm-agents.opencode.overrideAttrs (_: {
+        # FIXME: The Bun binary SIGTRAPs during versionCheckHook in Darwin's strict Nix sandbox.
+        doInstallCheck = false;
+      });
+    };
+
   fishPlugins = prev.fishPlugins // {
     async-prompt = prev.fishPlugins.async-prompt.overrideAttrs (old: {
       pname = old.pname;

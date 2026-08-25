@@ -57,7 +57,12 @@
           ];
 
           perSystem =
-            { lib, pkgs, ... }:
+            {
+              configNixpkgs,
+              lib,
+              pkgs,
+              ...
+            }:
             let
               packages = {
                 inherit (pkgs)
@@ -85,6 +90,7 @@
             in
             {
               inherit packages;
+              legacyPackages = configNixpkgs;
 
               checks = lib.mapAttrs' (name: package: lib.nameValuePair "package-${name}" package) packages;
             };
@@ -101,7 +107,7 @@
               inputs.agenix.overlays.default
               inputs.nur.overlays.default
               inputs.nix-darwin.overlays.default
-              inputs.llm-agents.overlays.default
+              inputs.llm-agents.overlays.shared-nixpkgs
               flake.overlays.default
             ];
           };
