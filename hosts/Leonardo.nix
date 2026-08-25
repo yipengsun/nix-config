@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, pkgs, ... }:
 {
   system.stateVersion = 5;
 
@@ -26,7 +26,7 @@
 
   homebrew = {
     casks = [
-      "playcover-community"
+      #"playcover-community"
       "baidunetdisk"
       "tencent-meeting"
     ];
@@ -40,5 +40,7 @@
 
   home-manager.users.syp = {
     imports = self.suites.home.darwin;
+
+    home.packages = [ pkgs.llm-agents.codex ];
   };
 }
