@@ -29,6 +29,7 @@
       #"playcover-community"
       "baidunetdisk"
       "tencent-meeting"
+      "chatgpt"
     ];
   };
 
