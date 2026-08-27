@@ -35,6 +35,27 @@
 
   services.tailscale.enable = true;
 
+  nix.linux-builder = {
+    enable = true;
+    package = pkgs.darwin.linux-builder-vz;
+
+    systems = [
+      "aarch64-linux"
+      "x86_64-linux"
+    ];
+
+    config.virtualisation = {
+      cores = 12;
+
+      darwin-builder = {
+        diskSize = 64 * 1024;
+        memorySize = 32 * 1024;
+      };
+
+      vz.rosetta.enable = true;
+    };
+  };
+
   ###############
   # User config #
   ###############
