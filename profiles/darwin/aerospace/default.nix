@@ -5,10 +5,31 @@ let
   modkey = "alt";
 in
 {
+  # AeroSpace is more reliable when macOS uses one Space across all displays.
+  # A logout is required after changing this setting.
+  system.defaults.spaces.spans-displays = true;
+
   services.aerospace = {
     enable = true;
 
     settings = {
+      config-version = 2;
+
+      persistent-workspaces = [
+        "1"
+        "2"
+        "3"
+        "4"
+        "5"
+        "6"
+        "7"
+        "8"
+        "9"
+        "I"
+        "O"
+        "P"
+      ];
+
       gaps = {
         outer.left = 3;
         outer.right = 3;
