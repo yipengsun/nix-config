@@ -13,8 +13,8 @@
 #         from his python volume control script (python 2 version).
 
 import os
-from subprocess import call
 from argparse import ArgumentParser
+from subprocess import call
 
 volstep = 5
 barstep = 20
@@ -64,15 +64,15 @@ def parse_input():
 
 
 def notify_awesome_wm(notify):
-    os.popen('''echo "volnotify:notify('{0}')" | \
-            awesome-client'''.format(notify))
+    os.popen(f'''echo "volnotify:notify('{notify}')" | \
+            awesome-client''')
 
 
 def notify_vol(cur_vol=0):
     percent = int(cur_vol * barstep/100)
     graph = '|' * percent + '-' * (barstep - percent)
     # Construct graphical volume bar
-    vol_bar = "Volume: {0}".format(graph)
+    vol_bar = f"Volume: {graph}"
     # Output notify to awesome wm
     notify_awesome_wm(vol_bar)
 
