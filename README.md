@@ -48,6 +48,38 @@ nixos-anywhere --extra-files gen/<hostname> --flake .#<hostname> nixos@<host_ip>
 7. (optional) `softwareupdate --install-rosetta --agree-to-license`
 
 
+### Configure `gocryptfs` on macOS
+
+The Darwin workstation profile installs macFUSE and mounts
+`~/Dropbox/data` at `~/data`. Initial setup requires enabling macFUSE's
+kernel extension in two places:
+
+1. Shut down the Mac, then hold the power button until startup options appear.
+   Open **Options**, launch **Startup Security Utility**, select the startup
+   disk, and open **Security Policy**. Select **Reduced Security**, enable
+   **Allow user management of kernel extensions from identified developers**,
+   and restart.
+2. After login, let the mount job trigger macFUSE. Open
+   **System Settings → Privacy & Security**, allow the macFUSE system software
+   from developer Benjamin Fleischer, and restart again.
+
+The **File System Extensions** toggles do not replace these steps: `gocryptfs`
+uses macFUSE's kernel backend rather than its FSKit backend.
+
+Store the vault password in the login Keychain once:
+
+```shell
+set-gocryptfs-data-password
+```
+
+The mount job retries every 30 seconds and mounts automatically on future
+logins, provided `~/Dropbox/data/gocryptfs.conf` exists. Verify it with:
+
+```shell
+mount | grep -F " on $HOME/data "
+```
+
+
 ## Tricks
 
 ### Install `nix`

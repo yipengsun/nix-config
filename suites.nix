@@ -46,6 +46,7 @@ rec {
     # typical use cases
     workstation = base ++ [
       aerospace
+      gocryptfs
       homebrew
     ];
   };
