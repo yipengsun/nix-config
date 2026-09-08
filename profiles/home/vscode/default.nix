@@ -57,7 +57,6 @@
 
         editorconfig.editorconfig
 
-        github.copilot
         github.copilot-chat
 
         dracula-theme.theme-dracula
