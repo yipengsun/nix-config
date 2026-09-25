@@ -32,6 +32,7 @@
       "chatgpt"
       "crossover"
       "feishu"
+      "scroll-reverser"
     ];
   };
 
