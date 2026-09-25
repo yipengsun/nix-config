@@ -30,6 +30,7 @@
       "baidunetdisk"
       "tencent-meeting"
       "chatgpt"
+      "crossover"
       "feishu"
     ];
   };
