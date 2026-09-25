@@ -48,6 +48,18 @@ in
 
       automatically-unhide-macos-hidden-apps = true;
 
+      on-window-detected = [
+        {
+          "if".app-id = "com.codeweavers.CrossOver";
+          run = "layout floating";
+        }
+        {
+          # Wine windows can have no bundle ID, so match WoT and its launcher by name.
+          "if".app-name-regex-substring = "^(WorldOfTanks[.]exe|wgc[.]exe|360 Wargaming Game Center)$";
+          run = "layout floating";
+        }
+      ];
+
       mode.main.binding = {
         # global keys
         "${modkey}-slash" = "layout tiles horizontal vertical";
