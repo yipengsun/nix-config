@@ -33,6 +33,7 @@
       "crossover"
       "feishu"
       "scroll-reverser"
+      "linearmouse"
     ];
   };
 
