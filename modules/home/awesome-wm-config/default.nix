@@ -27,7 +27,14 @@ in
     xsession.enable = true;
     xsession.windowManager.awesome = {
       enable = true;
-      package = pkgs.awesome.override { lua = customLuaPackages.lua; };
+      package = pkgs.awesome.override (
+        args:
+        if args ? lua5_2_compat then
+          { lua5_2_compat = customLuaPackages.lua; }
+        else
+          # FIXME: Drop the old argument once nixpkgs-pointer includes NixOS/nixpkgs#569839.
+          { lua = customLuaPackages.lua; }
+      );
       luaModules = [
         customLuaPackages.vicious
         customLuaPackages.lain
