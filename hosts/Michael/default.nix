@@ -37,13 +37,6 @@
 
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Don't use NixOS stage-1
-  # to workaround the following issue:
-  #   https://github.com/NixOS/nixpkgs/issues/342082
-  # see also:
-  #   https://blog.decent.id/post/nixos-systemd-initrd/
-  boot.initrd.systemd.enable = true;
-
   ##############
   # Filesystem #
   ##############
