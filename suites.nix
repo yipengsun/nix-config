@@ -98,6 +98,7 @@ rec {
       base
       ++ coding
       ++ [
+        apps
         dev-secrets
         www
         term

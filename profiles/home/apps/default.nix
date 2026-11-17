@@ -1,17 +1,20 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
-  home.packages = with pkgs; [
-    # utilities
-    adate
-    bashmount # mount disk via a TUI
+  home.packages =
+    with pkgs;
+    [
+      # document
+      pdfgrep
+      imagemagick
+      ghostscript # for pdf -> png conversion
+      pdftk
+    ]
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+      # utilities
+      adate
+      bashmount # mount disk via a TUI
 
-    # document
-    pdfgrep
-    imagemagick
-    ghostscript # for pdf -> png conversion
-    pdftk
-
-    # multimedia
-    sxiv # picture viewer
-  ];
+      # multimedia
+      sxiv # picture viewer
+    ];
 }
