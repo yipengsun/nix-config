@@ -20,14 +20,15 @@ case $current_system in
 esac
 
 input_overrides=(
-    --override-input nixpkgs github:NixOS/nixpkgs/master
+    --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable
     --override-input nix-darwin github:nix-darwin/nix-darwin/master
     --override-input home-manager github:nix-community/home-manager/master
 )
 
-# Resolve master once so every command tests the same revisions, without
-# changing the repository's pins.
-printf 'Resolving latest nixpkgs, nix-darwin, and Home Manager master...\n\n'
+# Match nixpkgs-pointer's channel, which advances after upstream builds and
+# tests. Resolve all inputs once so every command tests the same revisions,
+# without changing the repository's pins.
+printf 'Resolving latest nixos-unstable, nix-darwin master, and Home Manager master...\n\n'
 input_metadata=$(nix flake metadata --refresh --json "${input_overrides[@]}")
 
 # Include the exact tested revisions in the CI log for a later pin update.
